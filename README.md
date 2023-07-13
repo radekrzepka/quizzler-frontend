@@ -2,7 +2,7 @@
 
 # Quizzler-frontend
 
-App for analyzing your and yours opponents best opennings on lichess.org
+Frontend for quiz and flashcards app
 
 ## Technologies
 
