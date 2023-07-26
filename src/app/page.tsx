@@ -1,7 +1,9 @@
-export default function Home() {
-	return (
-		<main>
-			<h1>Quizzler</h1>
-		</main>
-	);
-}
+import { FC } from "react";
+
+interface pageProps {}
+
+const Home: FC<pageProps> = ({}) => {
+	return <>page</>;
+};
+
+export default Home;

@@ -10,7 +10,6 @@ Frontend for quiz and flashcards app
 - Typescript
 - Tailwind CSS
 - NextAuth
-- TanStack React Query
 - Redux
 - Zod
 - react-hook-form
