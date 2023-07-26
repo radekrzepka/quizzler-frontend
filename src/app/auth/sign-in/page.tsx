@@ -1,9 +1,9 @@
 import { FC } from "react";
 
-interface signInProps {}
+interface SignInProps {}
 
-const signIn: FC<signInProps> = ({}) => {
+const SignIn: FC<SignInProps> = ({}) => {
 	return <div>Sign In</div>;
 };
 
-export default signIn;
+export default SignIn;
