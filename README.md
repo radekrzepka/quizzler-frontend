@@ -1,6 +1,6 @@
 # 🚧Work in progress🚧
 
-# Quizzler-frontend
+# Quizzler
 
 Frontend for quiz and flashcards app
 
