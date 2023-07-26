@@ -2,7 +2,7 @@ import { FC } from "react";
 import classnames from "classnames";
 
 interface buttonProps {
-   type: "button";
+   type: "button" | "submit";
    onClick?: () => void;
    label: string;
    variant: "primary" | "white";
