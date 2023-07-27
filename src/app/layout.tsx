@@ -1,6 +1,7 @@
 import "@/styles/globals.css";
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/react";
+import { Jaldi } from "next/font/google";
 
 export const metadata: Metadata = {
    title: "Quizzler",
@@ -9,6 +10,8 @@ export const metadata: Metadata = {
    keywords: "flashcards, quizzes",
 };
 
+const jaldi = Jaldi({ subsets: ["latin-ext"], weight: "400" });
+
 export default function RootLayout({
    children,
 }: {
@@ -16,7 +19,7 @@ export default function RootLayout({
 }) {
    return (
       <html lang="en">
-         <body className=" bg-background text-text">
+         <body className={`bg-background text-text ${jaldi.className}`}>
             {children}
             <Analytics />
          </body>
