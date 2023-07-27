@@ -17,7 +17,7 @@ const HomeNavigation = () => {
                   <Link href="/">Quizzler</Link>
                </LogoText>
             </li>
-            <div className="flex flex-col items-center justify-center gap-2 md:flex-row">
+            <div className="flex flex-col items-center justify-center gap-4 md:flex-row">
                <li>
                   <Button
                      label="Sign In"

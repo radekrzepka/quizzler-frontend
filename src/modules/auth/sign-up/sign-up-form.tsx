@@ -1,12 +1,13 @@
 "use client";
 
-import { type SubmitHandler, useForm, Controller } from "react-hook-form";
+import { type SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { type SignUpForm, signUpFormSchema } from "./sign-up-form-schema";
 import TextInput from "@/components/ui/text-input";
 import Button from "@/components/ui/button";
 import LabelInputContainer from "@/components/auth/sign-up/label-input-container";
 import ErrorMessage from "@/components/ui/error-message";
+import { useRouter } from "next/navigation";
 
 const SignUpForm = () => {
    const {
@@ -17,6 +18,8 @@ const SignUpForm = () => {
    } = useForm<SignUpForm>({
       resolver: zodResolver(signUpFormSchema),
    });
+
+   const router = useRouter();
 
    const onSubmit: SubmitHandler<SignUpForm> = (data) => console.log(data);
    return (
@@ -109,12 +112,20 @@ const SignUpForm = () => {
             )}
          </LabelInputContainer>
 
-         <Button
-            type="submit"
-            label="Sign up"
-            variant="primary"
-            onClick={handleSubmit(onSubmit)}
-         />
+         <div className="flex justify-between">
+            <Button
+               type="submit"
+               label="Sign up"
+               variant="primary"
+               onClick={handleSubmit(onSubmit)}
+            />
+            <Button
+               type="button"
+               label="Go back"
+               variant="accent"
+               onClick={() => router.push("/")}
+            />
+         </div>
       </form>
    );
 };

@@ -1,9 +1,14 @@
+import SignInForm from "@/modules/auth/sign-in/sign-in-form";
 import { FC } from "react";
 
 interface SignInProps {}
 
 const SignIn: FC<SignInProps> = ({}) => {
-	return <div>Sign In</div>;
+   return (
+      <div className="grid h-full min-h-screen w-full place-items-center">
+         <SignInForm />
+      </div>
+   );
 };
 
 export default SignIn;
