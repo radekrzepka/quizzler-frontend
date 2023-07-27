@@ -6,7 +6,7 @@ interface LabelInputContainerProps {
 
 const LabelInputContainer: FC<LabelInputContainerProps> = ({ children }) => {
    return (
-      <div className="mb-3 grid grid-cols-1 gap-4 md:grid-cols-2">
+      <div className="mb-3 grid grid-cols-1 gap-4 md:grid-cols-1">
          {children}
       </div>
    );

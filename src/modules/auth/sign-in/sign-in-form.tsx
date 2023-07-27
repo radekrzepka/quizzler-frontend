@@ -32,7 +32,6 @@ const SignInForm = () => {
             <TextInput
                id="email"
                type="email"
-               placeholder="john@gmail.com"
                register={register}
                name="email"
                className={!errors.email ? "mb-7" : ""}
@@ -46,7 +45,6 @@ const SignInForm = () => {
             <TextInput
                id="password"
                type="password"
-               placeholder="●●●●●●●●"
                register={register}
                name="password"
                className={!errors.password ? "mb-7" : ""}
@@ -55,17 +53,18 @@ const SignInForm = () => {
                <ErrorMessage>{errors.password.message}</ErrorMessage>
             )}
          </LabelInputContainer>
-         <div className="flex justify-between">
+         <div className="flex flex-col justify-between md:flex-row md:gap-3">
             <Button
                type="submit"
                label="Sign in"
                variant="primary"
                onClick={handleSubmit(onSubmit)}
+               className="mb-3 md:mb-0"
             />
             <Button
                type="button"
                label="Go back"
-               variant="accent"
+               variant="black"
                onClick={() => router.push("/")}
             />
          </div>

@@ -25,7 +25,7 @@ const TextInput = <T extends FieldValues>({
          placeholder={placeholder}
          id={id}
          className={classNames(
-            "rounded-md px-4 py-1 text-background placeholder:text-[#858585]",
+            "rounded-md px-4 py-1 text-background placeholder:text-[#d6d6d6]",
             className,
          )}
       />

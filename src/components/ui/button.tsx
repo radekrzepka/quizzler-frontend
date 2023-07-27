@@ -5,7 +5,7 @@ interface buttonProps {
    type: "button" | "submit";
    onClick?: () => void;
    label: string;
-   variant: "primary" | "white" | "accent";
+   variant: "primary" | "white" | "accent" | "black";
    className?: string;
 }
 
@@ -24,6 +24,8 @@ const Button: FC<buttonProps> = ({
             variant === "primary" && "bg-primary hover:bg-accent",
             variant === "accent" && "bg-accent hover:bg-primary",
             variant === "white" && "bg-text",
+            variant === "black" &&
+               "bg-background text-white hover:bg-[#2e2e2e]",
             "rounded-lg px-12 py-2 text-background",
             className,
          )}

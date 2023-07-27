@@ -33,7 +33,6 @@ const HomeNavigation = () => {
                      onClick={() => router.push("/auth/sign-up")}
                      variant="white"
                   />
-                  {/* <Link href="/auth/sign-up">Sign up</Link> */}
                </li>
             </div>
          </ul>

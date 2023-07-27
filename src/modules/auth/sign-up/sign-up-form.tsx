@@ -21,18 +21,20 @@ const SignUpForm = () => {
 
    const router = useRouter();
 
-   const onSubmit: SubmitHandler<SignUpForm> = (data) => console.log(data);
+   const onSubmit: SubmitHandler<SignUpForm> = (data) => {
+      console.log(data);
+      router.push("/auth/sign-up-confirmation");
+   };
    return (
       <form
          onSubmit={handleSubmit(onSubmit)}
          className="rounded-md bg-[#f1f1f1] p-6 text-background md:p-10"
       >
          <LabelInputContainer>
-            <label htmlFor="email">Enter email: </label>
+            <label htmlFor="email">Enter email: * </label>
             <TextInput
                id="email"
                type="email"
-               placeholder="john@gmail.com"
                register={register}
                name="email"
                className={!errors.email ? "mb-7" : ""}
@@ -42,11 +44,10 @@ const SignUpForm = () => {
             )}
          </LabelInputContainer>
          <LabelInputContainer>
-            <label htmlFor="password">Enter password: </label>
+            <label htmlFor="password">Enter password: * </label>
             <TextInput
                id="password"
                type="password"
-               placeholder="●●●●●●●●"
                register={register}
                name="password"
                className={!errors.password ? "mb-7" : ""}
@@ -56,11 +57,10 @@ const SignUpForm = () => {
             )}
          </LabelInputContainer>
          <LabelInputContainer>
-            <label htmlFor="repeatedPassword">Repeat password: </label>
+            <label htmlFor="repeatedPassword">Repeat password: * </label>
             <TextInput
                id="repeatedPassword"
                type="password"
-               placeholder="●●●●●●●●"
                register={register}
                name="repeatedPassword"
                className={!errors.repeatedPassword ? "mb-7" : ""}
@@ -70,11 +70,10 @@ const SignUpForm = () => {
             )}
          </LabelInputContainer>
          <LabelInputContainer>
-            <label htmlFor="userName">Enter username: </label>
+            <label htmlFor="userName">Enter username: * </label>
             <TextInput
                id="userName"
                type="text"
-               placeholder="John123"
                register={register}
                name="userName"
                className={!errors.userName ? "mb-7" : ""}
@@ -84,11 +83,10 @@ const SignUpForm = () => {
             )}
          </LabelInputContainer>
          <LabelInputContainer>
-            <label htmlFor="firstName">Enter first name (not required): </label>
+            <label htmlFor="firstName">Enter first name: </label>
             <TextInput
                id="firstName"
                type="text"
-               placeholder="John"
                register={register}
                name="firstName"
                className={!errors.firstName ? "mb-7" : ""}
@@ -98,11 +96,10 @@ const SignUpForm = () => {
             )}
          </LabelInputContainer>
          <LabelInputContainer>
-            <label htmlFor="lastName">Enter last name (not required): </label>
+            <label htmlFor="lastName">Enter last name: </label>
             <TextInput
                id="lastName"
                type="text"
-               placeholder="Doe"
                register={register}
                name="lastName"
                className={!errors.lastName ? "mb-7" : ""}
@@ -112,17 +109,18 @@ const SignUpForm = () => {
             )}
          </LabelInputContainer>
 
-         <div className="flex justify-between">
+         <div className="flex flex-col justify-between md:flex-row md:gap-3">
             <Button
                type="submit"
                label="Sign up"
                variant="primary"
                onClick={handleSubmit(onSubmit)}
+               className="mb-3 md:mb-0"
             />
             <Button
                type="button"
                label="Go back"
-               variant="accent"
+               variant="black"
                onClick={() => router.push("/")}
             />
          </div>
