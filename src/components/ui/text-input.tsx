@@ -1,4 +1,5 @@
 import { UseFormRegister, FieldValues, Path } from "react-hook-form";
+import classNames from "classnames";
 
 interface TextInputProps<T extends FieldValues> {
    type: "text" | "password" | "email";
@@ -6,6 +7,7 @@ interface TextInputProps<T extends FieldValues> {
    id: string;
    register: UseFormRegister<T>;
    name: Path<T>;
+   className?: string;
 }
 
 const TextInput = <T extends FieldValues>({
@@ -14,6 +16,7 @@ const TextInput = <T extends FieldValues>({
    id,
    register,
    name,
+   className,
 }: TextInputProps<T>) => {
    return (
       <input
@@ -21,7 +24,10 @@ const TextInput = <T extends FieldValues>({
          type={type}
          placeholder={placeholder}
          id={id}
-         className="rounded-md px-4 py-1 text-background placeholder:text-[#858585]"
+         className={classNames(
+            "rounded-md px-4 py-1 text-background placeholder:text-[#858585]",
+            className,
+         )}
       />
    );
 };
