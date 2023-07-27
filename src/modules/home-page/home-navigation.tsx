@@ -5,8 +5,11 @@ import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Button from "@/components/ui/button";
 import LogoText from "@/components/ui/logo-text";
+import { useState } from "react";
 
 const HomeNavigation = () => {
+   const [signInLoading, setSignInLoading] = useState(false);
+   const [signUpLoading, setSignUpLoading] = useState(false);
    const router = useRouter();
 
    return (
@@ -22,16 +25,24 @@ const HomeNavigation = () => {
                   <Button
                      label="Sign In"
                      type="button"
-                     onClick={() => signIn()}
+                     onClick={() => {
+                        setSignInLoading(true);
+                        signIn();
+                     }}
                      variant="primary"
+                     isLoading={signInLoading}
                   />
                </li>
                <li>
                   <Button
                      label="Sign Up"
                      type="button"
-                     onClick={() => router.push("/auth/sign-up")}
+                     onClick={() => {
+                        setSignUpLoading(true);
+                        router.push("/auth/sign-up");
+                     }}
                      variant="white"
+                     isLoading={signUpLoading}
                   />
                </li>
             </div>
