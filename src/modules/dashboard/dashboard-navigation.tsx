@@ -21,8 +21,8 @@ const DashboardNavigation: FC<DashboardNavigationProps> = ({}) => {
          <ul className="flex gap-1 text-center md:gap-6">
             <li className="grid place-items-center">
                <DashboardNavigationLink
-                  path="/dashboard/new-lesson"
-                  label="New lesson"
+                  path="/dashboard/new-question"
+                  label="New question"
                />
             </li>
             <li className="grid place-items-center">
@@ -35,6 +35,12 @@ const DashboardNavigation: FC<DashboardNavigationProps> = ({}) => {
                <DashboardNavigationLink
                   path="/dashboard/new-flashcard"
                   label="New flashcard"
+               />
+            </li>
+            <li className="grid place-items-center">
+               <DashboardNavigationLink
+                  path="/dashboard/new-lesson"
+                  label="New lesson"
                />
             </li>
          </ul>
