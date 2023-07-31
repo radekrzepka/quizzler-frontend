@@ -30,7 +30,7 @@ const Button: FC<buttonProps> = ({
             variant === "white" && "bg-text",
             variant === "black" &&
                "bg-background text-white hover:bg-[#2e2e2e]",
-            "rounded-lg px-12 py-2 text-background ",
+            "rounded-lg px-12 py-2 text-background",
             className,
          )}
       >

@@ -8,8 +8,8 @@ import LogoText from "@/components/ui/logo-text";
 import { useState } from "react";
 
 const HomeNavigation = () => {
-   const [signInLoading, setSignInLoading] = useState(false);
-   const [signUpLoading, setSignUpLoading] = useState(false);
+   const [signInButtonLoading, setSignInButtonLoading] = useState(false);
+   const [signUpButtonLoading, setSignUpButtonLoading] = useState(false);
    const router = useRouter();
 
    return (
@@ -20,29 +20,31 @@ const HomeNavigation = () => {
                   <Link href="/">Quizzler</Link>
                </LogoText>
             </li>
-            <div className="flex flex-col items-center justify-center gap-4 md:flex-row">
-               <li>
+            <div className="flex w-full flex-col items-center justify-center gap-4 md:flex-row md:justify-end">
+               <li className="w-full md:w-auto">
                   <Button
                      label="Sign In"
                      type="button"
                      onClick={() => {
-                        setSignInLoading(true);
+                        setSignInButtonLoading(true);
                         signIn();
                      }}
                      variant="primary"
-                     isLoading={signInLoading}
+                     isLoading={signInButtonLoading}
+                     className="w-full"
                   />
                </li>
-               <li>
+               <li className="w-full md:w-auto">
                   <Button
                      label="Sign Up"
                      type="button"
                      onClick={() => {
-                        setSignUpLoading(true);
+                        setSignUpButtonLoading(true);
                         router.push("/auth/sign-up");
                      }}
                      variant="white"
-                     isLoading={signUpLoading}
+                     isLoading={signUpButtonLoading}
+                     className="w-full"
                   />
                </li>
             </div>
