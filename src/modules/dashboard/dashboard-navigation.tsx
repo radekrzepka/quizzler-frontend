@@ -1,16 +1,17 @@
 "use client";
 
-import { FC } from "react";
+import { FC, useState } from "react";
 import LogoText from "@/components/ui/logo-text";
 import Link from "next/link";
 import Button from "@/components/ui/button";
-import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import DashboardNavigationLink from "@/components/dashboard/dashboard-navigation-link";
 
 interface DashboardNavigationProps {}
 
 const DashboardNavigation: FC<DashboardNavigationProps> = ({}) => {
+   const [signOutClicked, setSignOutClicked] = useState(false);
+   const [myProfileClicked, setMyProfileClicked] = useState(false);
    const router = useRouter();
 
    return (
@@ -49,14 +50,21 @@ const DashboardNavigation: FC<DashboardNavigationProps> = ({}) => {
                label="My profile"
                variant="white"
                type="button"
-               onClick={() => router.push("/dashboard/my-profile")}
+               onClick={() => {
+                  setMyProfileClicked(true);
+                  router.push("/dashboard/my-profile");
+               }}
                className="mb-3 lg:mb-0 lg:mr-3"
             />
             <Button
+               isLoading={signOutClicked}
                label="Sign out"
                variant="accent"
                type="button"
-               onClick={() => signOut()}
+               onClick={() => {
+                  setSignOutClicked(true);
+                  router.push("/");
+               }}
             />
          </div>
       </nav>
