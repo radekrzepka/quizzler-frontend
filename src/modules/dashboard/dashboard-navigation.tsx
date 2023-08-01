@@ -14,8 +14,8 @@ const DashboardNavigation: FC<DashboardNavigationProps> = ({}) => {
    const router = useRouter();
 
    return (
-      <nav className="my-6 flex flex-col items-center justify-between gap-4 rounded-xl bg-text p-4 text-background xl:flex-row">
-         <LogoText variant="dark">
+      <nav className="shadow-shadow my-6 flex flex-col items-center justify-between gap-4 rounded-xl border-[1px] border-borderContainer bg-background p-4 text-text xl:flex-row">
+         <LogoText variant="light">
             <Link href="/dashboard">Quizzler</Link>
          </LogoText>
          <ul className="flex gap-1 text-center md:gap-6">
@@ -47,7 +47,7 @@ const DashboardNavigation: FC<DashboardNavigationProps> = ({}) => {
          <div className="grid place-items-center lg:block">
             <Button
                label="My profile"
-               variant="black"
+               variant="white"
                type="button"
                onClick={() => router.push("/dashboard/my-profile")}
                className="mb-3 lg:mb-0 lg:mr-3"

@@ -3,6 +3,9 @@ module.exports = {
    content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
    theme: {
       extend: {
+         boxShadow: {
+            containerShadow: "0px -1px 6px -1px #030303",
+         },
          // yellow primary color
          colors: {
             text: "#dfddee",
@@ -10,6 +13,7 @@ module.exports = {
             primary: "#d9ec4b",
             secondary: "#141326",
             accent: "#c6de17",
+            borderContainer: "#1c1e24",
          },
          //blue primary color
          // colors: {
