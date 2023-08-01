@@ -9,7 +9,6 @@ Frontend for quiz and flashcards app
 -  Next.js
 -  Typescript
 -  Tailwind CSS
--  NextAuth
 -  Zod
 -  react-hook-form
 

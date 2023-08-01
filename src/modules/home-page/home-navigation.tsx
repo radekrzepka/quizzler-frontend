@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Button from "@/components/ui/button";
 import LogoText from "@/components/ui/logo-text";
@@ -27,7 +26,7 @@ const HomeNavigation = () => {
                      type="button"
                      onClick={() => {
                         setSignInButtonLoading(true);
-                        signIn();
+                        router.push("/auth/sign-in");
                      }}
                      variant="primary"
                      isLoading={signInButtonLoading}

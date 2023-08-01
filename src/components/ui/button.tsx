@@ -37,6 +37,7 @@ const Button: FC<buttonProps> = ({
          {isLoading ? (
             <span>
                <BeatLoader
+                  color="#110f1f"
                   loading={isLoading}
                   size={10}
                   className="relative top-[2px] grid"
