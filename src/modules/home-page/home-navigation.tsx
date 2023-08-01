@@ -14,7 +14,7 @@ const HomeNavigation = () => {
 
    return (
       <header>
-         <ul className="flex flex-col items-center gap-2 md:flex-row md:justify-between">
+         <ul className="shadow-shadow flex flex-col items-center gap-2 rounded-xl border-[1px] border-borderContainer p-3 md:flex-row md:justify-between">
             <li>
                <LogoText>
                   <Link href="/">Quizzler</Link>
