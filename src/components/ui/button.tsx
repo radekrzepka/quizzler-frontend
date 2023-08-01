@@ -34,7 +34,17 @@ const Button: FC<buttonProps> = ({
             className,
          )}
       >
-         {isLoading ? <BeatLoader loading={isLoading} size={10} /> : label}
+         {isLoading ? (
+            <span>
+               <BeatLoader
+                  loading={isLoading}
+                  size={10}
+                  className="relative top-[2px] grid"
+               />
+            </span>
+         ) : (
+            label
+         )}
       </button>
    );
 };
