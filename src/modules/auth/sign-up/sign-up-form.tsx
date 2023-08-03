@@ -8,23 +8,54 @@ import Button from "@/components/ui/button";
 import LabelInputContainer from "@/components/auth/sign-up/label-input-container";
 import ErrorMessage from "@/components/ui/error-message";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
 
 const SignUpForm = () => {
    const {
       register,
       handleSubmit,
-      watch,
+      getValues,
       formState: { errors },
    } = useForm<SignUpForm>({
       resolver: zodResolver(signUpFormSchema),
    });
 
    const router = useRouter();
+   const { email, username, password, firstName, lastName } = getValues();
+   const [buttonLoading, setButtonLoading] = useState(false);
 
-   const onSubmit: SubmitHandler<SignUpForm> = (data) => {
-      console.log(data);
-      router.push("/auth/sign-up-confirmation");
+   const { mutate: registerUserMutation, data: response } = useMutation({
+      mutationFn: () => {
+         return fetch(`/api/registerUser`, {
+            headers: {
+               Accept: "application/json",
+               "Content-Type": "application/json",
+            },
+            method: "POST",
+            body: JSON.stringify({
+               email,
+               username,
+               password,
+               firstName,
+               lastName,
+            }),
+         });
+      },
+
+      onSettled: (res) => {
+         if (res?.status === 201) router.push("/auth/sign-up-confirmation");
+         setButtonLoading(false);
+      },
+   });
+
+   const statusText = response?.statusText;
+
+   const onSubmit: SubmitHandler<SignUpForm> = async () => {
+      setButtonLoading(true);
+      registerUserMutation();
    };
+
    return (
       <form
          onSubmit={handleSubmit(onSubmit)}
@@ -37,8 +68,13 @@ const SignUpForm = () => {
                type="email"
                register={register}
                name="email"
-               className={!errors.email ? "mb-7" : ""}
+               className={
+                  !errors.email && !(statusText === "email") ? "mb-7" : ""
+               }
             />
+            {statusText === "email" && (
+               <ErrorMessage>Email already taken</ErrorMessage>
+            )}
             {errors.email && (
                <ErrorMessage>{errors.email.message}</ErrorMessage>
             )}
@@ -63,23 +99,30 @@ const SignUpForm = () => {
                type="password"
                register={register}
                name="repeatedPassword"
-               className={!errors.repeatedPassword ? "mb-7" : ""}
+               className={
+                  !errors.repeatedPassword && !(statusText === "username")
+                     ? "mb-7"
+                     : ""
+               }
             />
             {errors.repeatedPassword && (
                <ErrorMessage>{errors.repeatedPassword.message}</ErrorMessage>
             )}
          </LabelInputContainer>
          <LabelInputContainer>
-            <label htmlFor="userName">Enter username: * </label>
+            <label htmlFor="username">Enter username: * </label>
             <TextInput
-               id="userName"
+               id="username"
                type="text"
                register={register}
-               name="userName"
-               className={!errors.userName ? "mb-7" : ""}
+               name="username"
+               className={!errors.username ? "mb-7" : ""}
             />
-            {errors.userName && (
-               <ErrorMessage>{errors.userName.message}</ErrorMessage>
+            {statusText === "username" && (
+               <ErrorMessage>Username already taken</ErrorMessage>
+            )}
+            {errors.username && (
+               <ErrorMessage>{errors.username.message}</ErrorMessage>
             )}
          </LabelInputContainer>
          <LabelInputContainer>
@@ -116,6 +159,7 @@ const SignUpForm = () => {
                variant="primary"
                onClick={handleSubmit(onSubmit)}
                className="mb-3 md:mb-0"
+               isLoading={buttonLoading}
             />
             <Button
                type="button"
