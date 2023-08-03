@@ -15,7 +15,7 @@ const DashboardNavigation: FC<DashboardNavigationProps> = ({}) => {
    const router = useRouter();
 
    return (
-      <nav className="shadow-shadow my-6 flex flex-col items-center justify-between gap-4 rounded-xl border-[1px] border-borderContainer bg-background p-4 text-text xl:flex-row">
+      <nav className="shadow-shadow my-6 flex flex-col items-center justify-between gap-4 rounded-xl border-[1px] border-borderContainer bg-background p-4 text-text shadow-containerShadow xl:flex-row">
          <LogoText variant="light">
             <Link href="/dashboard">Quizzler</Link>
          </LogoText>
