@@ -1,7 +1,10 @@
+"use client";
+
 import "@/styles/globals.css";
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/react";
 import { Jaldi } from "next/font/google";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 export const metadata: Metadata = {
    title: "Quizzler",
@@ -17,11 +20,15 @@ export default function RootLayout({
 }: {
    children: React.ReactNode;
 }) {
+   const queryClient = new QueryClient();
+
    return (
       <html lang="en">
          <body className={`bg-background text-text ${jaldi.className}`}>
-            {children}
-            <Analytics />
+            <QueryClientProvider client={queryClient}>
+               {children}
+               <Analytics />
+            </QueryClientProvider>
          </body>
       </html>
    );

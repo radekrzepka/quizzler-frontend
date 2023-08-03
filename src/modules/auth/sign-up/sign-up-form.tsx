@@ -8,23 +8,44 @@ import Button from "@/components/ui/button";
 import LabelInputContainer from "@/components/auth/sign-up/label-input-container";
 import ErrorMessage from "@/components/ui/error-message";
 import { useRouter } from "next/navigation";
+import { useMutation } from "@tanstack/react-query";
 
 const SignUpForm = () => {
    const {
       register,
       handleSubmit,
-      watch,
+      getValues,
       formState: { errors },
    } = useForm<SignUpForm>({
       resolver: zodResolver(signUpFormSchema),
    });
 
    const router = useRouter();
+   const { email, username, password, firstName, lastName } = getValues();
 
-   const onSubmit: SubmitHandler<SignUpForm> = (data) => {
-      console.log(data);
-      router.push("/auth/sign-up-confirmation");
+   const registerUserMutation = useMutation({
+      mutationFn: () => {
+         return fetch(`/api/registerUser`, {
+            headers: {
+               "Content-Type": "application/json",
+            },
+            method: "POST",
+            body: JSON.stringify({
+               email,
+               username,
+               password,
+               firstName,
+               lastName,
+            }),
+         });
+      },
+   });
+
+   const onSubmit: SubmitHandler<SignUpForm> = async (data) => {
+      // router.push("/auth/sign-up-confirmation");
+      registerUserMutation.mutate();
    };
+
    return (
       <form
          onSubmit={handleSubmit(onSubmit)}
@@ -70,16 +91,16 @@ const SignUpForm = () => {
             )}
          </LabelInputContainer>
          <LabelInputContainer>
-            <label htmlFor="userName">Enter username: * </label>
+            <label htmlFor="username">Enter username: * </label>
             <TextInput
-               id="userName"
+               id="username"
                type="text"
                register={register}
-               name="userName"
-               className={!errors.userName ? "mb-7" : ""}
+               name="username"
+               className={!errors.username ? "mb-7" : ""}
             />
-            {errors.userName && (
-               <ErrorMessage>{errors.userName.message}</ErrorMessage>
+            {errors.username && (
+               <ErrorMessage>{errors.username.message}</ErrorMessage>
             )}
          </LabelInputContainer>
          <LabelInputContainer>
