@@ -31,11 +31,11 @@ const SignUpForm = () => {
             },
             method: "POST",
             body: JSON.stringify({
-               email,
-               username,
-               password,
-               firstName,
-               lastName,
+               Email: email,
+               Username: username,
+               Password: password,
+               FirstName: firstName,
+               LastName: lastName,
             }),
          });
       },
