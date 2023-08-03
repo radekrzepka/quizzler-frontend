@@ -27,7 +27,7 @@ const SignUpForm = () => {
 
    const { mutate: registerUserMutation, data: response } = useMutation({
       mutationFn: () => {
-         return fetch(`/api/registerUser`, {
+         return fetch(`/api/register-user`, {
             headers: {
                Accept: "application/json",
                "Content-Type": "application/json",
