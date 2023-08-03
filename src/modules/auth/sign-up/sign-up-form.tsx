@@ -8,6 +8,7 @@ import Button from "@/components/ui/button";
 import LabelInputContainer from "@/components/auth/sign-up/label-input-container";
 import ErrorMessage from "@/components/ui/error-message";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 
 const SignUpForm = () => {
@@ -22,28 +23,37 @@ const SignUpForm = () => {
 
    const router = useRouter();
    const { email, username, password, firstName, lastName } = getValues();
+   const [buttonLoading, setButtonLoading] = useState(false);
 
-   const registerUserMutation = useMutation({
+   const { mutate: registerUserMutation, data: response } = useMutation({
       mutationFn: () => {
          return fetch(`/api/registerUser`, {
             headers: {
+               Accept: "application/json",
                "Content-Type": "application/json",
             },
             method: "POST",
             body: JSON.stringify({
-               Email: email,
-               Username: username,
-               Password: password,
-               FirstName: firstName,
-               LastName: lastName,
+               email,
+               username,
+               password,
+               firstName,
+               lastName,
             }),
          });
       },
+
+      onSettled: (res) => {
+         if (res?.status === 201) router.push("/auth/sign-up-confirmation");
+         setButtonLoading(false);
+      },
    });
 
-   const onSubmit: SubmitHandler<SignUpForm> = async (data) => {
-      // router.push("/auth/sign-up-confirmation");
-      registerUserMutation.mutate();
+   const statusText = response?.statusText;
+
+   const onSubmit: SubmitHandler<SignUpForm> = async () => {
+      setButtonLoading(true);
+      registerUserMutation();
    };
 
    return (
@@ -58,8 +68,13 @@ const SignUpForm = () => {
                type="email"
                register={register}
                name="email"
-               className={!errors.email ? "mb-7" : ""}
+               className={
+                  !errors.email && !(statusText === "email") ? "mb-7" : ""
+               }
             />
+            {statusText === "email" && (
+               <ErrorMessage>Email already taken</ErrorMessage>
+            )}
             {errors.email && (
                <ErrorMessage>{errors.email.message}</ErrorMessage>
             )}
@@ -84,7 +99,11 @@ const SignUpForm = () => {
                type="password"
                register={register}
                name="repeatedPassword"
-               className={!errors.repeatedPassword ? "mb-7" : ""}
+               className={
+                  !errors.repeatedPassword && !(statusText === "username")
+                     ? "mb-7"
+                     : ""
+               }
             />
             {errors.repeatedPassword && (
                <ErrorMessage>{errors.repeatedPassword.message}</ErrorMessage>
@@ -99,6 +118,9 @@ const SignUpForm = () => {
                name="username"
                className={!errors.username ? "mb-7" : ""}
             />
+            {statusText === "username" && (
+               <ErrorMessage>Username already taken</ErrorMessage>
+            )}
             {errors.username && (
                <ErrorMessage>{errors.username.message}</ErrorMessage>
             )}
@@ -137,6 +159,7 @@ const SignUpForm = () => {
                variant="primary"
                onClick={handleSubmit(onSubmit)}
                className="mb-3 md:mb-0"
+               isLoading={buttonLoading}
             />
             <Button
                type="button"
