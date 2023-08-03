@@ -6,6 +6,7 @@ import Link from "next/link";
 import Button from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import DashboardNavigationLink from "@/components/dashboard/dashboard-navigation-link";
+import { deleteCookie } from "cookies-next";
 
 interface DashboardNavigationProps {}
 
@@ -63,6 +64,7 @@ const DashboardNavigation: FC<DashboardNavigationProps> = ({}) => {
                type="button"
                onClick={() => {
                   setSignOutClicked(true);
+                  deleteCookie("JWT");
                   router.push("/");
                }}
             />
