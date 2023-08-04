@@ -24,6 +24,7 @@ const SignUpForm = () => {
    const router = useRouter();
    const { email, username, password, firstName, lastName } = getValues();
    const [buttonLoading, setButtonLoading] = useState(false);
+   const [repeatedError, setRepeatedError] = useState<string | undefined>();
 
    const { mutate: registerUserMutation, data: response } = useMutation({
       mutationFn: () => {
@@ -45,11 +46,12 @@ const SignUpForm = () => {
 
       onSettled: (res) => {
          if (res?.status === 201) router.push("/auth/sign-up-confirmation");
-         setButtonLoading(false);
+         if (res?.status === 409) {
+            setRepeatedError(res?.statusText);
+            setButtonLoading(false);
+         }
       },
    });
-
-   const statusText = response?.statusText;
 
    const onSubmit: SubmitHandler<SignUpForm> = async () => {
       setButtonLoading(true);
@@ -69,10 +71,10 @@ const SignUpForm = () => {
                register={register}
                name="email"
                className={
-                  !errors.email && !(statusText === "email") ? "mb-7" : ""
+                  !errors.email && !(repeatedError === "email") ? "mb-7" : ""
                }
             />
-            {statusText === "email" && (
+            {repeatedError === "email" && (
                <ErrorMessage>Email already taken</ErrorMessage>
             )}
             {errors.email && (
@@ -99,11 +101,7 @@ const SignUpForm = () => {
                type="password"
                register={register}
                name="repeatedPassword"
-               className={
-                  !errors.repeatedPassword && !(statusText === "username")
-                     ? "mb-7"
-                     : ""
-               }
+               className={!errors.repeatedPassword ? "mb-7" : ""}
             />
             {errors.repeatedPassword && (
                <ErrorMessage>{errors.repeatedPassword.message}</ErrorMessage>
@@ -116,9 +114,13 @@ const SignUpForm = () => {
                type="text"
                register={register}
                name="username"
-               className={!errors.username ? "mb-7" : ""}
+               className={
+                  !errors.username && !(repeatedError === "username")
+                     ? "mb-7"
+                     : ""
+               }
             />
-            {statusText === "username" && (
+            {repeatedError === "username" && (
                <ErrorMessage>Username already taken</ErrorMessage>
             )}
             {errors.username && (
