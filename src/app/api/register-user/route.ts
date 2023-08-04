@@ -12,20 +12,12 @@ export async function POST(request: Request) {
       body: JSON.stringify(requestBody),
    });
 
-   const data = await res;
+   const data = await res.json();
 
-   if (data.status === 409) {
-      const message = await data.json();
-      if (message.startsWith("Email"))
-         return NextResponse.json("email", {
-            status: res.status,
-            statusText: "email",
-         });
-      return NextResponse.json("username", {
+   return NextResponse.json(
+      { message: data },
+      {
          status: res.status,
-         statusText: "username",
-      });
-   }
-
-   return NextResponse.json(data, { status: res.status });
+      },
+   );
 }

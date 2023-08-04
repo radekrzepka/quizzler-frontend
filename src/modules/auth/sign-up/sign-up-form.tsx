@@ -26,8 +26,8 @@ const SignUpForm = () => {
    const [buttonLoading, setButtonLoading] = useState(false);
 
    const { mutate: registerUserMutation, data: response } = useMutation({
-      mutationFn: () => {
-         return fetch(`/api/register-user`, {
+      mutationFn: async () => {
+         const res = await fetch(`/api/register-user`, {
             headers: {
                Accept: "application/json",
                "Content-Type": "application/json",
@@ -41,6 +41,9 @@ const SignUpForm = () => {
                lastName,
             }),
          });
+
+         const data = await res.json();
+         return { status: res.status, data };
       },
 
       onSettled: (res) => {
@@ -69,12 +72,12 @@ const SignUpForm = () => {
                register={register}
                name="email"
                className={
-                  !errors.email && !(response?.statusText === "email")
+                  !errors.email && !response?.data.message.startsWith("Email")
                      ? "mb-[23px]"
                      : ""
                }
             />
-            {response?.statusText === "email" && (
+            {response?.data.message.startsWith("Email") && (
                <ErrorMessage>Email already taken</ErrorMessage>
             )}
             {errors.email && (
@@ -115,12 +118,13 @@ const SignUpForm = () => {
                register={register}
                name="username"
                className={
-                  !errors.username && !(response?.statusText === "username")
+                  !errors.username &&
+                  !response?.data.message.startsWith("Username")
                      ? "mb-[23px]"
                      : ""
                }
             />
-            {response?.statusText === "username" && (
+            {response?.data.message.startsWith("Username") && (
                <ErrorMessage>Username already taken</ErrorMessage>
             )}
             {errors.username && (
