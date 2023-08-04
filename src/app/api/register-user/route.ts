@@ -13,8 +13,10 @@ export async function POST(request: Request) {
    });
 
    const data = await res;
-
    const message = await data.json();
+   
+   console.log(data,message);
+   
 
    return NextResponse.json(data, { status: res.status, statusText: message });
 }
