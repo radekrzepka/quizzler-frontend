@@ -24,7 +24,6 @@ const SignUpForm = () => {
    const router = useRouter();
    const { email, username, password, firstName, lastName } = getValues();
    const [buttonLoading, setButtonLoading] = useState(false);
-   const [repeatedError, setRepeatedError] = useState<string | undefined>();
 
    const { mutate: registerUserMutation, data: response } = useMutation({
       mutationFn: () => {
@@ -47,7 +46,6 @@ const SignUpForm = () => {
       onSettled: (res) => {
          if (res?.status === 201) router.push("/auth/sign-up-confirmation");
          if (res?.status === 409) {
-            setRepeatedError(res?.statusText);
             setButtonLoading(false);
          }
       },
@@ -71,10 +69,12 @@ const SignUpForm = () => {
                register={register}
                name="email"
                className={
-                  !errors.email && !(repeatedError === "email") ? "mb-7" : ""
+                  !errors.email && !(response?.statusText === "email")
+                     ? "mb-[23px]"
+                     : ""
                }
             />
-            {repeatedError === "email" && (
+            {response?.statusText === "email" && (
                <ErrorMessage>Email already taken</ErrorMessage>
             )}
             {errors.email && (
@@ -88,7 +88,7 @@ const SignUpForm = () => {
                type="password"
                register={register}
                name="password"
-               className={!errors.password ? "mb-7" : ""}
+               className={!errors.password ? "mb-[23px]" : ""}
             />
             {errors.password && (
                <ErrorMessage>{errors.password.message}</ErrorMessage>
@@ -101,7 +101,7 @@ const SignUpForm = () => {
                type="password"
                register={register}
                name="repeatedPassword"
-               className={!errors.repeatedPassword ? "mb-7" : ""}
+               className={!errors.repeatedPassword ? "mb-[23px]" : ""}
             />
             {errors.repeatedPassword && (
                <ErrorMessage>{errors.repeatedPassword.message}</ErrorMessage>
@@ -115,12 +115,12 @@ const SignUpForm = () => {
                register={register}
                name="username"
                className={
-                  !errors.username && !(repeatedError === "username")
-                     ? "mb-7"
+                  !errors.username && !(response?.statusText === "username")
+                     ? "mb-[23px]"
                      : ""
                }
             />
-            {repeatedError === "username" && (
+            {response?.statusText === "username" && (
                <ErrorMessage>Username already taken</ErrorMessage>
             )}
             {errors.username && (
@@ -134,7 +134,7 @@ const SignUpForm = () => {
                type="text"
                register={register}
                name="firstName"
-               className={!errors.firstName ? "mb-7" : ""}
+               className={!errors.firstName ? "mb-[23px]" : ""}
             />
             {errors.firstName && (
                <ErrorMessage>{errors.firstName.message}</ErrorMessage>
@@ -147,7 +147,7 @@ const SignUpForm = () => {
                type="text"
                register={register}
                name="lastName"
-               className={!errors.lastName ? "mb-7" : ""}
+               className={!errors.lastName ? "mb-[23px]" : ""}
             />
             {errors.lastName && (
                <ErrorMessage>{errors.lastName.message}</ErrorMessage>
