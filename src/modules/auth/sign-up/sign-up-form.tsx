@@ -56,6 +56,8 @@ const SignUpForm = () => {
       registerUserMutation();
    };
 
+   console.log(response);
+
    return (
       <form
          onSubmit={handleSubmit(onSubmit)}
