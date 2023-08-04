@@ -46,7 +46,7 @@ const DashboardNavigation: FC<DashboardNavigationProps> = ({}) => {
                />
             </li>
          </ul>
-         <div className="grid place-items-center lg:block">
+         <div className="grid w-full place-items-center lg:block lg:w-auto">
             <Button
                label="My profile"
                variant="white"
@@ -55,13 +55,14 @@ const DashboardNavigation: FC<DashboardNavigationProps> = ({}) => {
                   setMyProfileClicked(true);
                   router.push("/dashboard/my-profile");
                }}
-               className="mb-3 lg:mb-0 lg:mr-3"
+               className="mb-3 w-full md:w-1/2 lg:mr-3 lg:w-auto"
             />
             <Button
                isLoading={signOutClicked}
                label="Sign out"
                variant="accent"
                type="button"
+               className="w-full md:w-1/2 lg:w-auto"
                onClick={() => {
                   setSignOutClicked(true);
                   deleteCookie("JWT");
