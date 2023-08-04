@@ -12,12 +12,12 @@ export async function POST(request: Request) {
       body: JSON.stringify(requestBody),
    });
 
-   const message = await res.json();
+   const data = await res.json();
 
-   console.log(message);
-
-   return NextResponse.json(message, {
-      statusText: message,
-      status: res.status,
-   });
+   return NextResponse.json(
+      { message: data },
+      {
+         status: res.status,
+      },
+   );
 }
