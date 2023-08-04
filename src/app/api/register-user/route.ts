@@ -17,7 +17,7 @@ export async function POST(request: Request) {
    console.log(message);
 
    return NextResponse.json(message, {
+      statusText: message,
       status: res.status,
-      statusText: "jebac ziebie",
    });
 }
