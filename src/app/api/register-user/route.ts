@@ -14,20 +14,7 @@ export async function POST(request: Request) {
 
    const data = await res;
 
-   if (data.status === 409) {
-      const message = await data.json();
-      console.log(message);
+   const message = await data.json();
 
-      if (message.startsWith("Email"))
-         return NextResponse.json(data, {
-            statusText: "email",
-            status: res.status,
-         });
-      return NextResponse.json(data, {
-         statusText: "username",
-         status: res.status,
-      });
-   }
-
-   return NextResponse.json(data, { status: res.status });
+   return NextResponse.json(data, { status: res.status, statusText: message });
 }

@@ -71,12 +71,12 @@ const SignUpForm = () => {
                register={register}
                name="email"
                className={
-                  !errors.email && !(response?.statusText === "email")
+                  !errors.email && !response?.statusText.startsWith("Email")
                      ? "mb-[23px]"
                      : ""
                }
             />
-            {response?.statusText === "email" && (
+            {response?.statusText.startsWith("Email") && (
                <ErrorMessage>Email already taken</ErrorMessage>
             )}
             {errors.email && (
@@ -117,12 +117,13 @@ const SignUpForm = () => {
                register={register}
                name="username"
                className={
-                  !errors.username && !(response?.statusText === "username")
+                  !errors.username &&
+                  !response?.statusText.startsWith("Username")
                      ? "mb-[23px]"
                      : ""
                }
             />
-            {response?.statusText === "username" && (
+            {response?.statusText.startsWith("Username") && (
                <ErrorMessage>Username already taken</ErrorMessage>
             )}
             {errors.username && (
