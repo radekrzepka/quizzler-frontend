@@ -16,6 +16,8 @@ export async function POST(request: Request) {
 
    if (data.status === 409) {
       const message = await data.json();
+      console.log(message);
+
       if (message.startsWith("Email"))
          return NextResponse.json(data, {
             statusText: "email",
