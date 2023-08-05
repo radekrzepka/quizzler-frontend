@@ -78,13 +78,13 @@ const SignInForm = () => {
                register={register}
                name="password"
                className={
-                  !errors.password && !(response?.status === 403) ? "mb-7" : ""
+                  !errors.password && !(response?.status === 400) ? "mb-7" : ""
                }
             />
             {errors.password && (
                <ErrorMessage>{errors.password.message}</ErrorMessage>
             )}
-            {response?.status === 403 && (
+            {response?.status === 400 && (
                <ErrorMessage>Incorrect login or password</ErrorMessage>
             )}
          </LabelInputContainer>
