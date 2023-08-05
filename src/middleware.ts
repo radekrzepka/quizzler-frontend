@@ -4,7 +4,7 @@ import type { NextRequest } from "next/server";
 export async function middleware(request: NextRequest) {
    const JWT = request.cookies.get("JWT")?.value;
 
-   const res = await fetch(`${process.env.URL}/api/validate-jwt`, {
+   const res = await fetch(`${process.env.URL}/api/user/check`, {
       headers: {
          Accept: "application/json",
          "Content-Type": "application/json",
