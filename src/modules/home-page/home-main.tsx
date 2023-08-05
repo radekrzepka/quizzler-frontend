@@ -1,6 +1,6 @@
 const HomeMain = () => {
    return (
-      <main className="mt-4 grid grid-cols-1 rounded-xl border-[1px] border-borderContainer p-4 shadow-containerShadow md:grid-cols-2">
+      <main className="grid grid-cols-1 rounded-xl p-4 md:grid-cols-2">
          <section>
             <div className="my-3">
                <h3 className="text-4xl">Welcome in quizzler !</h3>
