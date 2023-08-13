@@ -1,14 +1,15 @@
-import { FC } from "react";
+import { FC, ReactNode } from "react";
 import classnames from "classnames";
 import BeatLoader from "react-spinners/BeatLoader";
 
 interface buttonProps {
    type: "button" | "submit";
    onClick?: () => void;
-   label: string;
+   label?: string;
    variant: "primary" | "white" | "accent" | "black";
    className?: string;
    isLoading?: boolean;
+   children?: ReactNode;
 }
 
 const Button: FC<buttonProps> = ({
@@ -18,6 +19,7 @@ const Button: FC<buttonProps> = ({
    variant,
    className,
    isLoading = false,
+   children,
 }) => {
    return (
       <button
@@ -44,7 +46,7 @@ const Button: FC<buttonProps> = ({
                />
             </span>
          ) : (
-            label
+            label || children
          )}
       </button>
    );

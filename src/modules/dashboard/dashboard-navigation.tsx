@@ -4,7 +4,6 @@ import { FC, useState } from "react";
 import LogoText from "@/components/ui/logo-text";
 import Link from "next/link";
 import Button from "@/components/ui/button";
-import { useRouter } from "next/navigation";
 import DashboardNavigationLink from "@/components/dashboard/dashboard-navigation-link";
 import { deleteCookie } from "cookies-next";
 
@@ -12,7 +11,6 @@ interface DashboardNavigationProps {}
 
 const DashboardNavigation: FC<DashboardNavigationProps> = ({}) => {
    const [signOutClicked, setSignOutClicked] = useState(false);
-   const router = useRouter();
 
    return (
       <nav className="shadow-shadow my-6 flex flex-col items-center justify-between gap-4 rounded-xl border-[1px] border-borderContainer bg-background p-4 text-text shadow-containerShadow xl:flex-row">
@@ -33,7 +31,7 @@ const DashboardNavigation: FC<DashboardNavigationProps> = ({}) => {
                   label="My profile"
                   variant="white"
                   type="button"
-                  className="mb-3 w-full md:w-1/2 lg:mr-3 lg:w-auto"
+                  className="mb-3 w-full lg:mr-3  lg:w-auto"
                />
             </Link>
             <Link href="/">
@@ -42,7 +40,7 @@ const DashboardNavigation: FC<DashboardNavigationProps> = ({}) => {
                   label="Sign out"
                   variant="accent"
                   type="button"
-                  className="w-full md:w-1/2 lg:w-auto"
+                  className="w-full lg:w-auto"
                   onClick={() => {
                      setSignOutClicked(true);
                      deleteCookie("JWT");
