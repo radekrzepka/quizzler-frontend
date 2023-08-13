@@ -9,7 +9,6 @@ export async function POST(request: Request) {
       },
       method: "POST",
       body: JSON.stringify(requestBody),
-      cache: "no-store",
    });
 
    const data = await res.json();

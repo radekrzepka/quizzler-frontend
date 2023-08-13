@@ -36,7 +36,6 @@ const SignInForm = () => {
                "Content-Type": "application/json",
             },
             method: "POST",
-            cache: "no-store",
             body: JSON.stringify({
                email,
                password,
@@ -45,8 +44,10 @@ const SignInForm = () => {
       },
 
       onSettled: (res) => {
-         if (res?.status === 200) router.push("/dashboard");
-         else if (res?.status !== 409 && res?.status !== 400) {
+         if (res?.status === 200) {
+            router.refresh();
+            router.push("/dashboard");
+         } else if (res?.status !== 409 && res?.status !== 400) {
             setOpenErrorModal(true);
          }
          setButtonLoading(false);

@@ -11,7 +11,6 @@ export async function middleware(request: NextRequest) {
          Authorization: `Bearer ${JWT}`,
       },
       method: "GET",
-      cache: "no-store",
    });
 
    const jwtStatus = res.status;
