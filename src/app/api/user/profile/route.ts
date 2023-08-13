@@ -12,6 +12,7 @@ export async function GET(request: NextRequest) {
          Authorization: authorization as string,
       },
       method: "GET",
+      cache: "no-cache",
    });
 
    const data = await res.json();

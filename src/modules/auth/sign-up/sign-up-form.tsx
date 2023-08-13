@@ -34,6 +34,7 @@ const SignUpForm = () => {
                Accept: "application/json",
                "Content-Type": "application/json",
             },
+            cache: "no-cache",
             method: "POST",
             body: JSON.stringify({
                email,

@@ -36,6 +36,7 @@ const SignInForm = () => {
                "Content-Type": "application/json",
             },
             method: "POST",
+            cache: "no-cache",
             body: JSON.stringify({
                email,
                password,
