@@ -1,15 +1,9 @@
-"use client"; // Error components must be Client Components
+"use client";
 
 import Button from "@/components/ui/button";
 import Modal from "@/components/ui/modal";
 
-export default function Error({
-   error,
-   reset,
-}: {
-   error: Error;
-   reset: () => void;
-}) {
+export default function Error({ reset }: { reset: () => void }) {
    return (
       <Modal displayCloseIcon={false}>
          <div className="grid place-items-center text-center">
