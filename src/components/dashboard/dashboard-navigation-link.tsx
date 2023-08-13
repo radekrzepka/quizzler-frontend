@@ -17,6 +17,7 @@ const DashboardNavigationLink: FC<DashboardNavigationLinkProps> = ({
 
    return (
       <Link
+         prefetch={false}
          href={path}
          className={classNames(
             isSelected && "bg-accent text-gray-950 hover:text-gray-700",

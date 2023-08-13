@@ -10,7 +10,7 @@ const getProfileData = async () => {
 
    const res = await fetch(`${process.env.URL}/api/user/profile`, {
       headers: { Authorization: `Bearer ${JWT?.value}` },
-      cache: "no-cache",
+      cache: "no-store",
    });
 
    if (!res.ok) {

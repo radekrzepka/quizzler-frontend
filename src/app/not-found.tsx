@@ -1,18 +1,12 @@
-import Link from "next/link";
-import Button from "@/components/ui/button";
+"use client";
+
+import Modal from "@/components/ui/modal";
 
 export default function NotFound() {
    return (
-      <div className="grid h-screen place-items-center">
-         <div className="flex flex-col gap-3 text-center">
-            <p>404 error - Not Found</p>
-            <p>Could not find requested resource</p>
-            <Link href="/">
-               <Button type="button" variant="primary">
-                  Return Home
-               </Button>
-            </Link>
-         </div>
-      </div>
+      <Modal displayCloseIcon={false}>
+         <p className="text-4xl font-bold">404 error - Not Found</p>
+         <p className="text-base">Could not find requested resource</p>
+      </Modal>
    );
 }

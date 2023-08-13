@@ -14,7 +14,7 @@ const DashboardNavigation: FC = () => {
 
    return (
       <nav className="shadow-shadow my-6 flex flex-col items-center justify-between gap-4 rounded-xl border-[1px] border-borderContainer bg-background p-4 text-text shadow-containerShadow xl:flex-row">
-         <Link href="/dashboard">
+         <Link prefetch={false} href="/dashboard">
             <LogoText variant="light">Quizzler</LogoText>
          </Link>
          <ul className="flex gap-1 text-center md:gap-6">
@@ -26,7 +26,7 @@ const DashboardNavigation: FC = () => {
             </li>
          </ul>
          <div className="grid w-full place-items-center lg:block lg:w-auto">
-            <Link href="/dashboard/my-profile">
+            <Link prefetch={false} href="/dashboard/my-profile">
                <Button
                   label="My profile"
                   variant="white"

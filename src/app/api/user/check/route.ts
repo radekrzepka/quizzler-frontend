@@ -10,7 +10,7 @@ export async function GET(request: Request) {
          Authorization: JWT as string,
       },
       method: "GET",
-      cache: "no-cache",
+      cache: "no-store",
    });
 
    return NextResponse.json(res, { status: res.status });

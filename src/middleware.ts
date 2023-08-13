@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { cookies } from "next/headers";
 
 export async function middleware(request: NextRequest) {
    const JWT = request.cookies.get("JWT")?.value;
@@ -12,7 +11,7 @@ export async function middleware(request: NextRequest) {
          Authorization: `Bearer ${JWT}`,
       },
       method: "GET",
-      cache: "no-cache",
+      cache: "no-store",
    });
 
    const jwtStatus = res.status;

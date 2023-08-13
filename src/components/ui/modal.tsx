@@ -22,14 +22,12 @@ const Modal: FC<ModalProps> = ({
                   onClick={() => closeModalFunction?.()}
                   className="absolute right-3 top-3"
                >
-                  (
                   <Image
                      width={15}
                      height={15}
                      src={CloseIcon}
                      alt="Icon of closing modal"
                   />
-                  )
                </button>
             )}
             {children}
