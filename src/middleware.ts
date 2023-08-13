@@ -20,7 +20,7 @@ export async function middleware(request: NextRequest) {
    }
 
    if (jwtStatus === 401 && request.nextUrl.pathname.includes("/dashboard")) {
-      return NextResponse.redirect(new URL("/auth/sign-in", request.url));
+      return NextResponse.redirect(new URL("/", request.url));
    }
 }
 

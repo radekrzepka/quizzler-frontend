@@ -7,7 +7,7 @@ export default function NotFound() {
          <div className="flex flex-col gap-3 text-center">
             <p>404 error - Not Found</p>
             <p>Could not find requested resource</p>
-            <Link href="/dashboard">
+            <Link href="/">
                <Button type="button" variant="primary">
                   Return Home
                </Button>

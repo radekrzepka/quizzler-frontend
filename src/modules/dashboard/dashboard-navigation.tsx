@@ -42,8 +42,8 @@ const DashboardNavigation: FC<DashboardNavigationProps> = ({}) => {
                   type="button"
                   className="w-full lg:w-auto"
                   onClick={() => {
-                     setSignOutClicked(true);
                      deleteCookie("JWT");
+                     setSignOutClicked(true);
                   }}
                />
             </Link>
