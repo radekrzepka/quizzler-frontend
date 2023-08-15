@@ -10,6 +10,7 @@ interface buttonProps {
    className?: string;
    isLoading?: boolean;
    children?: ReactNode;
+   disabled?: boolean;
 }
 
 const Button: FC<buttonProps> = ({
@@ -20,14 +21,16 @@ const Button: FC<buttonProps> = ({
    className,
    isLoading = false,
    children,
+   disabled = false,
 }) => {
    return (
       <button
          onClick={onClick}
          type={type}
-         disabled={isLoading}
+         disabled={disabled}
          className={classnames(
-            variant === "primary" && "bg-primary hover:bg-accent",
+            variant === "primary" &&
+               "bg-primary hover:bg-accent disabled:bg-gray-600 disabled:text-white",
             variant === "accent" && "bg-accent hover:bg-primary",
             variant === "white" && "bg-text",
             variant === "black" &&

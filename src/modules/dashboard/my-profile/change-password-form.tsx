@@ -13,7 +13,7 @@ interface ChangePasswordFormProps {
 }
 
 const ChangePasswordForm: FC<ChangePasswordFormProps> = ({ profile }) => {
-   const [disabled, setDisabled] = useState(false);
+   const [disabled, setDisabled] = useState(true);
    const {
       register,
       handleSubmit,
@@ -80,6 +80,7 @@ const ChangePasswordForm: FC<ChangePasswordFormProps> = ({ profile }) => {
                variant="primary"
                label="Change your password"
                className="w-fit self-center"
+               disabled={disabled}
             />
          </div>
       </form>
