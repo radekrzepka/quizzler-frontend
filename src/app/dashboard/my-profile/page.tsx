@@ -1,8 +1,13 @@
 import { FC } from "react";
 import { cookies } from "next/headers";
 import { UserInfo } from "@/types/user-info";
+import ProfileChangeForm from "@/modules/dashboard/my-profile/profile-change.form";
+import dynamic from "next/dynamic";
 
-interface MyProfileProps {}
+const ProfileCard = dynamic(
+   () => import("@/modules/dashboard/my-profile/profile-card"),
+   { ssr: false },
+);
 
 const getProfileData = async () => {
    const cookieStore = cookies();
@@ -19,10 +24,15 @@ const getProfileData = async () => {
    return res.json();
 };
 
-const MyProfile: FC<MyProfileProps> = async ({}) => {
+const MyProfile: FC = async () => {
    const profileData: UserInfo = await getProfileData();
 
-   return <div>My name is {profileData.firstName}</div>;
+   return (
+      <div className="grid gap-10 lg:grid-cols-2">
+         <ProfileCard profile={profileData} />
+         <ProfileChangeForm />
+      </div>
+   );
 };
 
 export default MyProfile;

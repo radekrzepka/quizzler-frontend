@@ -3,6 +3,7 @@ export interface UserInfo {
    username: string;
    email: string;
    firstName?: string;
-   secondName?: string;
-   dateRegistered: Date;
+   lastName?: string;
+   dateRegistered: string;
+   avatarNumber: number;
 }
