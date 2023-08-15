@@ -21,6 +21,7 @@ interface ChangeDataFormProps {
 
 const ChangeDataForm: FC<ChangeDataFormProps> = ({ profile }) => {
    const [disabled, setDisabled] = useState(true);
+   const [buttonLoading, setButtonLoading] = useState(false);
    const [showSuccessModal, setShowSuccessModal] = useState(false);
    const router = useRouter();
    const {
@@ -69,17 +70,17 @@ const ChangeDataForm: FC<ChangeDataFormProps> = ({ profile }) => {
       },
 
       onSettled: (res) => {
-         console.log(res);
-
          if (res?.status === 200) {
             router.refresh();
             setShowSuccessModal(true);
          }
+         setButtonLoading(false);
       },
    });
 
    const onSubmit = () => {
       updateDataMutation();
+      setButtonLoading(true);
    };
 
    return (
@@ -210,8 +211,9 @@ const ChangeDataForm: FC<ChangeDataFormProps> = ({ profile }) => {
                type="submit"
                variant="primary"
                label="Change your data"
-               className="w-fit self-center"
+               className="w-full self-center md:w-3/4"
                disabled={disabled}
+               isLoading={buttonLoading}
             />
          </div>
       </form>
