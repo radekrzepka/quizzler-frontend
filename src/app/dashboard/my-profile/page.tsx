@@ -1,13 +1,8 @@
 import { FC } from "react";
 import { cookies } from "next/headers";
 import { UserInfo } from "@/types/user-info";
+import ProfileCard from "@/modules/dashboard/my-profile/profile-card";
 import ProfileChangeForm from "@/modules/dashboard/my-profile/profile-change.form";
-import dynamic from "next/dynamic";
-
-const ProfileCard = dynamic(
-   () => import("@/modules/dashboard/my-profile/profile-card"),
-   { ssr: false },
-);
 
 const getProfileData = async () => {
    const cookieStore = cookies();
@@ -28,9 +23,9 @@ const MyProfile: FC = async () => {
    const profileData: UserInfo = await getProfileData();
 
    return (
-      <div className="grid gap-10 lg:grid-cols-2">
+      <div className="ml-0 grid gap-10 lg:grid-cols-[3fr_2fr]">
          <ProfileCard profile={profileData} />
-         <ProfileChangeForm />
+         <ProfileChangeForm profile={profileData} />
       </div>
    );
 };

@@ -15,6 +15,10 @@ export async function middleware(request: NextRequest) {
 
    const jwtStatus = res.status;
 
+   if (jwtStatus === 200 && !request.nextUrl.pathname.includes("/dashboard")) {
+      return NextResponse.redirect(new URL("/dashboard", request.url));
+   }
+
    if (jwtStatus === 401 && request.nextUrl.pathname.includes("/dashboard")) {
       return NextResponse.redirect(new URL("/", request.url));
    }

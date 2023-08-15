@@ -14,7 +14,7 @@ const ChartDateFilers: FC<ChartDateFilersProps> = ({
    const today = new Date();
 
    return (
-      <div className="my-2 flex gap-4">
+      <div className="my-2 flex flex-wrap items-center justify-center gap-4">
          <button
             className="rounded-md bg-accent p-1 px-6 text-background"
             onClick={() => changeStartDate(subDays(today, 7))}
