@@ -1,28 +1,98 @@
 "use client";
 
 import { FC, useState } from "react";
-import { UserInfo } from "@/types/user-info";
 import { useForm } from "react-hook-form";
 import PenImage from "./../../../assets/pen.svg";
 import Image from "next/image";
 import Button from "@/components/ui/button";
 import TextInput from "@/components/ui/text-input";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+   ChangePasswordForm,
+   changePasswordFormSchema,
+} from "./change-password-form-schema";
+import { getCookie, deleteCookie } from "cookies-next";
+import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
+import Modal from "@/components/ui/modal";
+import ErrorMessage from "@/components/ui/error-message";
 
-interface ChangePasswordFormProps {
-   profile: UserInfo;
-}
-
-const ChangePasswordForm: FC<ChangePasswordFormProps> = ({ profile }) => {
+const ChangePasswordForm: FC = () => {
    const [disabled, setDisabled] = useState(true);
+   const [buttonLoading, setButtonLoading] = useState(false);
+   const [showSuccessModal, setShowSuccessModal] = useState(false);
+
+   const router = useRouter();
    const {
       register,
       handleSubmit,
       getValues,
       formState: { errors },
-      watch,
-   } = useForm();
+   } = useForm<ChangePasswordForm>({
+      resolver: zodResolver(changePasswordFormSchema),
+   });
+
+   const { oldPassword, newPassword, repeatedNewPassword } = getValues();
+
+   const { mutate: updatePasswordMutation, data: response } = useMutation({
+      mutationFn: async () => {
+         const JWT = getCookie("JWT") as string;
+
+         const res = await fetch(`/api/user/update`, {
+            headers: {
+               Accept: "application/json",
+               "Content-Type": "application/json",
+               Authorization: JWT,
+            },
+            method: "PATCH",
+            body: JSON.stringify({
+               password: newPassword,
+               currentPassword: oldPassword,
+            }),
+         });
+
+         const data = await res.json();
+
+         return data;
+      },
+
+      onSettled: (res) => {
+         if (res?.status === 200) {
+            router.refresh();
+            setShowSuccessModal(true);
+         }
+
+         setButtonLoading(false);
+      },
+   });
+
+   const onSubmit = () => {
+      updatePasswordMutation();
+      console.log("test");
+
+      setButtonLoading(true);
+   };
+
+   const logOut = () => {
+      deleteCookie("JWT");
+      router.push("/auth/sign-in");
+   };
+
    return (
-      <form className="flex w-full flex-col items-center">
+      <form
+         className="flex w-full flex-col items-center"
+         onSubmit={handleSubmit(onSubmit)}
+      >
+         {showSuccessModal && (
+            <Modal closeModalFunction={logOut}>
+               <p className="mb-3">
+                  Your data has been changed. Please log in again.
+               </p>
+               <Button type="button" variant="primary" onClick={logOut}>
+                  Log in
+               </Button>
+            </Modal>
+         )}
          <h2 className="mt-2 text-3xl font-bold">Change your password</h2>
          <button
             onClick={() => setDisabled((prevState) => !prevState)}
@@ -45,11 +115,15 @@ const ChangePasswordForm: FC<ChangePasswordFormProps> = ({ profile }) => {
                </label>
                <TextInput
                   id="oldPassword"
-                  type="text"
+                  type="password"
                   register={register}
                   name="oldPassword"
                   disabled={disabled}
+                  className={!errors.oldPassword ? "mb-[23px]" : ""}
                />
+               {errors.oldPassword && (
+                  <ErrorMessage>{errors.oldPassword?.message}</ErrorMessage>
+               )}
             </div>
             <div className="flex flex-col">
                <label className="mr-3" htmlFor="newPassword">
@@ -57,30 +131,46 @@ const ChangePasswordForm: FC<ChangePasswordFormProps> = ({ profile }) => {
                </label>
                <TextInput
                   id="newPassword"
-                  type="text"
+                  type="password"
                   register={register}
                   name="newPassword"
                   disabled={disabled}
+                  className={!errors.newPassword ? "mb-[23px]" : ""}
                />
+               {errors.newPassword && (
+                  <ErrorMessage>{errors.newPassword?.message}</ErrorMessage>
+               )}
             </div>
             <div className="flex flex-col">
-               <label className="mr-3" htmlFor="repeatNewPassword">
+               <label className="mr-3" htmlFor="repeatedNewPassword">
                   Repeat new password:
                </label>
                <TextInput
-                  id="repeatNewPassword"
-                  type="text"
+                  id="repeatedNewPassword"
+                  type="password"
                   register={register}
-                  name="repeatNewPassword"
+                  name="repeatedNewPassword"
                   disabled={disabled}
+                  className={!errors.repeatedNewPassword ? "mb-[23px]" : ""}
                />
+               {errors.repeatedNewPassword && (
+                  <ErrorMessage>
+                     {errors.repeatedNewPassword?.message}
+                  </ErrorMessage>
+               )}
+               {response?.message.startsWith("Wrong") && (
+                  <ErrorMessage>
+                     Please provide correct old password
+                  </ErrorMessage>
+               )}
             </div>
             <Button
-               type="button"
+               type="submit"
                variant="primary"
                label="Change your password"
-               className="w-fit self-center"
+               className="w-full self-center md:w-3/4"
                disabled={disabled}
+               isLoading={buttonLoading}
             />
          </div>
       </form>

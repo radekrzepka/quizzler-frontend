@@ -1,6 +1,7 @@
 import { FC } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import classNames from "classnames";
+import Link from "next/link";
 
 interface DashboardNavigationLinkProps {
    path: string;
@@ -12,19 +13,18 @@ const DashboardNavigationLink: FC<DashboardNavigationLinkProps> = ({
    label,
 }) => {
    const currentPath = usePathname();
-   const router = useRouter();
    const isSelected = currentPath === path;
 
    return (
-      <button
-         onClick={() => router.push(path)}
+      <Link
+         href={path}
          className={classNames(
             isSelected && "bg-accent text-gray-950 hover:text-gray-700",
             "rounded p-1 text-center transition-all hover:text-gray-400 md:p-2",
          )}
       >
          {label}
-      </button>
+      </Link>
    );
 };
 

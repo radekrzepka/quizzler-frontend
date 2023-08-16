@@ -14,9 +14,9 @@ const DashboardNavigation: FC = () => {
 
    return (
       <nav className="shadow-shadow my-6 flex flex-col items-center justify-between gap-4 rounded-xl border-[1px] border-borderContainer bg-background p-4 text-text shadow-containerShadow xl:flex-row">
-         <button onClick={() => router.push("/dashboard")}>
+         <Link href={"/dashboard"}>
             <LogoText variant="light">Quizzler</LogoText>
-         </button>
+         </Link>
          <ul className="flex gap-1 text-center md:gap-6">
             <li className="grid place-items-center">
                <DashboardNavigationLink
@@ -26,13 +26,14 @@ const DashboardNavigation: FC = () => {
             </li>
          </ul>
          <div className="grid w-full place-items-center lg:block lg:w-auto">
-            <Button
-               label="My profile"
-               variant="white"
-               type="button"
-               className="mb-3 w-full lg:mr-3  lg:w-auto"
-               onClick={() => router.push("/dashboard/my-profile")}
-            />
+            <Link href="/dashboard/my-profile">
+               <Button
+                  label="My profile"
+                  variant="white"
+                  type="button"
+                  className="mb-3 w-full lg:mr-3  lg:w-auto"
+               />
+            </Link>
 
             <Button
                isLoading={signOutClicked}

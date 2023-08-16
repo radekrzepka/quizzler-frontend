@@ -14,7 +14,7 @@ const ProfileChangeForm: FC<ProfileChangeFormProps> = ({ profile }) => {
    return (
       <div className="flex flex-col items-center gap-4 rounded-xl bg-text text-background">
          <ChangeDataForm profile={profile} />
-         <ChangePasswordForm profile={profile} />
+         <ChangePasswordForm />
          <DeleteProfile />
       </div>
    );
