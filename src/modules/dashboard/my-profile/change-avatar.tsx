@@ -44,10 +44,10 @@ const ChangeAvatar: FC<ChangeAvatarProps> = ({
       },
 
       onSettled: (res) => {
-         console.log(res);
          if (res?.status === 200) {
             router.refresh();
             toast.success("Avatar has been changed");
+            closeModalFunction();
          }
          setButtonLoading(false);
       },

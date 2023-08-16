@@ -54,7 +54,7 @@ const SignInForm = () => {
          if (res?.status === 200) {
             router.refresh();
             router.push("/dashboard");
-            setCookie("JWT", res.token);
+            setCookie("JWT", `Bearer ${res.token}`);
             toast.success("Logged in");
          } else if (res?.status !== 409 && res?.status !== 400) {
             setOpenErrorModal(true);

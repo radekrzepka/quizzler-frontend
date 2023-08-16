@@ -8,7 +8,7 @@ export async function PATCH(request: Request) {
       headers: {
          Accept: "application/json",
          "Content-Type": "application/json",
-         Authorization: `Bearer ${JWT as string}`,
+         Authorization: JWT as string,
       },
       method: "PATCH",
       body: JSON.stringify(requestBody),

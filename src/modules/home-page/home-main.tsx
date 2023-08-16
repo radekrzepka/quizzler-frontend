@@ -1,6 +1,8 @@
+import Image from "next/image";
+
 const HomeMain = () => {
    return (
-      <main className="grid grid-cols-1 rounded-xl p-4 md:grid-cols-2">
+      <main className="grid grid-cols-1 gap-4 rounded-xl p-4 lg:grid-cols-2">
          <section>
             <div className="my-3">
                <h3 className="text-4xl">Welcome in quizzler !</h3>
@@ -64,7 +66,22 @@ const HomeMain = () => {
                </ul>
             </div>
          </section>
-         <section></section>
+         <section className="flex flex-col items-center gap-2">
+            <Image
+               src={"/images/app-photos/app_1.png"}
+               alt="Photo showing sections of the profli in the application"
+               width={900}
+               height={500}
+               className="shadow-shadow border-[1px] border-borderContainer shadow-containerShadow"
+            />
+            <Image
+               src={"/images/app-photos/app_2.png"}
+               alt="Photo showing sections of the profli in the application"
+               width={900}
+               height={500}
+               className="shadow-shadow border-[1px] border-borderContainer shadow-containerShadow"
+            />
+         </section>
       </main>
    );
 };

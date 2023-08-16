@@ -185,7 +185,7 @@ const getUserLesson = async () => {
    return new Promise<Lesson[]>((resolve, reject) => {
       setTimeout(() => {
          resolve(lessons);
-      }, 3000);
+      }, 300);
    });
 };
 

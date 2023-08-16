@@ -8,7 +8,7 @@ export async function middleware(request: NextRequest) {
       headers: {
          Accept: "application/json",
          "Content-Type": "application/json",
-         Authorization: `Bearer ${JWT}`,
+         Authorization: JWT as string,
       },
       method: "GET",
    });

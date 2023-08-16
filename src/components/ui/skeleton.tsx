@@ -6,6 +6,7 @@ interface SkeletonProps {
    height?: string;
    width?: string;
    className?: string;
+   circle?: boolean;
 }
 
 const Skeleton: FC<SkeletonProps> = ({
@@ -13,6 +14,7 @@ const Skeleton: FC<SkeletonProps> = ({
    height = "16px",
    width = "100%",
    className,
+   circle = false,
 }) => {
    return (
       <>
@@ -42,6 +44,7 @@ const Skeleton: FC<SkeletonProps> = ({
          <div
             className={classNames(
                className,
+               circle && "!rounded-full",
                "shimmer-effect h-4 w-full rounded-xl",
             )}
             style={{ height, width }}

@@ -15,7 +15,6 @@ import {
 import { ChartData } from "@/types/chart-data";
 import Image from "next/image";
 import classNames from "classnames";
-import PenImage from "./../../../assets/icons/pen.svg";
 import ChangeAvatar from "./change-avatar";
 
 interface ProfileCardProps {
@@ -102,7 +101,7 @@ const ProfileCard: FC<ProfileCardProps> = ({ profile }) => {
             {profile.username}
          </p>
          <p>
-            Member since:
+            Member since:{" "}
             {format(parseISO(profile.dateRegistered), "dd MMMM yyyy")}
          </p>
          <p className="mt-5 text-3xl font-bold">Your stats: </p>

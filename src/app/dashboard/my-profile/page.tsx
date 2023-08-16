@@ -2,14 +2,14 @@ import { FC } from "react";
 import { cookies } from "next/headers";
 import { UserInfo } from "@/types/user-info";
 import ProfileCard from "@/modules/dashboard/my-profile/profile-card";
-import ProfileChangeForm from "@/modules/dashboard/my-profile/profile-change.form";
+import ProfileChangeForms from "@/modules/dashboard/my-profile/profile-change-forms";
 
 const getProfileData = async () => {
    const cookieStore = cookies();
    const JWT = cookieStore.get("JWT");
 
    const res = await fetch(`${process.env.URL}/api/user/profile`, {
-      headers: { Authorization: `Bearer ${JWT?.value}` },
+      headers: { Authorization: JWT?.value as string },
    });
 
    if (!res.ok) {
@@ -25,7 +25,7 @@ const MyProfile: FC = async () => {
    return (
       <div className="ml-0 grid gap-10 lg:grid-cols-[3fr_2fr]">
          <ProfileCard profile={profileData} />
-         <ProfileChangeForm profile={profileData} />
+         <ProfileChangeForms profile={profileData} />
       </div>
    );
 };
