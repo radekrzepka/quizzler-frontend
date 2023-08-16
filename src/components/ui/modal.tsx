@@ -1,5 +1,5 @@
 import { FC, ReactNode } from "react";
-import CloseIcon from "./../../assets/close-icon.svg";
+import CloseIcon from "./../../assets/icons/close-icon.svg";
 import Image from "next/image";
 import { createPortal } from "react-dom";
 

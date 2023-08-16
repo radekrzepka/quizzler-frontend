@@ -15,9 +15,8 @@ export async function POST(request: Request) {
 
    const data = await res.json();
 
-   if (res.status === 200) {
-      cookies().set("JWT", data);
-   }
-
-   return NextResponse.json(data, { status: res.status });
+   return NextResponse.json(
+      { token: data, status: res.status },
+      { status: res.status },
+   );
 }

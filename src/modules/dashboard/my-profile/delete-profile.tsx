@@ -8,6 +8,7 @@ import { deleteCookie, getCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
 import ErrorMessage from "@/components/ui/error-message";
 import classNames from "classnames";
+import { toast } from "react-hot-toast";
 
 interface DeleteProfileProps {}
 
@@ -15,7 +16,6 @@ const DeleteProfile: FC<DeleteProfileProps> = ({}) => {
    const [showModal, setShowModal] = useState(false);
    const [buttonLoading, setButtonLoading] = useState(false);
    const { register, handleSubmit, getValues } = useForm();
-   const [showErrorMessage, setShowErrorMessage] = useState(false);
    const router = useRouter();
 
    const { password } = getValues();
@@ -44,10 +44,11 @@ const DeleteProfile: FC<DeleteProfileProps> = ({}) => {
       onSettled: (res) => {
          if (res?.status === 200) {
             deleteCookie("JWT");
+            toast.success("Account has been deleted");
             router.push("/");
          } else {
-            setShowErrorMessage(true);
             setButtonLoading(false);
+            toast.error("Please provide correct password");
          }
       },
    });
@@ -73,16 +74,7 @@ const DeleteProfile: FC<DeleteProfileProps> = ({}) => {
                      type="password"
                      register={register}
                      name="password"
-                     className={classNames(
-                        !showErrorMessage ? "mb-[23px]" : "",
-                        "mt-[23px]",
-                     )}
                   />
-                  {showErrorMessage && (
-                     <ErrorMessage>
-                        Please provide correct password
-                     </ErrorMessage>
-                  )}
                   <Button
                      variant="primary"
                      type="submit"
@@ -96,7 +88,7 @@ const DeleteProfile: FC<DeleteProfileProps> = ({}) => {
          <h2 className="mt-2 text-3xl font-bold">Delete your account</h2>
          <p className="my-3 text-center">
             If you click on this button, you will delete your account in our
-            store. Make sure you definitely want to do this - your account
+            platform. Make sure you definitely want to do this - your account
             cannot be restored.
          </p>
          <Button

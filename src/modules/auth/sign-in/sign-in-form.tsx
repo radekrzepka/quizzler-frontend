@@ -12,6 +12,8 @@ import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import Modal from "@/components/ui/modal";
 import Link from "next/link";
+import { setCookie } from "cookies-next";
+import toast from "react-hot-toast";
 
 const SignInForm = () => {
    const {
@@ -30,8 +32,8 @@ const SignInForm = () => {
    const { email, password } = getValues();
 
    const { mutate: loginUserMutation, data: response } = useMutation({
-      mutationFn: () => {
-         return fetch(`/api/user/login`, {
+      mutationFn: async () => {
+         const res = await fetch(`/api/user/login`, {
             headers: {
                Accept: "application/json",
                "Content-Type": "application/json",
@@ -42,12 +44,18 @@ const SignInForm = () => {
                password,
             }),
          });
+
+         const data = await res.json();
+
+         return data;
       },
 
       onSettled: (res) => {
          if (res?.status === 200) {
             router.refresh();
             router.push("/dashboard");
+            setCookie("JWT", res.token);
+            toast.success("Logged in");
          } else if (res?.status !== 409 && res?.status !== 400) {
             setOpenErrorModal(true);
          }
@@ -134,7 +142,7 @@ const SignInForm = () => {
                </ErrorMessage>
             )}
          </LabelInputContainer>
-         <div className="flex flex-col justify-between md:flex-row md:gap-3">
+         <div className="flex flex-col justify-between whitespace-nowrap md:flex-row md:gap-3">
             <Button
                type="submit"
                label="Sign in"
@@ -143,8 +151,13 @@ const SignInForm = () => {
                className="mb-3 md:mb-0"
                isLoading={buttonLoading}
             />
-            <Link href="/">
-               <Button type="button" label="Go back" variant="black" />
+            <Link href="/" className="w-full">
+               <Button
+                  type="button"
+                  label="Go back"
+                  variant="black"
+                  className="w-full"
+               />
             </Link>
          </div>
       </form>

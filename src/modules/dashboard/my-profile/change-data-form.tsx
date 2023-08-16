@@ -3,7 +3,7 @@
 import { FC, useState } from "react";
 import { UserInfo } from "@/types/user-info";
 import { useForm } from "react-hook-form";
-import PenImage from "./../../../assets/pen.svg";
+import PenImage from "./../../../assets/icons/pen.svg";
 import Image from "next/image";
 import Button from "@/components/ui/button";
 import TextInput from "@/components/ui/text-input";
@@ -13,7 +13,7 @@ import { changeDataFormSchema } from "./change-data-form-schema";
 import ErrorMessage from "@/components/ui/error-message";
 import { getCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
-import Modal from "@/components/ui/modal";
+import { toast } from "react-hot-toast";
 
 interface ChangeDataFormProps {
    profile: UserInfo;
@@ -22,7 +22,6 @@ interface ChangeDataFormProps {
 const ChangeDataForm: FC<ChangeDataFormProps> = ({ profile }) => {
    const [disabled, setDisabled] = useState(true);
    const [buttonLoading, setButtonLoading] = useState(false);
-   const [showSuccessModal, setShowSuccessModal] = useState(false);
    const router = useRouter();
    const {
       register,
@@ -72,7 +71,10 @@ const ChangeDataForm: FC<ChangeDataFormProps> = ({ profile }) => {
       onSettled: (res) => {
          if (res?.status === 200) {
             router.refresh();
-            setShowSuccessModal(true);
+            toast.success("Data has been changed");
+            setDisabled(true);
+         } else {
+            toast.error(res.message);
          }
          setButtonLoading(false);
       },
@@ -88,11 +90,6 @@ const ChangeDataForm: FC<ChangeDataFormProps> = ({ profile }) => {
          className="flex w-full flex-col items-center"
          onSubmit={handleSubmit(onSubmit)}
       >
-         {showSuccessModal && (
-            <Modal closeModalFunction={() => setShowSuccessModal(false)}>
-               <p>Your data has been changed</p>
-            </Modal>
-         )}
          <h2 className="mt-2 text-3xl font-bold">Profile data</h2>
          <button
             onClick={() => setDisabled((prevState) => !prevState)}
@@ -100,7 +97,7 @@ const ChangeDataForm: FC<ChangeDataFormProps> = ({ profile }) => {
             className="mr-6 self-end"
          >
             <Image
-               className="inline"
+               className="mr-1 inline"
                src={PenImage}
                alt="Icon of pen"
                width={20}
@@ -142,16 +139,9 @@ const ChangeDataForm: FC<ChangeDataFormProps> = ({ profile }) => {
                   register={register}
                   name="username"
                   disabled={disabled}
-                  className={
-                     !errors.username &&
-                     !response?.message?.startsWith("Username")
-                        ? "mb-[23px]"
-                        : ""
-                  }
+                  className={!errors.username ? "mb-[23px]" : ""}
                />
-               {response?.message?.startsWith("Username") && (
-                  <ErrorMessage>Username already taken</ErrorMessage>
-               )}
+
                {errors.username && (
                   <ErrorMessage>{errors.username.message}</ErrorMessage>
                )}
@@ -202,9 +192,6 @@ const ChangeDataForm: FC<ChangeDataFormProps> = ({ profile }) => {
                />
                {errors.currentPassword && (
                   <ErrorMessage>{errors.currentPassword.message}</ErrorMessage>
-               )}
-               {response?.message?.startsWith("Wrong") && (
-                  <ErrorMessage>Wrong password</ErrorMessage>
                )}
             </div>
             <Button
