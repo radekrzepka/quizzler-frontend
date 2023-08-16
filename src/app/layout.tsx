@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/react";
 import { Jaldi } from "next/font/google";
 import Providers from "@/utils/provider";
+import { Toaster } from "react-hot-toast";
 
 export const metadata: Metadata = {
    title: "Quizzler",
@@ -23,6 +24,7 @@ export default function RootLayout({
          <body className={`bg-background text-text ${jaldi.className}`}>
             <Providers>
                {children}
+               <Toaster position="bottom-right" reverseOrder={true} />
                <Analytics />
             </Providers>
          </body>

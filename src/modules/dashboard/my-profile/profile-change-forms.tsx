@@ -6,11 +6,11 @@ import ChangeDataForm from "./change-data-form";
 import ChangePasswordForm from "./change-password-form";
 import DeleteProfile from "./delete-profile";
 
-interface ProfileChangeFormProps {
+interface ProfileChangeFormsProps {
    profile: UserInfo;
 }
 
-const ProfileChangeForm: FC<ProfileChangeFormProps> = ({ profile }) => {
+const ProfileChangeForms: FC<ProfileChangeFormsProps> = ({ profile }) => {
    return (
       <div className="flex flex-col items-center gap-4 rounded-xl bg-text text-background">
          <ChangeDataForm profile={profile} />
@@ -20,4 +20,4 @@ const ProfileChangeForm: FC<ProfileChangeFormProps> = ({ profile }) => {
    );
 };
 
-export default ProfileChangeForm;
+export default ProfileChangeForms;

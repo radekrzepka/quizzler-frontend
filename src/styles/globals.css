@@ -6,3 +6,22 @@
    left: -16px;
    position: relative;
 }
+
+* {
+   scrollbar-width: auto;
+   scrollbar-color: #dfddee #110f1f;
+}
+
+*::-webkit-scrollbar {
+   width: 11px;
+}
+
+*::-webkit-scrollbar-track {
+   background: #110f1f;
+}
+
+*::-webkit-scrollbar-thumb {
+   background-color: #dfddee;
+   border-radius: 22px;
+   border: 0px solid #dfddee;
+}

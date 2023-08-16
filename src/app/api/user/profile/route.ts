@@ -1,5 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { cookies, headers } from "next/headers";
+import { headers } from "next/headers";
 
 export async function GET(request: NextRequest) {
    const headersList = headers();

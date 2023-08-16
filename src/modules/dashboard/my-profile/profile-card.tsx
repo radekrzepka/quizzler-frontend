@@ -13,7 +13,9 @@ import {
    parseISO,
 } from "date-fns";
 import { ChartData } from "@/types/chart-data";
+import Image from "next/image";
 import classNames from "classnames";
+import ChangeAvatar from "./change-avatar";
 
 interface ProfileCardProps {
    profile: UserInfo;
@@ -51,6 +53,7 @@ const ProfileCard: FC<ProfileCardProps> = ({ profile }) => {
       useState<Date>(subDays(today, 30));
    const [flashcardLearnedStartDate, setFlashcardLearnedStartDate] =
       useState<Date>(subDays(today, 30));
+   const [showAvatarChangeModal, setShowAvatarChangeModal] = useState(false);
 
    const flashcardCreatedStatsData = useMemo(() => {
       return generateRandomData(
@@ -66,11 +69,28 @@ const ProfileCard: FC<ProfileCardProps> = ({ profile }) => {
 
    return (
       <div className="flex flex-col items-center rounded-xl bg-text text-background">
+         {showAvatarChangeModal && (
+            <ChangeAvatar
+               profile={profile}
+               closeModalFunction={() => setShowAvatarChangeModal(false)}
+            />
+         )}
          {profile.firstName && (
             <h2 className="mt-2 text-3xl font-bold">
                {profile.firstName} {profile?.lastName}
             </h2>
          )}
+         <button
+            className="relative inline-block"
+            onClick={() => setShowAvatarChangeModal(true)}
+         >
+            <Image
+               width={64}
+               height={64}
+               src={`/images/avatars/avatar_${profile.avatar}.png`}
+               alt={`Avatar of ${profile.username}`}
+            />
+         </button>
 
          <p
             className={classNames(

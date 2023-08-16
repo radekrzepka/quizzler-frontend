@@ -2,7 +2,7 @@
 
 import { FC, useState } from "react";
 import { useForm } from "react-hook-form";
-import PenImage from "./../../../assets/pen.svg";
+import PenImage from "./../../../assets/icons/pen.svg";
 import Image from "next/image";
 import Button from "@/components/ui/button";
 import TextInput from "@/components/ui/text-input";
@@ -16,6 +16,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import Modal from "@/components/ui/modal";
 import ErrorMessage from "@/components/ui/error-message";
+import { toast } from "react-hot-toast";
 
 const ChangePasswordForm: FC = () => {
    const [disabled, setDisabled] = useState(true);
@@ -60,6 +61,9 @@ const ChangePasswordForm: FC = () => {
          if (res?.status === 200) {
             router.refresh();
             setShowSuccessModal(true);
+            toast.success("Password has been changed");
+         } else {
+            toast.error(res.message);
          }
 
          setButtonLoading(false);
@@ -68,8 +72,6 @@ const ChangePasswordForm: FC = () => {
 
    const onSubmit = () => {
       updatePasswordMutation();
-      console.log("test");
-
       setButtonLoading(true);
    };
 
@@ -100,7 +102,7 @@ const ChangePasswordForm: FC = () => {
             className="mr-6 self-end"
          >
             <Image
-               className="inline"
+               className="mr-1 inline"
                src={PenImage}
                alt="Icon of pen"
                width={20}
@@ -156,11 +158,6 @@ const ChangePasswordForm: FC = () => {
                {errors.repeatedNewPassword && (
                   <ErrorMessage>
                      {errors.repeatedNewPassword?.message}
-                  </ErrorMessage>
-               )}
-               {response?.message.startsWith("Wrong") && (
-                  <ErrorMessage>
-                     Please provide correct old password
                   </ErrorMessage>
                )}
             </div>

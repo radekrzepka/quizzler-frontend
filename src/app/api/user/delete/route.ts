@@ -11,7 +11,7 @@ export async function DELETE(request: Request) {
          headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
-            Authorization: `Bearer ${JWT as string}`,
+            Authorization: JWT as string,
          },
          method: "DELETE",
          body: JSON.stringify(requestBody),

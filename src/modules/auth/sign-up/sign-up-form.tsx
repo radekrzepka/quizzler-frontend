@@ -12,6 +12,7 @@ import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import Modal from "@/components/ui/modal";
 import Link from "next/link";
+import { toast } from "react-hot-toast";
 
 const SignUpForm = () => {
    const {
@@ -50,8 +51,10 @@ const SignUpForm = () => {
       },
 
       onSettled: (res) => {
-         if (res?.status === 201) router.push("/auth/sign-up-confirmation");
-         else if (res?.status === 409) {
+         if (res?.status === 201) {
+            router.push("/auth/sign-in");
+            toast.success("Created account, you can log in.");
+         } else if (res?.status === 409) {
             setButtonLoading(false);
          } else {
             setOpenErrorModal(true);
@@ -193,7 +196,7 @@ const SignUpForm = () => {
             )}
          </LabelInputContainer>
 
-         <div className="flex flex-col justify-between md:flex-row md:gap-3">
+         <div className="flex flex-col justify-between whitespace-nowrap md:flex-row md:gap-3">
             <Button
                type="submit"
                label="Sign up"
@@ -202,8 +205,13 @@ const SignUpForm = () => {
                className="mb-3 md:mb-0"
                isLoading={buttonLoading}
             />
-            <Link href="/">
-               <Button type="button" label="Go back" variant="black" />
+            <Link href="/" className="w-full">
+               <Button
+                  type="button"
+                  label="Go back"
+                  variant="black"
+                  className="w-full"
+               />
             </Link>
          </div>
       </form>

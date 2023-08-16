@@ -7,13 +7,14 @@ import Button from "@/components/ui/button";
 import DashboardNavigationLink from "@/components/dashboard/dashboard-navigation-link";
 import { deleteCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
+import { toast } from "react-hot-toast";
 
 const DashboardNavigation: FC = () => {
    const [signOutClicked, setSignOutClicked] = useState(false);
    const router = useRouter();
 
    return (
-      <nav className="shadow-shadow my-6 flex flex-col items-center justify-between gap-4 rounded-xl border-[1px] border-borderContainer bg-background p-4 text-text shadow-containerShadow xl:flex-row">
+      <nav className="shadow-shadow my-6 flex flex-col items-center justify-between gap-4 rounded-xl border-[1px] border-borderContainer bg-background p-4 text-text shadow-containerShadow lg:flex-row">
          <Link href={"/dashboard"}>
             <LogoText variant="light">Quizzler</LogoText>
          </Link>
@@ -26,7 +27,7 @@ const DashboardNavigation: FC = () => {
             </li>
          </ul>
          <div className="grid w-full place-items-center lg:block lg:w-auto">
-            <Link href="/dashboard/my-profile">
+            <Link href="/dashboard/my-profile" className="w-full">
                <Button
                   label="My profile"
                   variant="white"
@@ -44,6 +45,7 @@ const DashboardNavigation: FC = () => {
                onClick={() => {
                   deleteCookie("JWT");
                   setSignOutClicked(true);
+                  toast.success("Logged out");
                   router.push("/");
                }}
             />
