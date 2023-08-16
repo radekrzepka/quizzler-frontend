@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import Modal from "@/components/ui/modal";
+import Link from "next/link";
 
 const SignInForm = () => {
    const {
@@ -142,12 +143,9 @@ const SignInForm = () => {
                className="mb-3 md:mb-0"
                isLoading={buttonLoading}
             />
-            <Button
-               type="button"
-               label="Go back"
-               variant="black"
-               onClick={() => router.push("/")}
-            />
+            <Link href="/">
+               <Button type="button" label="Go back" variant="black" />
+            </Link>
          </div>
       </form>
    );

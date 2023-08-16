@@ -3,10 +3,9 @@
 import { FC } from "react";
 import { useRouter } from "next/navigation";
 import Button from "@/components/ui/button";
+import Link from "next/link";
 
-interface SignUpConfirmationProps {}
-
-const SignUpConfirmation: FC<SignUpConfirmationProps> = ({}) => {
+const SignUpConfirmation: FC = () => {
    const router = useRouter();
 
    return (
@@ -16,12 +15,9 @@ const SignUpConfirmation: FC<SignUpConfirmationProps> = ({}) => {
                You have successfully created an account in quizzler. You can now
                sign in.
             </p>
-            <Button
-               type="button"
-               label="Sign in"
-               onClick={() => router.push("/auth/sign-in")}
-               variant="primary"
-            />
+            <Link href="/auth/sign-in">
+               <Button type="button" label="Sign in" variant="primary" />
+            </Link>
          </div>
       </div>
    );
