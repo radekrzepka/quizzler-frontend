@@ -10,30 +10,89 @@ import Select from "@/components/ui/select";
 import { NewLessonForm, newLessonFormSchema } from "./new-lesson-form-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import LabelInput from "@/components/ui/label-input";
+import { useState, useRef } from "react";
+import { useMutation } from "@tanstack/react-query";
 
 const NewLessonForm: FC = () => {
    const {
       register,
       handleSubmit,
       getValues,
+      setValue,
       formState: { errors },
    } = useForm<NewLessonForm>({ resolver: zodResolver(newLessonFormSchema) });
+   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+   const imageInputRef = useRef<HTMLInputElement | null>(null);
+   const { ref, ...rest } = register("image");
 
-   const onSubmit = (data: any) => console.log(data);
-   const { title, description, lessonType } = getValues();
+   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      if (e.target.files && e.target.files[0]) {
+         const imageURL = URL.createObjectURL(e.target.files[0]);
+         setSelectedImage(imageURL);
+         setValue("image", e.target.files[0]);
+      }
+   };
+
+   const { mutate } = useMutation(async (formData: FormData) => {
+      const response = await fetch("/api/lesson/add", {
+         method: "POST",
+         body: formData,
+      });
+
+      if (!response.ok) {
+         throw new Error("Failed to add lesson");
+      }
+
+      return response.json();
+   });
+
+   const onSubmit = (data: NewLessonForm) => {
+      const formData = new FormData();
+      formData.append("title", data.title);
+      formData.append("description", data.description || "");
+      formData.append("lessonType", data.lessonType);
+      if (data.image) {
+         formData.append("image", data.image[0]);
+      }
+
+      mutate(formData);
+   };
 
    return (
       <form
          onSubmit={handleSubmit(onSubmit)}
          className="h-fit rounded-xl bg-text  text-background"
       >
-         <div className="relative h-[200px] w-full cursor-pointer rounded-t-xl bg-gray-700">
-            <Image
-               width={20}
-               height={20}
-               src={WhitePenIcon}
-               alt={`Change image icon`}
-               className="absolute right-2 top-2"
+         <div
+            className="relative h-[400px] w-full cursor-pointer rounded-t-xl bg-gray-700"
+            onClick={() => imageInputRef?.current?.click()}
+         >
+            {selectedImage ? (
+               <Image
+                  src={selectedImage}
+                  alt="Selected lesson image"
+                  fill={true}
+                  className="rounded-t-xl object-cover"
+               />
+            ) : (
+               <Image
+                  width={20}
+                  height={20}
+                  src={WhitePenIcon}
+                  alt={`Change image icon`}
+                  className="absolute right-2 top-2"
+               />
+            )}
+            <input
+               type="file"
+               className="hidden"
+               ref={(e) => {
+                  ref(e);
+                  imageInputRef.current = e;
+               }}
+               accept="image/*"
+               {...rest}
+               onChange={handleImageChange}
             />
          </div>
          <div className="flex flex-col gap-3 p-4">

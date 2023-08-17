@@ -7,7 +7,7 @@ import InputSkeleton from "../ui/input-skeleton";
 const NewLessonFormSkeleton: FC = () => {
    return (
       <div className="h-fit rounded-xl bg-text text-background">
-         <Skeleton height="200px" width="100%" className="!rounded-t-xl" />
+         <Skeleton height="400px" width="100%" className="!rounded-t-xl" />
          <div className="flex flex-col gap-3 p-4">
             <Skeleton height="36px" width="50%" className="self-center" />
             <div className="flex flex-col">
