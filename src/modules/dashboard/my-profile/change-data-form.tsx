@@ -3,17 +3,19 @@
 import { FC, useState } from "react";
 import { UserInfo } from "@/types/user-info";
 import { useForm } from "react-hook-form";
-import PenImage from "./../../../assets/icons/pen.svg";
+import PenImage from "./../../../assets/icons/pen-icon.svg";
 import Image from "next/image";
 import Button from "@/components/ui/button";
-import TextInput from "@/components/ui/text-input";
 import { useMutation } from "@tanstack/react-query";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { changeDataFormSchema } from "./change-data-form-schema";
-import ErrorMessage from "@/components/ui/error-message";
+import {
+   changeDataFormSchema,
+   ChangeDataForm,
+} from "./change-data-form-schema";
 import { getCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
+import LabelInput from "@/components/ui/label-input";
 
 interface ChangeDataFormProps {
    profile: UserInfo;
@@ -28,8 +30,7 @@ const ChangeDataForm: FC<ChangeDataFormProps> = ({ profile }) => {
       handleSubmit,
       getValues,
       formState: { errors },
-      watch,
-   } = useForm({
+   } = useForm<ChangeDataForm>({
       defaultValues: {
          email: profile.email,
          firstName: profile.firstName,
@@ -76,7 +77,16 @@ const ChangeDataForm: FC<ChangeDataFormProps> = ({ profile }) => {
          } else {
             toast.error(res.message);
          }
+
          setButtonLoading(false);
+
+         if (res?.data.message.startsWith("Email")) {
+            toast.error("Email already taken");
+         }
+
+         if (res?.data.message.startsWith("Username")) {
+            toast.error("Username already taken");
+         }
       },
    });
 
@@ -107,92 +117,54 @@ const ChangeDataForm: FC<ChangeDataFormProps> = ({ profile }) => {
          </button>
          <div className="flex w-3/4 flex-col gap-4">
             <div className="flex flex-col">
-               <label className="mr-3" htmlFor="email">
-                  Your email:
-               </label>
-               <TextInput
-                  id="email"
-                  type="email"
+               <LabelInput
+                  label="Your email: "
+                  inputType="email"
+                  disabled={disabled}
                   register={register}
                   name="email"
-                  disabled={disabled}
-                  className={
-                     !errors.email && !response?.message?.startsWith("Email")
-                        ? "mb-[23px]"
-                        : ""
-                  }
+                  errors={errors}
                />
-               {response?.message?.startsWith("Email") && (
-                  <ErrorMessage>Email already taken</ErrorMessage>
-               )}
-               {errors.email && (
-                  <ErrorMessage>{errors.email.message}</ErrorMessage>
-               )}
             </div>
             <div className="flex flex-col">
-               <label className="mr-3" htmlFor="username">
-                  Your username:
-               </label>
-               <TextInput
-                  id="username"
-                  type="text"
+               <LabelInput
+                  label="Your username: "
+                  inputType="text"
+                  disabled={disabled}
                   register={register}
                   name="username"
-                  disabled={disabled}
-                  className={!errors.username ? "mb-[23px]" : ""}
+                  errors={errors}
                />
-
-               {errors.username && (
-                  <ErrorMessage>{errors.username.message}</ErrorMessage>
-               )}
             </div>
             <div className="flex flex-col">
-               <label className="mr-3" htmlFor="firstName">
-                  Your first name:
-               </label>
-               <TextInput
-                  id="firstName"
-                  type="text"
+               <LabelInput
+                  label="Your first name: "
+                  inputType="text"
+                  disabled={disabled}
                   register={register}
                   name="firstName"
-                  disabled={disabled}
-                  className={!errors.firstName ? "mb-[23px]" : ""}
+                  errors={errors}
                />
-               {errors.firstName && (
-                  <ErrorMessage>{errors.firstName.message}</ErrorMessage>
-               )}
             </div>
             <div className="flex flex-col">
-               <label className="mr-3" htmlFor="lastName">
-                  Your last name:
-               </label>
-               <TextInput
-                  id="lastName"
-                  type="text"
+               <LabelInput
+                  label="Your last name: "
+                  inputType="text"
+                  disabled={disabled}
                   register={register}
                   name="lastName"
-                  disabled={disabled}
-                  className={!errors.lastName ? "mb-[23px]" : ""}
+                  errors={errors}
                />
-               {errors.lastName && (
-                  <ErrorMessage>{errors.lastName.message}</ErrorMessage>
-               )}
             </div>
             <div className="flex flex-col">
-               <label className="mr-3" htmlFor="currentPassword">
-                  Current password:
-               </label>
-               <TextInput
-                  id="currentPassword"
-                  type="password"
+               <LabelInput
+                  label="Current password: "
+                  inputType="password"
+                  disabled={disabled}
                   register={register}
                   name="currentPassword"
-                  disabled={disabled}
-                  className={!errors.currentPassword ? "mb-[23px]" : ""}
+                  errors={errors}
                />
-               {errors.currentPassword && (
-                  <ErrorMessage>{errors.currentPassword.message}</ErrorMessage>
-               )}
             </div>
             <Button
                type="submit"

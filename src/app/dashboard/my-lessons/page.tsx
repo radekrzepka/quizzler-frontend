@@ -173,7 +173,7 @@ const getUserLesson = async () => {
 
    //TODO: get data from api
    // const res = await fetch(`${process.env.URL}/api/lesson`, {
-   //    headers: { Authorization: `Bearer ${JWT?.value}` },
+   //    headers: { Authorization: JWT?.value },
    // });
 
    // if (!res.ok) {
@@ -185,7 +185,7 @@ const getUserLesson = async () => {
    return new Promise<Lesson[]>((resolve, reject) => {
       setTimeout(() => {
          resolve(lessons);
-      }, 300);
+      }, 0);
    });
 };
 

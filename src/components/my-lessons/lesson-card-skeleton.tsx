@@ -3,7 +3,7 @@
 import { FC } from "react";
 import Skeleton from "../ui/skeleton";
 
-const LessonCardSkeleton: FC = ({}) => {
+const LessonCardSkeleton: FC = () => {
    return (
       <div className="flex flex-col items-center gap-2 rounded-xl bg-text text-background">
          <Skeleton

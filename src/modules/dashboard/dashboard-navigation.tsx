@@ -14,16 +14,25 @@ const DashboardNavigation: FC = () => {
    const router = useRouter();
 
    return (
-      <nav className="shadow-shadow my-6 flex flex-col items-center justify-between gap-4 rounded-xl border-[1px] border-borderContainer bg-background p-4 text-text shadow-containerShadow lg:flex-row">
+      <nav className="shadow-shadow my-6 flex w-full flex-col items-center justify-between gap-4 rounded-xl border-[1px] border-borderContainer bg-background p-4 text-text shadow-containerShadow lg:flex-row">
          <Link href={"/dashboard"}>
             <LogoText variant="light">Quizzler</LogoText>
          </Link>
-         <ul className="flex gap-1 text-center md:gap-6">
+         <ul className="flex flex-col gap-1 text-center md:flex-row md:gap-6">
             <li className="grid place-items-center">
                <DashboardNavigationLink
                   path="/dashboard/my-lessons"
                   label="My lessons"
                />
+            </li>
+            <li className="grid place-items-center">
+               <DashboardNavigationLink
+                  path="/dashboard/search"
+                  label="Search"
+               />
+            </li>
+            <li className="grid place-items-center">
+               <DashboardNavigationLink path="/dashboard/idk" label="Idk" />
             </li>
          </ul>
          <div className="grid w-full place-items-center lg:block lg:w-auto">

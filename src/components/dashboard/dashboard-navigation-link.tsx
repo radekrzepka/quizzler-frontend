@@ -19,7 +19,7 @@ const DashboardNavigationLink: FC<DashboardNavigationLinkProps> = ({
       <Link
          href={path}
          className={classNames(
-            isSelected && "bg-accent text-gray-950 hover:text-gray-700",
+            isSelected && "text-gray-400",
             "rounded p-1 text-center transition-all hover:text-gray-400 md:p-2",
          )}
       >
