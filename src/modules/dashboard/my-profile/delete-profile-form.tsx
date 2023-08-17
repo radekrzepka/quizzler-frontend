@@ -2,25 +2,26 @@ import { FC, useState } from "react";
 import Button from "@/components/ui/button";
 import Modal from "@/components/ui/modal";
 import { useForm } from "react-hook-form";
-import TextInput from "@/components/ui/text-input";
 import { useMutation } from "@tanstack/react-query";
 import { deleteCookie, getCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
-import ErrorMessage from "@/components/ui/error-message";
-import classNames from "classnames";
 import { toast } from "react-hot-toast";
+import LabelInput from "@/components/ui/label-input";
 
-interface DeleteProfileProps {}
-
-const DeleteProfile: FC<DeleteProfileProps> = ({}) => {
+const DeleteProfileForm: FC = ({}) => {
    const [showModal, setShowModal] = useState(false);
    const [buttonLoading, setButtonLoading] = useState(false);
-   const { register, handleSubmit, getValues } = useForm();
+   const {
+      register,
+      handleSubmit,
+      getValues,
+      formState: { errors },
+   } = useForm();
    const router = useRouter();
 
    const { password } = getValues();
 
-   const { mutate: deleteMutation, data: response } = useMutation({
+   const { mutate: deleteMutation } = useMutation({
       mutationFn: async () => {
          const JWT = getCookie("JWT") as string;
 
@@ -66,14 +67,12 @@ const DeleteProfile: FC<DeleteProfileProps> = ({}) => {
                   className="flex w-4/5 flex-col gap-4 lg:w-3/5 xl:w-2/5"
                   onSubmit={handleSubmit(onSubmit)}
                >
-                  <label className="mr-3" htmlFor="password">
-                     Enter your password to delete account:
-                  </label>
-                  <TextInput
-                     id="password"
-                     type="password"
+                  <LabelInput
+                     label="Enter your password to delete account:"
+                     inputType="password"
                      register={register}
                      name="password"
+                     errors={errors}
                   />
                   <Button
                      variant="primary"
@@ -102,4 +101,4 @@ const DeleteProfile: FC<DeleteProfileProps> = ({}) => {
    );
 };
 
-export default DeleteProfile;
+export default DeleteProfileForm;

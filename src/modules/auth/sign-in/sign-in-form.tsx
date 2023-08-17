@@ -3,17 +3,14 @@
 import { type SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { type SignInForm, signInFormSchema } from "./sign-in-form-schema";
-import TextInput from "@/components/ui/text-input";
 import Button from "@/components/ui/button";
-import LabelInputContainer from "@/components/auth/sign-up/label-input-container";
-import ErrorMessage from "@/components/ui/error-message";
 import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
-import Modal from "@/components/ui/modal";
 import Link from "next/link";
 import { setCookie } from "cookies-next";
 import toast from "react-hot-toast";
+import LabelInput from "@/components/ui/label-input";
 
 const SignInForm = () => {
    const {
@@ -27,11 +24,10 @@ const SignInForm = () => {
 
    const router = useRouter();
    const [buttonLoading, setButtonLoading] = useState(false);
-   const [openErrorModal, setOpenErrorModal] = useState(false);
 
    const { email, password } = getValues();
 
-   const { mutate: loginUserMutation, data: response } = useMutation({
+   const { mutate: loginUserMutation } = useMutation({
       mutationFn: async () => {
          const res = await fetch(`/api/user/login`, {
             headers: {
@@ -56,8 +52,14 @@ const SignInForm = () => {
             router.push("/dashboard");
             setCookie("JWT", `Bearer ${res.token}`);
             toast.success("Logged in");
-         } else if (res?.status !== 409 && res?.status !== 400) {
-            setOpenErrorModal(true);
+         } else if (res?.status === 409) {
+            toast.error("There is no account set up with the given email");
+         } else if (res?.status === 400) {
+            toast.error("Wrong credentials");
+         } else {
+            toast.error(
+               "There is something wrong with server. Try again later.",
+            );
          }
          setButtonLoading(false);
       },
@@ -73,75 +75,24 @@ const SignInForm = () => {
          onSubmit={handleSubmit(onSubmit)}
          className="rounded-md bg-[#f1f1f1] p-6 text-background md:p-10"
       >
-         {openErrorModal && (
-            <Modal
-               closeModalFunction={() => {
-                  setOpenErrorModal(false);
-                  setButtonLoading(false);
-               }}
-            >
-               <div className="text-center">
-                  <p className="mb-3">
-                     We apologize for the inconvenience, but it seems that
-                     something is not quite right with our server at the moment.
-                     We are aware of the issue and are actively working to
-                     resolve it as quickly as possible.
-                  </p>
-                  <p className="mb-3">
-                     Please bear with us while we fix the problem. We appreciate
-                     your patience and understanding.
-                  </p>
-                  <Button
-                     type="button"
-                     variant="primary"
-                     label="Close"
-                     onClick={() => {
-                        setOpenErrorModal(false);
-                        setButtonLoading(false);
-                     }}
-                  />
-               </div>
-            </Modal>
-         )}
-         <LabelInputContainer>
-            <label htmlFor="email">Enter email: </label>
-            <TextInput
-               id="email"
-               type="text"
+         <div className="mb-3 grid grid-cols-1 gap-2 md:grid-cols-1">
+            <LabelInput
+               label="Enter email:"
+               inputType="email"
                register={register}
                name="email"
-               className={!errors.email ? "mb-[23px]" : ""}
+               errors={errors}
             />
-            {errors.email && (
-               <ErrorMessage>{errors.email.message}</ErrorMessage>
-            )}
-         </LabelInputContainer>
-         <LabelInputContainer>
-            <label htmlFor="password">Enter password: </label>
-            <TextInput
-               id="password"
-               type="password"
+         </div>
+         <div className="mb-3 grid grid-cols-1 gap-2 md:grid-cols-1">
+            <LabelInput
+               label="Enter password: "
+               inputType="password"
                register={register}
                name="password"
-               className={
-                  !errors.password &&
-                  !(response?.status === 400 || response?.status === 409)
-                     ? "mb-[23px]"
-                     : ""
-               }
+               errors={errors}
             />
-            {errors.password && (
-               <ErrorMessage>{errors.password.message}</ErrorMessage>
-            )}
-            {response?.status === 400 && (
-               <ErrorMessage> Wrong credentials</ErrorMessage>
-            )}
-            {response?.status === 409 && (
-               <ErrorMessage>
-                  There is no account set up with the given email
-               </ErrorMessage>
-            )}
-         </LabelInputContainer>
+         </div>
          <div className="flex flex-col justify-between whitespace-nowrap md:flex-row md:gap-3">
             <Button
                type="submit"

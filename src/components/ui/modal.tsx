@@ -16,7 +16,7 @@ const Modal: FC<ModalProps> = ({
 }) => {
    return createPortal(
       <div className="fixed left-0 top-0 grid h-screen w-screen place-items-center bg-background bg-opacity-50 text-background">
-         <div className="relative z-20 grid w-3/4 place-items-center rounded-xl bg-text p-5">
+         <div className="relative z-20 grid w-4/5 place-items-center rounded-xl bg-text p-5 lg:w-1/2">
             {displayCloseIcon && (
                <button
                   onClick={() => closeModalFunction?.()}

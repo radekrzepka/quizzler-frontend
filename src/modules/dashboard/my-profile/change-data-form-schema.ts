@@ -23,3 +23,5 @@ export const changeDataFormSchema = z.object({
       .max(20, { message: "Lastname too long (max 20 characters)" })
       .optional(),
 });
+
+export type ChangeDataForm = z.infer<typeof changeDataFormSchema>;

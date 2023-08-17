@@ -3,16 +3,13 @@
 import { type SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { type SignUpForm, signUpFormSchema } from "./sign-up-form-schema";
-import TextInput from "@/components/ui/text-input";
 import Button from "@/components/ui/button";
-import LabelInputContainer from "@/components/auth/sign-up/label-input-container";
-import ErrorMessage from "@/components/ui/error-message";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
-import Modal from "@/components/ui/modal";
 import Link from "next/link";
 import { toast } from "react-hot-toast";
+import LabelInput from "@/components/ui/label-input";
 
 const SignUpForm = () => {
    const {
@@ -27,9 +24,8 @@ const SignUpForm = () => {
    const router = useRouter();
    const { email, username, password, firstName, lastName } = getValues();
    const [buttonLoading, setButtonLoading] = useState(false);
-   const [openErrorModal, setOpenErrorModal] = useState(false);
 
-   const { mutate: registerUserMutation, data: response } = useMutation({
+   const { mutate: registerUserMutation } = useMutation({
       mutationFn: async () => {
          const res = await fetch(`/api/user/register`, {
             headers: {
@@ -54,10 +50,19 @@ const SignUpForm = () => {
          if (res?.status === 201) {
             router.push("/auth/sign-in");
             toast.success("Created account, you can log in.");
-         } else if (res?.status === 409) {
-            setButtonLoading(false);
-         } else {
-            setOpenErrorModal(true);
+         } else if (res?.status !== 409)
+            toast.error(
+               "There is something wrong with server. Try again later.",
+            );
+
+         setButtonLoading(false);
+
+         if (res?.data.message.startsWith("Email")) {
+            toast.error("Email already taken");
+         }
+
+         if (res?.data.message.startsWith("Username")) {
+            toast.error("Username already taken");
          }
       },
    });
@@ -72,129 +77,60 @@ const SignUpForm = () => {
          onSubmit={handleSubmit(onSubmit)}
          className="rounded-md bg-[#f1f1f1] p-6 text-background md:p-10"
       >
-         {openErrorModal && (
-            <Modal
-               closeModalFunction={() => {
-                  setOpenErrorModal(false);
-                  setButtonLoading(false);
-               }}
-            >
-               <div className="text-center">
-                  <p className="mb-3">
-                     We apologize for the inconvenience, but it seems that
-                     something is not quite right with our server at the moment.
-                     We are aware of the issue and are actively working to
-                     resolve it as quickly as possible.
-                  </p>
-                  <p className="mb-3">
-                     Please bear with us while we fix the problem. We appreciate
-                     your patience and understanding.
-                  </p>
-                  <Button
-                     type="button"
-                     variant="primary"
-                     label="Close"
-                     onClick={() => {
-                        setOpenErrorModal(false);
-                        setButtonLoading(false);
-                     }}
-                  />
-               </div>
-            </Modal>
-         )}
-         <LabelInputContainer>
-            <label htmlFor="email">Enter email: * </label>
-            <TextInput
-               id="email"
-               type="email"
+         <div className="mb-3 grid grid-cols-1 gap-2 md:grid-cols-1">
+            <LabelInput
+               label="Enter email: *"
+               inputType="email"
                register={register}
                name="email"
-               className={
-                  !errors.email && !response?.data.message.startsWith("Email")
-                     ? "mb-[23px]"
-                     : ""
-               }
+               errors={errors}
             />
-            {response?.data.message.startsWith("Email") && (
-               <ErrorMessage>Email already taken</ErrorMessage>
-            )}
-            {errors.email && (
-               <ErrorMessage>{errors.email.message}</ErrorMessage>
-            )}
-         </LabelInputContainer>
-         <LabelInputContainer>
-            <label htmlFor="password">Enter password: * </label>
-            <TextInput
-               id="password"
-               type="password"
+         </div>
+         <div className="mb-3 grid grid-cols-1 gap-2 md:grid-cols-1">
+            <LabelInput
+               label="Enter password: *"
+               inputType="password"
                register={register}
                name="password"
-               className={!errors.password ? "mb-[23px]" : ""}
+               errors={errors}
             />
-            {errors.password && (
-               <ErrorMessage>{errors.password.message}</ErrorMessage>
-            )}
-         </LabelInputContainer>
-         <LabelInputContainer>
-            <label htmlFor="repeatedPassword">Repeat password: * </label>
-            <TextInput
-               id="repeatedPassword"
-               type="password"
+         </div>
+         <div className="mb-3 grid grid-cols-1 gap-2 md:grid-cols-1">
+            <LabelInput
+               label="Repeat password: *"
+               inputType="password"
                register={register}
                name="repeatedPassword"
-               className={!errors.repeatedPassword ? "mb-[23px]" : ""}
+               errors={errors}
             />
-            {errors.repeatedPassword && (
-               <ErrorMessage>{errors.repeatedPassword.message}</ErrorMessage>
-            )}
-         </LabelInputContainer>
-         <LabelInputContainer>
-            <label htmlFor="username">Enter username: * </label>
-            <TextInput
-               id="username"
-               type="text"
+         </div>
+         <div className="mb-3 grid grid-cols-1 gap-2 md:grid-cols-1">
+            <LabelInput
+               label="Enter username: *"
+               inputType="text"
                register={register}
                name="username"
-               className={
-                  !errors.username &&
-                  !response?.data.message.startsWith("Username")
-                     ? "mb-[23px]"
-                     : ""
-               }
+               errors={errors}
             />
-            {response?.data.message.startsWith("Username") && (
-               <ErrorMessage>Username already taken</ErrorMessage>
-            )}
-            {errors.username && (
-               <ErrorMessage>{errors.username.message}</ErrorMessage>
-            )}
-         </LabelInputContainer>
-         <LabelInputContainer>
-            <label htmlFor="firstName">Enter first name: </label>
-            <TextInput
-               id="firstName"
-               type="text"
+         </div>
+         <div className="mb-3 grid grid-cols-1 gap-2 md:grid-cols-1">
+            <LabelInput
+               label="Enter first name:"
+               inputType="text"
                register={register}
                name="firstName"
-               className={!errors.firstName ? "mb-[23px]" : ""}
+               errors={errors}
             />
-            {errors.firstName && (
-               <ErrorMessage>{errors.firstName.message}</ErrorMessage>
-            )}
-         </LabelInputContainer>
-         <LabelInputContainer>
-            <label htmlFor="lastName">Enter last name: </label>
-            <TextInput
-               id="lastName"
-               type="text"
+         </div>
+         <div className="mb-3 grid grid-cols-1 gap-2 md:grid-cols-1">
+            <LabelInput
+               label="Enter last name:"
+               inputType="text"
                register={register}
                name="lastName"
-               className={!errors.lastName ? "mb-[23px]" : ""}
+               errors={errors}
             />
-            {errors.lastName && (
-               <ErrorMessage>{errors.lastName.message}</ErrorMessage>
-            )}
-         </LabelInputContainer>
+         </div>
 
          <div className="flex flex-col justify-between whitespace-nowrap md:flex-row md:gap-3">
             <Button
