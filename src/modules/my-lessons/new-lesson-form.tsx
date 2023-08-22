@@ -12,12 +12,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import LabelInput from "@/components/ui/label-input";
 import { useState, useRef } from "react";
 import { useMutation } from "@tanstack/react-query";
+import ErrorMessage from "@/components/ui/error-message";
 
 const NewLessonForm: FC = () => {
    const {
       register,
       handleSubmit,
-      getValues,
+      watch,
       setValue,
       formState: { errors },
    } = useForm<NewLessonForm>({ resolver: zodResolver(newLessonFormSchema) });
@@ -28,8 +29,8 @@ const NewLessonForm: FC = () => {
    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       if (e.target.files && e.target.files[0]) {
          const imageURL = URL.createObjectURL(e.target.files[0]);
-         setSelectedImage(imageURL);
          setValue("image", e.target.files[0]);
+         setSelectedImage(imageURL);
       }
    };
 
@@ -67,21 +68,26 @@ const NewLessonForm: FC = () => {
             className="relative h-[400px] w-full cursor-pointer rounded-t-xl bg-gray-700"
             onClick={() => imageInputRef?.current?.click()}
          >
-            {selectedImage ? (
-               <Image
-                  src={selectedImage}
-                  alt="Selected lesson image"
-                  fill={true}
-                  className="rounded-t-xl object-cover"
-               />
-            ) : (
-               <Image
-                  width={20}
-                  height={20}
-                  src={WhitePenIcon}
-                  alt={`Change image icon`}
-                  className="absolute right-2 top-2"
-               />
+            {selectedImage && (
+               <div className="absolute inset-0">
+                  <Image
+                     src={selectedImage}
+                     alt="Selected lesson image"
+                     fill={true}
+                     className="h-full w-full rounded-t-xl object-cover"
+                  />
+               </div>
+            )}
+
+            {!selectedImage && (
+               <div className="absolute right-2 top-2">
+                  <Image
+                     width={20}
+                     height={20}
+                     src={WhitePenIcon}
+                     alt={`Change image icon`}
+                  />
+               </div>
             )}
             <input
                type="file"
@@ -90,12 +96,15 @@ const NewLessonForm: FC = () => {
                   ref(e);
                   imageInputRef.current = e;
                }}
-               accept="image/*"
+               accept="image/png, image/jpeg, image/webp, image/jpg"
                {...rest}
                onChange={handleImageChange}
             />
          </div>
          <div className="flex flex-col gap-3 p-4">
+            {errors.image && (
+               <ErrorMessage>{errors.image?.message as string}</ErrorMessage>
+            )}
             <h2 className="text-center text-3xl font-bold">Add new lesson</h2>
             <div className="flex flex-col">
                <LabelInput

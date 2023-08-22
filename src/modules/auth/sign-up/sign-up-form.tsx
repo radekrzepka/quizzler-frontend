@@ -75,7 +75,7 @@ const SignUpForm = () => {
    return (
       <form
          onSubmit={handleSubmit(onSubmit)}
-         className="rounded-md bg-[#f1f1f1] p-6 text-background md:p-10"
+         className="w-4/5 rounded-md bg-[#f1f1f1] p-6 text-background md:w-3/5 xl:w-auto xl:p-10"
       >
          <div className="mb-3 grid grid-cols-1 gap-2 md:grid-cols-1">
             <LabelInput

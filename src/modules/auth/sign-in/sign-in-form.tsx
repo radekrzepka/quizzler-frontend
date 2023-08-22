@@ -73,7 +73,7 @@ const SignInForm = () => {
    return (
       <form
          onSubmit={handleSubmit(onSubmit)}
-         className="rounded-md bg-[#f1f1f1] p-6 text-background md:p-10"
+         className="w-3/4 rounded-md bg-text p-6 text-background md:w-auto md:p-10"
       >
          <div className="mb-3 grid grid-cols-1 gap-2 md:grid-cols-1">
             <LabelInput
