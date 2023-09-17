@@ -19,12 +19,13 @@ export const newLessonFormSchema = z.object({
    lessonType: z.enum(["public", "private"]),
    image: z
       .any()
-      .refine((file) => file?.size <= MAX_FILE_SIZE, `Max image size is 5MB.`)
-      .refine(
-         (file) => ACCEPTED_IMAGE_TYPES.includes(file?.type),
-         "Only .jpg, .jpeg, .png and .webp formats are supported.",
-      )
-      .optional(),
+      // .refine((file) => file?.size <= MAX_FILE_SIZE, `Max image size is 5MB.`)
+      // .refine(
+      //    (file) => ACCEPTED_IMAGE_TYPES.includes(file?.type),
+      //    "Only .jpg, .jpeg, .png and .webp formats are supported.",
+      // )
+      .optional()
+      .nullable(),
 });
 
 export type NewLessonForm = z.infer<typeof newLessonFormSchema>;

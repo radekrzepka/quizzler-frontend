@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import Button from "@/components/ui/button";
 import LogoText from "@/components/ui/logo-text";
 import { useState } from "react";
@@ -9,7 +8,6 @@ import { useState } from "react";
 const HomeNavigation = () => {
    const [signInButtonLoading, setSignInButtonLoading] = useState(false);
    const [signUpButtonLoading, setSignUpButtonLoading] = useState(false);
-   const router = useRouter();
 
    return (
       <header>

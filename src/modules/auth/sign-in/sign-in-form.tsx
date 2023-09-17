@@ -73,8 +73,15 @@ const SignInForm = () => {
    return (
       <form
          onSubmit={handleSubmit(onSubmit)}
-         className="w-3/4 rounded-md bg-text p-6 text-background md:w-auto md:p-10"
+         className="w-3/4 rounded-md bg-text p-6 text-background xl:w-1/3"
       >
+         <h2 className="text-center text-4xl font-bold">Log in</h2>
+         <h3 className="text-center font-bold">
+            Don&apos;t have an account ?{" "}
+            <Link className="underline" href="/auth/sign-up">
+               Sign up
+            </Link>
+         </h3>
          <div className="mb-3 grid grid-cols-1 gap-2 md:grid-cols-1">
             <LabelInput
                label="Enter email:"
@@ -93,13 +100,13 @@ const SignInForm = () => {
                errors={errors}
             />
          </div>
-         <div className="flex flex-col justify-between whitespace-nowrap md:flex-row md:gap-3">
+         <div className="flex flex-col justify-between whitespace-nowrap sm:flex-row sm:gap-3">
             <Button
                type="submit"
                label="Sign in"
                variant="primary"
                onClick={handleSubmit(onSubmit)}
-               className="mb-3 md:mb-0"
+               className="mb-3 w-full md:mb-0"
                isLoading={buttonLoading}
             />
             <Link href="/" className="w-full">

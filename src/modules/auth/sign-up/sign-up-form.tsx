@@ -75,8 +75,15 @@ const SignUpForm = () => {
    return (
       <form
          onSubmit={handleSubmit(onSubmit)}
-         className="w-4/5 rounded-md bg-[#f1f1f1] p-6 text-background md:w-3/5 xl:w-auto xl:p-10"
+         className="w-4/5 rounded-md bg-text p-6 text-background md:w-3/5 xl:w-2/5 xl:p-10"
       >
+         <h2 className="text-center text-4xl font-bold">Create an account</h2>
+         <h3 className="text-center font-bold">
+            Already have an account?{" "}
+            <Link className="underline" href="/auth/sign-in">
+               Sign in
+            </Link>
+         </h3>
          <div className="mb-3 grid grid-cols-1 gap-2 md:grid-cols-1">
             <LabelInput
                label="Enter email: *"
@@ -138,7 +145,7 @@ const SignUpForm = () => {
                label="Sign up"
                variant="primary"
                onClick={handleSubmit(onSubmit)}
-               className="mb-3 md:mb-0"
+               className="mb-3 w-full md:mb-0"
                isLoading={buttonLoading}
             />
             <Link href="/" className="w-full">
