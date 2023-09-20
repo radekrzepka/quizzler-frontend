@@ -41,7 +41,7 @@ const NewLessonForm: FC = () => {
       const response = await fetch("/api/lesson/add", {
          headers: {
             Authorization: JWT,
-            Accept: "text/plain",
+            Accept: "text/json",
          },
          method: "POST",
          body: formData,
