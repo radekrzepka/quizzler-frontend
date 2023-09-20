@@ -70,6 +70,7 @@ const ProfileCard: FC<ProfileCardProps> = ({ profile }) => {
 
    return (
       <div className="flex flex-col items-center rounded-xl bg-text text-background">
+         <h2 className="mt-2 text-3xl font-bold">Profile card</h2>
          {showAvatarChangeModal && (
             <ChangeAvatar
                profile={profile}
