@@ -17,11 +17,11 @@ async function handleRequest(
    try {
       const data = await res.json();
       return NextResponse.json(
-         { data, status: res.status },
+         { data },
          { status: res.status },
       );
    } catch {
-      return NextResponse.json({ status: res.status }, { status: res.status });
+      return NextResponse.json({}, { status: res.status });
    }
 }
 
