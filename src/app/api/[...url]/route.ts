@@ -30,3 +30,13 @@ export const POST = (request: Request, params: { params: { url: string[] } }) =>
 
 export const GET = (request: Request, params: { params: { url: string[] } }) =>
    handleRequest(request, params, "GET");
+
+export const PATCH = (
+   request: Request,
+   params: { params: { url: string[] } },
+) => handleRequest(request, params, "PATCH");
+
+export const DELETE = (
+   request: Request,
+   params: { params: { url: string[] } },
+) => handleRequest(request, params, "DELETE");

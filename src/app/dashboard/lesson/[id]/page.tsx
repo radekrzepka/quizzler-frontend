@@ -23,7 +23,6 @@ const Lesson = async ({
    searchParams: { [key: string]: string | string[] | undefined };
 }) => {
    const lessonData = await getLesson(params.id);
-   console.log(lessonData);
 
    return <div>Lesson {params.id}</div>;
 };

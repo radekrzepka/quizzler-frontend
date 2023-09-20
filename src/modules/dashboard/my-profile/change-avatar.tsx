@@ -38,9 +38,7 @@ const ChangeAvatar: FC<ChangeAvatarProps> = ({
             }),
          });
 
-         const data = await res.json();
-
-         return data;
+         return res.json();
       },
 
       onSettled: (res) => {

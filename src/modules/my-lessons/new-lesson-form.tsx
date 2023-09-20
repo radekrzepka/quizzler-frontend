@@ -38,7 +38,7 @@ const NewLessonForm: FC = () => {
    const { mutate } = useMutation(async (formData: FormData) => {
       const JWT = getCookie("JWT") as string;
 
-      const response = await fetch("/api/lesson/add", {
+      const res = await fetch("/api/lesson/add", {
          headers: {
             Authorization: JWT,
             Accept: "text/json",
@@ -47,11 +47,11 @@ const NewLessonForm: FC = () => {
          body: formData,
       });
 
-      if (!response.ok) {
+      if (!res.ok) {
          throw new Error("Failed to add lesson");
       }
 
-      return response.json();
+      return res.json();
    });
 
    const onSubmit = (data: NewLessonForm) => {

@@ -41,16 +41,14 @@ const SignInForm = () => {
             }),
          });
 
-         const data = await res.json();
-
-         return data;
+         return res.json();
       },
 
       onSettled: (res) => {
          if (res?.status === 200) {
             router.refresh();
             router.push("/dashboard");
-            setCookie("JWT", `Bearer ${res.token}`);
+            setCookie("JWT", `Bearer ${res.data}`);
             toast.success("Logged in");
          } else if (res?.status === 409) {
             toast.error("There is no account set up with the given email");

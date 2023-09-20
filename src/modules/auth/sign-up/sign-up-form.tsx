@@ -42,8 +42,7 @@ const SignUpForm = () => {
             }),
          });
 
-         const data = await res.json();
-         return { status: res.status, data };
+         return res.json();
       },
 
       onSettled: (res) => {
@@ -57,11 +56,11 @@ const SignUpForm = () => {
 
          setButtonLoading(false);
 
-         if (res?.data.message.startsWith("Email")) {
+         if (res?.data.startsWith("Email")) {
             toast.error("Email already taken");
          }
 
-         if (res?.data.message.startsWith("Username")) {
+         if (res?.data.startsWith("Username")) {
             toast.error("Username already taken");
          }
       },
