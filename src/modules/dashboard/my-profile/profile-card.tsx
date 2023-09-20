@@ -16,6 +16,7 @@ import { ChartData } from "@/types/chart-data";
 import Image from "next/image";
 import classNames from "classnames";
 import ChangeAvatar from "./change-avatar";
+import PenImage from "./../../../assets/icons/pen-icon.svg";
 
 interface ProfileCardProps {
    profile: UserInfo;
@@ -67,8 +68,11 @@ const ProfileCard: FC<ProfileCardProps> = ({ profile }) => {
       );
    }, [flashcardLearnedStartDate]);
 
+   console.log(profile);
+
    return (
       <div className="flex flex-col items-center rounded-xl bg-text text-background">
+         <h2 className="mt-2 text-3xl font-bold">Profile card</h2>
          {showAvatarChangeModal && (
             <ChangeAvatar
                profile={profile}
@@ -89,6 +93,14 @@ const ProfileCard: FC<ProfileCardProps> = ({ profile }) => {
                height={64}
                src={`/images/avatars/avatar_${profile.avatar}.png`}
                alt={`Avatar of ${profile.username}`}
+               className="mt-2"
+            />
+            <Image
+               width={15}
+               height={15}
+               className="absolute right-[-3px] top-[10px]"
+               alt="Change avatar pen icon"
+               src={PenImage}
             />
          </button>
 

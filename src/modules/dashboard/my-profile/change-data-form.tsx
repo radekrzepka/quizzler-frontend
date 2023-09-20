@@ -64,9 +64,7 @@ const ChangeDataForm: FC<ChangeDataFormProps> = ({ profile }) => {
             }),
          });
 
-         const data = await res.json();
-
-         return data;
+         return res.json();
       },
 
       onSettled: (res) => {

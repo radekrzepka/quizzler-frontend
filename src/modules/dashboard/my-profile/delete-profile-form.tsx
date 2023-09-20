@@ -37,9 +37,7 @@ const DeleteProfileForm: FC = ({}) => {
             }),
          });
 
-         const data = await res.json();
-
-         return data;
+         return res.json();
       },
 
       onSettled: (res) => {

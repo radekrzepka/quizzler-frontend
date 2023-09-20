@@ -38,9 +38,7 @@ const ChangeAvatar: FC<ChangeAvatarProps> = ({
             }),
          });
 
-         const data = await res.json();
-
-         return data;
+         return res.json();
       },
 
       onSettled: (res) => {
@@ -72,7 +70,7 @@ const ChangeAvatar: FC<ChangeAvatarProps> = ({
                         src={`/images/avatars/avatar_${index + 1}.png`}
                         className={classNames(
                            selectedAvatar - 1 === index &&
-                              "border border-black",
+                              "border-2 border-black",
                            "rounded-full",
                         )}
                      />

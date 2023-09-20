@@ -20,7 +20,8 @@ const getProfileData = async () => {
 };
 
 const MyProfile: FC = async () => {
-   const profileData: UserInfo = await getProfileData();
+   const { data: profileData }: { data: UserInfo; status: number } =
+      await getProfileData();
 
    return (
       <div className="ml-0 grid gap-10 lg:grid-cols-[3fr_2fr]">

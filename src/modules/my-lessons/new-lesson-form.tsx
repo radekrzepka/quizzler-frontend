@@ -13,6 +13,7 @@ import LabelInput from "@/components/ui/label-input";
 import { useState, useRef } from "react";
 import { useMutation } from "@tanstack/react-query";
 import ErrorMessage from "@/components/ui/error-message";
+import { getCookie } from "cookies-next";
 
 const NewLessonForm: FC = () => {
    const {
@@ -35,25 +36,34 @@ const NewLessonForm: FC = () => {
    };
 
    const { mutate } = useMutation(async (formData: FormData) => {
-      const response = await fetch("/api/lesson/add", {
+      const JWT = getCookie("JWT") as string;
+
+      const res = await fetch("/api/lesson/add", {
+         headers: {
+            Authorization: JWT,
+            Accept: "text/json",
+         },
          method: "POST",
          body: formData,
       });
 
-      if (!response.ok) {
+      if (!res.ok) {
          throw new Error("Failed to add lesson");
       }
 
-      return response.json();
+      return res.json();
    });
 
    const onSubmit = (data: NewLessonForm) => {
       const formData = new FormData();
-      formData.append("title", data.title);
-      formData.append("description", data.description || "");
-      formData.append("lessonType", data.lessonType);
+      formData.append("Title", watch("title"));
+      formData.append("description", watch("description") || "");
+      formData.append(
+         "isPublic",
+         watch("lessonType") === "public" ? "true" : "false",
+      );
       if (data.image) {
-         formData.append("image", data.image[0]);
+         formData.append("image", watch("image"));
       }
 
       mutate(formData);
