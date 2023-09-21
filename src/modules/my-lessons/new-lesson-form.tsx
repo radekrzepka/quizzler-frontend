@@ -14,6 +14,10 @@ import { useState, useRef } from "react";
 import { useMutation } from "@tanstack/react-query";
 import ErrorMessage from "@/components/ui/error-message";
 import { getCookie } from "cookies-next";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
+import ImageInput from "@/components/ui/image-input";
+import ImageContainer from "@/components/ui/image-container";
 
 const NewLessonForm: FC = () => {
    const {
@@ -23,38 +27,42 @@ const NewLessonForm: FC = () => {
       setValue,
       formState: { errors },
    } = useForm<NewLessonForm>({ resolver: zodResolver(newLessonFormSchema) });
+
+   const [buttonLoading, setButtonLoading] = useState(false);
+   const router = useRouter();
    const [selectedImage, setSelectedImage] = useState<string | null>(null);
    const imageInputRef = useRef<HTMLInputElement | null>(null);
-   const { ref, ...rest } = register("image");
 
-   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      if (e.target.files && e.target.files[0]) {
-         const imageURL = URL.createObjectURL(e.target.files[0]);
-         setValue("image", e.target.files[0]);
-         setSelectedImage(imageURL);
-      }
-   };
+   const { mutate } = useMutation({
+      mutationFn: async (formData: FormData) => {
+         const JWT = getCookie("JWT") as string;
 
-   const { mutate } = useMutation(async (formData: FormData) => {
-      const JWT = getCookie("JWT") as string;
+         const res = await fetch("/api/lesson/add", {
+            headers: {
+               Authorization: JWT,
+               Accept: "text/json",
+            },
+            method: "POST",
+            body: formData,
+         });
 
-      const res = await fetch("/api/lesson/add", {
-         headers: {
-            Authorization: JWT,
-            Accept: "text/json",
-         },
-         method: "POST",
-         body: formData,
-      });
-
-      if (!res.ok) {
-         throw new Error("Failed to add lesson");
-      }
-
-      return res.json();
+         return res.json();
+      },
+      onSettled: ({ data, status }) => {
+         if (status === 201) {
+            const lessonId = data.split(" ")[2];
+            router.push(`/dashboard/lesson/${lessonId}?edit=true`);
+            toast.success("Lesson added successfully");
+         } else if (status === 400) {
+            toast.error("Lesson with this name already exists");
+         }
+         setButtonLoading(false);
+      },
    });
 
    const onSubmit = (data: NewLessonForm) => {
+      setButtonLoading(true);
+
       const formData = new FormData();
       formData.append("Title", watch("title"));
       formData.append("description", watch("description") || "");
@@ -78,37 +86,18 @@ const NewLessonForm: FC = () => {
             className="relative h-[400px] w-full cursor-pointer rounded-t-xl bg-gray-700"
             onClick={() => imageInputRef?.current?.click()}
          >
-            {selectedImage && (
-               <div className="absolute inset-0">
-                  <Image
-                     src={selectedImage}
-                     alt="Selected lesson image"
-                     fill={true}
-                     className="h-full w-full rounded-t-xl object-cover"
-                  />
-               </div>
-            )}
-
-            {!selectedImage && (
-               <div className="absolute right-2 top-2">
-                  <Image
-                     width={20}
-                     height={20}
-                     src={WhitePenIcon}
-                     alt={`Change image icon`}
-                  />
-               </div>
-            )}
-            <input
-               type="file"
-               className="hidden"
-               ref={(e) => {
-                  ref(e);
-                  imageInputRef.current = e;
-               }}
-               accept="image/png, image/jpeg, image/webp, image/jpg"
-               {...rest}
-               onChange={handleImageChange}
+            <ImageContainer
+               name="image"
+               setSelectedImage={setSelectedImage}
+               setValue={setValue}
+               selectedImage={selectedImage}
+            />
+            <ImageInput
+               setValue={setValue}
+               name="image"
+               register={register}
+               setSelectedImage={setSelectedImage}
+               imageInputRef={imageInputRef}
             />
          </div>
          <div className="flex flex-col gap-3 p-4">
@@ -152,7 +141,7 @@ const NewLessonForm: FC = () => {
                />
             </div>
 
-            <Button variant="primary" type="submit">
+            <Button variant="primary" type="submit" isLoading={buttonLoading}>
                Add new lesson
             </Button>
          </div>

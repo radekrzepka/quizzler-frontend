@@ -1,3 +1,4 @@
+import EditLesson from "@/modules/lesson/edit-lesson";
 import { cookies } from "next/headers";
 
 const getLesson = async (id: string) => {
@@ -20,9 +21,12 @@ const Lesson = async ({
    searchParams,
 }: {
    params: { id: string };
-   searchParams: { [key: string]: string | string[] | undefined };
+   searchParams: { [key: string]: string };
 }) => {
-   const lessonData = await getLesson(params.id);
+   const lesson = await getLesson(params.id);
+   const editLesson = searchParams?.edit === "true";
+
+   if (editLesson) return <EditLesson lesson={lesson} />;
 
    return <div>Lesson {params.id}</div>;
 };
