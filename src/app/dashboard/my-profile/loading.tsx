@@ -1,7 +1,7 @@
 "use client";
 
-import ProfileCardSkeleton from "@/components/dashboard/my-profile/profile-card-skeleton";
-import ProfileFormsSkeleton from "@/components/dashboard/my-profile/profile-forms-skeleton";
+import ProfileCardSkeleton from "@/components/my-profile/profile-card-skeleton";
+import ProfileFormsSkeleton from "@/components/my-profile/profile-forms-skeleton";
 
 export default function Loading() {
    return (
