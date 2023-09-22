@@ -26,7 +26,12 @@ const NewLessonForm: FC = () => {
       watch,
       setValue,
       formState: { errors },
-   } = useForm<NewLessonForm>({ resolver: zodResolver(newLessonFormSchema) });
+   } = useForm<NewLessonForm>({
+      resolver: zodResolver(newLessonFormSchema),
+      defaultValues: {
+         image: null,
+      },
+   });
 
    const [buttonLoading, setButtonLoading] = useState(false);
    const router = useRouter();
@@ -60,18 +65,20 @@ const NewLessonForm: FC = () => {
       },
    });
 
-   const onSubmit = (data: NewLessonForm) => {
+   const onSubmit = () => {
       setButtonLoading(true);
 
       const formData = new FormData();
-      formData.append("Title", watch("title"));
+      formData.append("title", watch("title"));
       formData.append("description", watch("description") || "");
       formData.append(
          "isPublic",
          watch("lessonType") === "public" ? "true" : "false",
       );
-      if (data.image) {
-         formData.append("image", watch("image"));
+
+      const watchedImage = watch("image");
+      if (watchedImage !== undefined) {
+         formData.append("image", watchedImage);
       }
 
       mutate(formData);

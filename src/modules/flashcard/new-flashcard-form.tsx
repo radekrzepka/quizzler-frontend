@@ -12,12 +12,26 @@ import LabelInput from "@/components/ui/label-input";
 import { useState, useRef } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { getCookie } from "cookies-next";
-import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import ImageInput from "@/components/ui/image-input";
 import ImageContainer from "@/components/ui/image-container";
+import {
+   RefetchOptions,
+   RefetchQueryFilters,
+   QueryObserverResult,
+} from "@tanstack/react-query";
 
-const NewFlashcardForm: FC = () => {
+interface NewFlashcardFormProps {
+   lessonId: number;
+   onFlashcardAdded: <TPageData>(
+      options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined,
+   ) => Promise<QueryObserverResult<any, unknown>>;
+}
+
+const NewFlashcardForm: FC<NewFlashcardFormProps> = ({
+   lessonId,
+   onFlashcardAdded,
+}) => {
    const {
       register,
       handleSubmit,
@@ -26,10 +40,13 @@ const NewFlashcardForm: FC = () => {
       formState: { errors },
    } = useForm<NewFlashcardForm>({
       resolver: zodResolver(newFlashcardFormSchema),
+      defaultValues: {
+         questionImage: null,
+         answerImage: null,
+      },
    });
 
    const [buttonLoading, setButtonLoading] = useState(false);
-   const router = useRouter();
 
    const [selectedQuestionImage, setSelectedQuestionImage] = useState<
       string | null
@@ -44,7 +61,7 @@ const NewFlashcardForm: FC = () => {
       mutationFn: async (formData: FormData) => {
          const JWT = getCookie("JWT") as string;
 
-         const res = await fetch("/api/lesson/add", {
+         const res = await fetch("/api/flashcard/add", {
             headers: {
                Authorization: JWT,
                Accept: "text/json",
@@ -57,29 +74,35 @@ const NewFlashcardForm: FC = () => {
       },
       onSettled: ({ data, status }) => {
          if (status === 201) {
-            const lessonId = data.split(" ")[2];
-            router.push(`/dashboard/lesson/${lessonId}?edit=true`);
-            toast.success("Lesson added successfully");
-         } else if (status === 400) {
-            toast.error("Lesson with this name already exists");
+            toast.success("Flashcard added successfully");
+            onFlashcardAdded();
+         } else {
+            toast.error("Error when adding flashcard");
          }
          setButtonLoading(false);
       },
    });
 
-   const onSubmit = (data: NewFlashcardForm) => {
-      //   setButtonLoading(true);
-      //   const formData = new FormData();
-      //   formData.append("Title", watch("title"));
-      //   formData.append("description", watch("description") || "");
-      //   formData.append(
-      //      "isPublic",
-      //      watch("lessonType") === "public" ? "true" : "false",
-      //   );
-      //   if (data.image) {
-      //      formData.append("image", watch("image"));
-      //   }
-      //   mutate(formData);
+   console.log(lessonId);
+
+   const onSubmit = () => {
+      setButtonLoading(true);
+      const formData = new FormData();
+      formData.append("lessonId", lessonId.toString());
+      formData.append("questionText", watch("question") || "");
+      formData.append("answerText", watch("answer") || "");
+
+      const watchedQuestionImage = watch("questionImage");
+      if (watchedQuestionImage !== undefined) {
+         formData.append("questionImage", watchedQuestionImage);
+      }
+
+      const watchedAnswerImage = watch("questionImage");
+      if (watchedQuestionImage !== undefined) {
+         formData.append("answerImage", watchedAnswerImage);
+      }
+
+      mutate(formData);
    };
 
    return (
@@ -100,26 +123,6 @@ const NewFlashcardForm: FC = () => {
                   errors={errors}
                />
             </div>
-            <p>Add question image: </p>
-            <div
-               className="relative h-[300px] w-1/2 cursor-pointer rounded-xl bg-gray-700"
-               onClick={() => questionImageInputRef?.current?.click()}
-            >
-               <ImageContainer
-                  name="questionImage"
-                  selectedImage={selectedQuestionImage}
-                  setSelectedImage={setSelectedQuestionImage}
-                  setValue={setValue}
-                  fullRounded
-               />
-               <ImageInput
-                  setValue={setValue}
-                  name="questionImage"
-                  register={register}
-                  setSelectedImage={setSelectedQuestionImage}
-                  imageInputRef={questionImageInputRef}
-               />
-            </div>
             <div className="flex flex-col">
                <LabelInput
                   label="Answer:"
@@ -129,29 +132,55 @@ const NewFlashcardForm: FC = () => {
                   errors={errors}
                />
             </div>
-            <p>Add answer image: </p>
-            <div
-               className="relative h-[300px] w-1/2 cursor-pointer rounded-xl bg-gray-700"
-               onClick={() => answerImageInputRef?.current?.click()}
-            >
-               <ImageContainer
-                  name="answerImage"
-                  selectedImage={selectedAnswerImage}
-                  setSelectedImage={setSelectedAnswerImage}
-                  setValue={setValue}
-                  fullRounded
-               />
-               <ImageInput
-                  setValue={setValue}
-                  name="answerImage"
-                  register={register}
-                  setSelectedImage={setSelectedAnswerImage}
-                  imageInputRef={answerImageInputRef}
-               />
+            <div className="grid grid-cols-2 gap-4">
+               <div>
+                  <p>Add question image: </p>
+                  <div
+                     className="relative h-[300px] cursor-pointer rounded-xl bg-gray-700"
+                     onClick={() => questionImageInputRef?.current?.click()}
+                  >
+                     <ImageContainer
+                        name="questionImage"
+                        selectedImage={selectedQuestionImage}
+                        setSelectedImage={setSelectedQuestionImage}
+                        setValue={setValue}
+                        fullRounded
+                     />
+                     <ImageInput
+                        setValue={setValue}
+                        name="questionImage"
+                        register={register}
+                        setSelectedImage={setSelectedQuestionImage}
+                        imageInputRef={questionImageInputRef}
+                     />
+                  </div>
+               </div>
+               <div>
+                  <p>Add answer image: </p>
+                  <div
+                     className="relative h-[300px] cursor-pointer rounded-xl bg-gray-700"
+                     onClick={() => answerImageInputRef?.current?.click()}
+                  >
+                     <ImageContainer
+                        name="answerImage"
+                        selectedImage={selectedAnswerImage}
+                        setSelectedImage={setSelectedAnswerImage}
+                        setValue={setValue}
+                        fullRounded
+                     />
+                     <ImageInput
+                        setValue={setValue}
+                        name="answerImage"
+                        register={register}
+                        setSelectedImage={setSelectedAnswerImage}
+                        imageInputRef={answerImageInputRef}
+                     />
+                  </div>
+               </div>
             </div>
 
             <Button variant="primary" type="submit" isLoading={buttonLoading}>
-               Add new lesson
+               Add new flashcard
             </Button>
          </div>
       </form>
