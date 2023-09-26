@@ -10,7 +10,7 @@ interface ImageInputProps<T extends FieldValues> {
       value: any,
       options?: Partial<{ shouldValidate: boolean; shouldDirty: boolean }>,
    ) => void;
-   setSelectedImage: Dispatch<SetStateAction<string | null>>;
+   setSelectedImage: Dispatch<SetStateAction<string | null | undefined>>;
    imageInputRef: MutableRefObject<HTMLInputElement | null>;
    showInput?: boolean;
 }

@@ -4,9 +4,10 @@ import DeleteIcon from "./../../assets/icons/delete-icon.svg";
 import classNames from "classnames";
 import { FieldValues, Path } from "react-hook-form";
 import { Dispatch, SetStateAction, FC } from "react";
+import { Flashcard } from "@/types/flashcard";
 
 interface ImageContainerProps<T> {
-   selectedImage: string | null;
+   selectedImage: string | null | undefined;
    fullRounded?: boolean;
    name: Path<T>;
    setValue: (
@@ -14,7 +15,7 @@ interface ImageContainerProps<T> {
       value: any,
       options?: Partial<{ shouldValidate: boolean; shouldDirty: boolean }>,
    ) => void;
-   setSelectedImage: Dispatch<SetStateAction<string | null>>;
+   setSelectedImage: Dispatch<SetStateAction<string | null | undefined>>;
 }
 
 const ImageContainer = <T extends FieldValues>({
@@ -24,13 +25,19 @@ const ImageContainer = <T extends FieldValues>({
    setValue,
    setSelectedImage,
 }: ImageContainerProps<T>) => {
+   const isImageFromServer = selectedImage?.includes("/images");
+
    return (
       <>
          {selectedImage && (
             <div className="absolute inset-0">
                <Image
-                  src={selectedImage}
-                  alt="Selected lesson image"
+                  src={
+                     isImageFromServer
+                        ? `http://104.250.180.67${selectedImage}`
+                        : selectedImage
+                  }
+                  alt={`Selected ${name}`}
                   fill={true}
                   className={classNames(
                      "h-full w-full object-cover",

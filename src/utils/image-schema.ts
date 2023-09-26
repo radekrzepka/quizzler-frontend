@@ -13,7 +13,7 @@ const imageSchema = z
    .optional()
    .refine(
       (file) => {
-         if (!file) return true;
+         if (!file || typeof file === "string") return true;
          return (
             file.size <= MAX_FILE_SIZE &&
             ACCEPTED_IMAGE_TYPES.includes(file.type)

@@ -1,5 +1,5 @@
 import { Flashcard } from "@/types/flashcard";
-import { FC } from "react";
+import { FC, Dispatch, SetStateAction } from "react";
 import Image from "next/image";
 import PenIcon from "./../../assets/icons/white-pen-icon.svg";
 import DeleteIcon from "./../../assets/icons/delete-icon.svg";
@@ -18,14 +18,22 @@ interface FlashcardListRowProps {
    refetchLesson: <TPageData>(
       options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined,
    ) => Promise<QueryObserverResult<Lesson, unknown>>;
+   setFlashcardToEdit: Dispatch<SetStateAction<Flashcard | null>>;
+   setSelectedMode: Dispatch<SetStateAction<"Add" | "Edit">>;
+   flashcardToEdit: Flashcard | null;
 }
 
 const FlashcardListRow: FC<FlashcardListRowProps> = ({
    flashcard,
    refetchLesson,
+   setFlashcardToEdit,
+   setSelectedMode,
+   flashcardToEdit,
 }) => {
    const { mutate: deleteFlashcardMutation } = useMutation({
       mutationFn: () => {
+         if (flashcardToEdit?.flashcardId === flashcard.flashcardId)
+            setFlashcardToEdit(null);
          const JWT = getCookie("JWT") as string;
 
          return fetch(
@@ -53,7 +61,12 @@ const FlashcardListRow: FC<FlashcardListRowProps> = ({
             {flashcard.questionText} {flashcard.answerText}
          </p>
          <div className="flex gap-1">
-            <button>
+            <button
+               onClick={() => {
+                  setFlashcardToEdit(flashcard);
+                  setSelectedMode("Edit");
+               }}
+            >
                <Image
                   width={20}
                   height={20}

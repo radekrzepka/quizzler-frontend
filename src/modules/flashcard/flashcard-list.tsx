@@ -1,5 +1,5 @@
 import { Flashcard } from "@/types/flashcard";
-import { FC } from "react";
+import { FC, Dispatch, SetStateAction } from "react";
 import FlashcardListRow from "./flashcard-list-row";
 import {
    RefetchOptions,
@@ -13,11 +13,17 @@ interface FlashcardListProps {
    refetchLesson: <TPageData>(
       options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined,
    ) => Promise<QueryObserverResult<Lesson, unknown>>;
+   setFlashcardToEdit: Dispatch<SetStateAction<Flashcard | null>>;
+   setSelectedMode: Dispatch<SetStateAction<"Add" | "Edit">>;
+   flashcardToEdit: Flashcard | null;
 }
 
 const FlashcardList: FC<FlashcardListProps> = ({
    flashcards,
    refetchLesson,
+   setFlashcardToEdit,
+   setSelectedMode,
+   flashcardToEdit,
 }) => {
    return (
       <div className="h-[70vh] overflow-y-auto rounded-xl bg-text p-4 text-background">
@@ -25,9 +31,12 @@ const FlashcardList: FC<FlashcardListProps> = ({
          <div className="flex flex-col gap-2">
             {flashcards.map((flashcard) => (
                <FlashcardListRow
-                  flashcard={flashcard}
                   key={flashcard.flashcardId}
+                  flashcard={flashcard}
                   refetchLesson={refetchLesson}
+                  setFlashcardToEdit={setFlashcardToEdit}
+                  setSelectedMode={setSelectedMode}
+                  flashcardToEdit={flashcardToEdit}
                />
             ))}
          </div>
