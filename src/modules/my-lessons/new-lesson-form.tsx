@@ -35,7 +35,9 @@ const NewLessonForm: FC = () => {
 
    const [buttonLoading, setButtonLoading] = useState(false);
    const router = useRouter();
-   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+   const [selectedImage, setSelectedImage] = useState<
+      string | null | undefined
+   >(null);
    const imageInputRef = useRef<HTMLInputElement | null>(null);
 
    const { mutate } = useMutation({
