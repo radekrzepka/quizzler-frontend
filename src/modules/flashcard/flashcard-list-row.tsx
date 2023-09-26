@@ -16,6 +16,7 @@ import classNames from "classnames";
 
 interface FlashcardListRowProps {
    flashcard: Flashcard;
+   index: number;
    refetchLesson: <TPageData>(
       options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined,
    ) => Promise<QueryObserverResult<Lesson, unknown>>;
@@ -27,6 +28,7 @@ interface FlashcardListRowProps {
 
 const FlashcardListRow: FC<FlashcardListRowProps> = ({
    flashcard,
+   index,
    refetchLesson,
    setFlashcardToEdit,
    setSelectedMode,
@@ -61,14 +63,18 @@ const FlashcardListRow: FC<FlashcardListRowProps> = ({
    return (
       <div
          className={classNames(
-            "flex w-full justify-between rounded-md bg-gray-500 p-2 text-left text-text",
+            "flex w-full justify-between rounded-md bg-gray-500 p-1 text-left text-text",
             flashcardToEdit?.flashcardId === flashcard.flashcardId &&
                selectedMode === "Edit" &&
                "bg-gray-400",
          )}
       >
-         <p>
-            {flashcard.questionText} {flashcard.answerText}
+         <p className="text-lg font-bold">
+            {index + 1}. {flashcard.questionText}
+            <span className="text-base font-normal">
+               {" "}
+               {flashcard.answerText}
+            </span>
          </p>
          <div className="flex gap-1">
             <button

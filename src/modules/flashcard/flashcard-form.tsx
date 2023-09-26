@@ -151,7 +151,7 @@ const FlashcardForm: FC<FlashcardFormProps> = ({
          formData.append("questionImage", watchedQuestionImage);
       }
 
-      const watchedAnswerImage = watch("questionImage");
+      const watchedAnswerImage = watch("answerImage");
 
       if (watchedAnswerImage && typeof watchedAnswerImage !== "string") {
          formData.append("answerImage", watchedAnswerImage);
