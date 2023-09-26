@@ -12,6 +12,7 @@ import {
 } from "@tanstack/react-query";
 import { Lesson } from "@/types/lesson";
 import toast from "react-hot-toast";
+import classNames from "classnames";
 
 interface FlashcardListRowProps {
    flashcard: Flashcard;
@@ -21,6 +22,7 @@ interface FlashcardListRowProps {
    setFlashcardToEdit: Dispatch<SetStateAction<Flashcard | null>>;
    setSelectedMode: Dispatch<SetStateAction<"Add" | "Edit">>;
    flashcardToEdit: Flashcard | null;
+   selectedMode: "Add" | "Edit";
 }
 
 const FlashcardListRow: FC<FlashcardListRowProps> = ({
@@ -28,6 +30,7 @@ const FlashcardListRow: FC<FlashcardListRowProps> = ({
    refetchLesson,
    setFlashcardToEdit,
    setSelectedMode,
+   selectedMode,
    flashcardToEdit,
 }) => {
    const { mutate: deleteFlashcardMutation } = useMutation({
@@ -56,7 +59,14 @@ const FlashcardListRow: FC<FlashcardListRowProps> = ({
    });
 
    return (
-      <div className="flex w-full justify-between rounded-md bg-gray-500 p-2 text-left text-text">
+      <div
+         className={classNames(
+            "flex w-full justify-between rounded-md bg-gray-500 p-2 text-left text-text",
+            flashcardToEdit?.flashcardId === flashcard.flashcardId &&
+               selectedMode === "Edit" &&
+               "bg-gray-400",
+         )}
+      >
          <p>
             {flashcard.questionText} {flashcard.answerText}
          </p>

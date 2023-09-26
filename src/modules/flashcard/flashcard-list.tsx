@@ -16,6 +16,7 @@ interface FlashcardListProps {
    setFlashcardToEdit: Dispatch<SetStateAction<Flashcard | null>>;
    setSelectedMode: Dispatch<SetStateAction<"Add" | "Edit">>;
    flashcardToEdit: Flashcard | null;
+   selectedMode: "Add" | "Edit";
 }
 
 const FlashcardList: FC<FlashcardListProps> = ({
@@ -24,6 +25,7 @@ const FlashcardList: FC<FlashcardListProps> = ({
    setFlashcardToEdit,
    setSelectedMode,
    flashcardToEdit,
+   selectedMode,
 }) => {
    return (
       <div className="h-[70vh] overflow-y-auto rounded-xl bg-text p-4 text-background">
@@ -36,6 +38,7 @@ const FlashcardList: FC<FlashcardListProps> = ({
                   refetchLesson={refetchLesson}
                   setFlashcardToEdit={setFlashcardToEdit}
                   setSelectedMode={setSelectedMode}
+                  selectedMode={selectedMode}
                   flashcardToEdit={flashcardToEdit}
                />
             ))}

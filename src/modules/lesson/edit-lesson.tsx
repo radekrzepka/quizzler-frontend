@@ -34,6 +34,7 @@ const EditLesson: FC<EditLessonProps> = ({ lesson, refetchLesson }) => {
          />
 
          <FlashcardList
+            selectedMode={selectedMode}
             setFlashcardToEdit={setFlashcardToEdit}
             setSelectedMode={setSelectedMode}
             flashcards={lesson.flashcards}
