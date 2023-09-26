@@ -16,7 +16,7 @@ import { ChartData } from "@/types/chart-data";
 import Image from "next/image";
 import classNames from "classnames";
 import ChangeAvatar from "./change-avatar";
-import PenImage from "./../../../assets/icons/pen-icon.svg";
+import PenImage from "./../../assets/icons/pen-icon.svg";
 
 interface ProfileCardProps {
    profile: UserInfo;
@@ -67,8 +67,6 @@ const ProfileCard: FC<ProfileCardProps> = ({ profile }) => {
          generateDateRange(flashcardLearnedStartDate, today),
       );
    }, [flashcardLearnedStartDate]);
-
-   console.log(profile);
 
    return (
       <div className="flex flex-col items-center rounded-xl bg-text text-background">

@@ -3,6 +3,7 @@
 import { Lesson } from "@/types/lesson";
 import { FC } from "react";
 import { formatDistanceToNow, parseISO } from "date-fns";
+import { utcToZonedTime } from "date-fns-tz";
 import Link from "next/link";
 import Image from "next/image";
 import PenIcon from "./../../assets/icons/pen-icon.svg";
@@ -14,14 +15,26 @@ interface LessonCardProps {
 
 const LessonCard: FC<LessonCardProps> = ({ lesson }) => {
    const router = useRouter();
+   const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+   const dateCreated = lesson.dateCreated + "Z";
+   const localDate = utcToZonedTime(new Date(dateCreated), timeZone);
 
    return (
       <div
          onClick={() => router.push(`/dashboard/lesson/${lesson.lessonId}`)}
          className="flex w-full cursor-pointer flex-col items-center rounded-xl bg-text text-background"
       >
-         <div className="h-[200px] w-full rounded-t-xl bg-gray-700"></div>
-         {/*TODO: add image of lesson*/}
+         {lesson.imagePath ? (
+            <Image
+               className="h-[200px] w-full rounded-t-xl bg-gray-700"
+               src={`http://104.250.180.67${lesson.imagePath}`}
+               alt={`Image of ${lesson.title} lesson`}
+               width={500}
+               height={200}
+            />
+         ) : (
+            <div className="h-[200px] w-full rounded-t-xl bg-gray-700" />
+         )}
          <div className="my-3 w-full gap-1">
             <div className="relative flex items-center justify-center">
                <h2 className="text-center text-xl font-bold">{lesson.title}</h2>
@@ -42,8 +55,11 @@ const LessonCard: FC<LessonCardProps> = ({ lesson }) => {
             <p className="text-center text-sm text-gray-700">
                {lesson.description}
             </p>
+            <p className="text-center text-sm font-bold text-gray-700">
+               Added {formatDistanceToNow(localDate)} ago
+            </p>
             <p className="text-center text-sm text-gray-700">
-               Added {formatDistanceToNow(parseISO(lesson.dateCreated))} ago
+               {lesson.isPublic ? "Public" : "Private"} lesson
             </p>
          </div>
       </div>

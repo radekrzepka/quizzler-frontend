@@ -46,6 +46,8 @@ const ChangeAvatar: FC<ChangeAvatarProps> = ({
             router.refresh();
             toast.success("Avatar has been changed");
             closeModalFunction();
+         } else {
+            toast.error("Error when changing avatar");
          }
          setButtonLoading(false);
       },

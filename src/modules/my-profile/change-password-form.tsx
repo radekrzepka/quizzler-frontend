@@ -2,7 +2,7 @@
 
 import { FC, useState } from "react";
 import { useForm } from "react-hook-form";
-import PenImage from "./../../../assets/icons/pen-icon.svg";
+import PenImage from "./../../assets/icons/pen-icon.svg";
 import Image from "next/image";
 import Button from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";

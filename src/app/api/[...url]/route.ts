@@ -8,11 +8,16 @@ async function handleRequest(
    const bodyBuffer = await request.arrayBuffer();
    const endpointUrl = params.url.join("/");
 
-   const res = await fetch(`${process.env.API_URL}/${endpointUrl}`, {
-      headers: request.headers,
-      method,
-      body: bodyBuffer.byteLength > 0 ? bodyBuffer : null,
-   });
+   const parsedUrl = new URL(request.url || "");
+
+   const res = await fetch(
+      `${process.env.API_URL}/${endpointUrl}${parsedUrl.search}`,
+      {
+         headers: request.headers,
+         method,
+         body: bodyBuffer.byteLength > 0 ? bodyBuffer : null,
+      },
+   );
 
    try {
       const data = await res.json();
