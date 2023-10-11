@@ -2,7 +2,7 @@ import { Flashcard } from "@/types/flashcard";
 import { FC, Dispatch, SetStateAction } from "react";
 import Image from "next/image";
 import PenIcon from "./../../assets/icons/white-pen-icon.svg";
-import DeleteIcon from "./../../assets/icons/delete-icon.svg";
+import DeleteIcon from "./../../assets/icons/white-delete-icon.svg";
 import { useMutation } from "@tanstack/react-query";
 import { getCookie } from "cookies-next";
 import {
@@ -12,22 +12,27 @@ import {
 } from "@tanstack/react-query";
 import { Lesson } from "@/types/lesson";
 import toast from "react-hot-toast";
+import classNames from "classnames";
 
 interface FlashcardListRowProps {
    flashcard: Flashcard;
+   index: number;
    refetchLesson: <TPageData>(
       options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined,
    ) => Promise<QueryObserverResult<Lesson, unknown>>;
    setFlashcardToEdit: Dispatch<SetStateAction<Flashcard | null>>;
    setSelectedMode: Dispatch<SetStateAction<"Add" | "Edit">>;
    flashcardToEdit: Flashcard | null;
+   selectedMode: "Add" | "Edit";
 }
 
 const FlashcardListRow: FC<FlashcardListRowProps> = ({
    flashcard,
+   index,
    refetchLesson,
    setFlashcardToEdit,
    setSelectedMode,
+   selectedMode,
    flashcardToEdit,
 }) => {
    const { mutate: deleteFlashcardMutation } = useMutation({
@@ -56,9 +61,20 @@ const FlashcardListRow: FC<FlashcardListRowProps> = ({
    });
 
    return (
-      <div className="flex w-full justify-between rounded-md bg-gray-500 p-2 text-left text-text">
-         <p>
-            {flashcard.questionText} {flashcard.answerText}
+      <div
+         className={classNames(
+            "flex w-full justify-between rounded-md bg-gray-500 p-1 text-left text-text",
+            flashcardToEdit?.flashcardId === flashcard.flashcardId &&
+               selectedMode === "Edit" &&
+               "bg-gray-400",
+         )}
+      >
+         <p className="text-lg font-bold">
+            {index + 1}. {flashcard.questionText}
+            <span className="text-base font-normal">
+               {" "}
+               {flashcard.answerText}
+            </span>
          </p>
          <div className="flex gap-1">
             <button

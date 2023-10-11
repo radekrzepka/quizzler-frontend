@@ -124,6 +124,7 @@ const FlashcardForm: FC<FlashcardFormProps> = ({
          if (status === 201) {
             toast.success("Flashcard added successfully");
             onFlashcardAdded();
+            reset();
          } else {
             toast.error("Error when adding flashcard");
          }
@@ -151,13 +152,17 @@ const FlashcardForm: FC<FlashcardFormProps> = ({
          formData.append("questionImage", watchedQuestionImage);
       }
 
-      const watchedAnswerImage = watch("questionImage");
+      const watchedAnswerImage = watch("answerImage");
 
       if (watchedAnswerImage && typeof watchedAnswerImage !== "string") {
          formData.append("answerImage", watchedAnswerImage);
       }
 
-      reset();
+      if (selectedMode === "Edit" && !flashcardToEdit) {
+         toast.error("Please select flashcard to edit");
+         return null;
+      }
+
       setSelectedQuestionImage(null);
       setSelectedAnswerImage(null);
       setFlashcardToEdit(null);
@@ -167,8 +172,9 @@ const FlashcardForm: FC<FlashcardFormProps> = ({
    return (
       <form
          onSubmit={handleSubmit(onSubmit)}
-         className="h-fit rounded-xl bg-text text-background"
+         className="rounded-xl bg-text text-background"
       >
+         <input type="submit" style={{ display: "none" }} />
          <div className="flex flex-col gap-3 p-4">
             <h2 className="text-center text-3xl font-bold">
                {selectedMode} new flashcard
@@ -176,7 +182,7 @@ const FlashcardForm: FC<FlashcardFormProps> = ({
             <div className="flex border-collapse justify-between text-center">
                <button
                   className={classNames(
-                     "w-1/2 rounded-lg rounded-r border border-background",
+                     "w-1/2 rounded-lg rounded-r-none border border-background transition duration-300 ease-in-out",
                      selectedMode === "Add" && "bg-primary",
                   )}
                   onClick={(event) => {
@@ -190,7 +196,7 @@ const FlashcardForm: FC<FlashcardFormProps> = ({
                </button>
                <button
                   className={classNames(
-                     "w-1/2 rounded-lg rounded-l-none border border-background",
+                     "w-1/2 rounded-lg rounded-l-none border border-background transition duration-300 ease-in-out",
                      selectedMode === "Edit" && "bg-primary",
                   )}
                   onClick={(event) => {
@@ -201,74 +207,99 @@ const FlashcardForm: FC<FlashcardFormProps> = ({
                   Edit
                </button>
             </div>
-            <div className="flex flex-col">
-               <LabelInput
-                  label="Question:"
-                  inputType="text"
-                  register={register}
-                  name="question"
-                  errors={errors}
-               />
-            </div>
-            <div className="flex flex-col">
-               <LabelInput
-                  label="Answer:"
-                  inputType="text"
-                  register={register}
-                  name="answer"
-                  errors={errors}
-               />
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-               <div>
-                  <p>Add question image: </p>
-                  <div
-                     className="relative h-[300px] cursor-pointer rounded-xl bg-gray-700"
-                     onClick={() => questionImageInputRef?.current?.click()}
-                  >
-                     <ImageContainer
-                        name="questionImage"
-                        selectedImage={selectedQuestionImage}
-                        setSelectedImage={setSelectedQuestionImage}
-                        setValue={setValue}
-                        fullRounded
-                     />
-                     <ImageInput
-                        setValue={setValue}
-                        name="questionImage"
+            <div className="relative">
+               {selectedMode === "Edit" && !flashcardToEdit && (
+                  <div className="absolute inset-0 z-10 flex items-center justify-center">
+                     <h2 className="z-20 text-3xl font-bold">
+                        Please select flashcard to edit on list
+                     </h2>
+                  </div>
+               )}
+               <div
+                  className={classNames(
+                     "transition duration-300 ease-in-out",
+                     selectedMode === "Edit" &&
+                        !flashcardToEdit &&
+                        "pointer-events-none blur-sm",
+                  )}
+               >
+                  <div className="flex flex-col">
+                     <LabelInput
+                        label="Question:"
+                        inputType="text"
                         register={register}
-                        setSelectedImage={setSelectedQuestionImage}
-                        imageInputRef={questionImageInputRef}
+                        name="question"
+                        errors={errors}
                      />
                   </div>
-               </div>
-               <div>
-                  <p>Add answer image: </p>
-                  <div
-                     className="relative h-[300px] cursor-pointer rounded-xl bg-gray-700"
-                     onClick={() => answerImageInputRef?.current?.click()}
-                  >
-                     <ImageContainer
-                        name="answerImage"
-                        selectedImage={selectedAnswerImage}
-                        setSelectedImage={setSelectedAnswerImage}
-                        setValue={setValue}
-                        fullRounded
-                     />
-                     <ImageInput
-                        setValue={setValue}
-                        name="answerImage"
+                  <div className="flex flex-col">
+                     <LabelInput
+                        label="Answer:"
+                        inputType="text"
                         register={register}
-                        setSelectedImage={setSelectedAnswerImage}
-                        imageInputRef={answerImageInputRef}
+                        name="answer"
+                        errors={errors}
                      />
                   </div>
-               </div>
-            </div>
+                  <div className="grid  gap-4 md:grid-cols-2">
+                     <div>
+                        <p>Add question image: </p>
+                        <div
+                           className="relative h-[300px] cursor-pointer rounded-xl bg-gray-700"
+                           onClick={() =>
+                              questionImageInputRef?.current?.click()
+                           }
+                        >
+                           <ImageContainer
+                              name="questionImage"
+                              selectedImage={selectedQuestionImage}
+                              setSelectedImage={setSelectedQuestionImage}
+                              setValue={setValue}
+                              fullRounded
+                           />
+                           <ImageInput
+                              setValue={setValue}
+                              name="questionImage"
+                              register={register}
+                              setSelectedImage={setSelectedQuestionImage}
+                              imageInputRef={questionImageInputRef}
+                           />
+                        </div>
+                     </div>
+                     <div>
+                        <p>Add answer image: </p>
+                        <div
+                           className="relative h-[300px] cursor-pointer rounded-xl bg-gray-700"
+                           onClick={() => answerImageInputRef?.current?.click()}
+                        >
+                           <ImageContainer
+                              name="answerImage"
+                              selectedImage={selectedAnswerImage}
+                              setSelectedImage={setSelectedAnswerImage}
+                              setValue={setValue}
+                              fullRounded
+                           />
+                           <ImageInput
+                              setValue={setValue}
+                              name="answerImage"
+                              register={register}
+                              setSelectedImage={setSelectedAnswerImage}
+                              imageInputRef={answerImageInputRef}
+                           />
+                        </div>
+                     </div>
+                  </div>
 
-            <Button variant="primary" type="submit" isLoading={buttonLoading}>
-               {selectedMode === "Add" ? "Add new" : "Change"} flashcard
-            </Button>
+                  <Button
+                     variant="primary"
+                     type="submit"
+                     className="mt-2 w-full"
+                     isLoading={buttonLoading}
+                  >
+                     {selectedMode === "Add" ? "Add new" : "Change"} flashcard
+                  </Button>
+               </div>
+            </div>
          </div>
       </form>
    );

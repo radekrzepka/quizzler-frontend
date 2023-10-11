@@ -16,6 +16,7 @@ interface FlashcardListProps {
    setFlashcardToEdit: Dispatch<SetStateAction<Flashcard | null>>;
    setSelectedMode: Dispatch<SetStateAction<"Add" | "Edit">>;
    flashcardToEdit: Flashcard | null;
+   selectedMode: "Add" | "Edit";
 }
 
 const FlashcardList: FC<FlashcardListProps> = ({
@@ -24,18 +25,24 @@ const FlashcardList: FC<FlashcardListProps> = ({
    setFlashcardToEdit,
    setSelectedMode,
    flashcardToEdit,
+   selectedMode,
 }) => {
    return (
-      <div className="h-[70vh] overflow-y-auto rounded-xl bg-text p-4 text-background">
+      <div className="overflow-y-auto rounded-xl bg-text p-4 text-background">
          <h2 className="text-center text-3xl font-bold">Flashcards list</h2>
+         <p className="my-1 text-lg">
+            Number of flashcards: {flashcards.length}
+         </p>
          <div className="flex flex-col gap-2">
-            {flashcards.map((flashcard) => (
+            {flashcards.map((flashcard, index) => (
                <FlashcardListRow
                   key={flashcard.flashcardId}
+                  index={index}
                   flashcard={flashcard}
                   refetchLesson={refetchLesson}
                   setFlashcardToEdit={setFlashcardToEdit}
                   setSelectedMode={setSelectedMode}
+                  selectedMode={selectedMode}
                   flashcardToEdit={flashcardToEdit}
                />
             ))}

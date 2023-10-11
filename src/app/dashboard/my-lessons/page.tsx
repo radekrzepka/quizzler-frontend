@@ -19,10 +19,10 @@ const getUserLessons = async () => {
 };
 
 const MyLessons: FC = async () => {
-   const { data: lessons, refetch } = await getUserLessons();
+   const { data: lessons } = await getUserLessons();
 
    return (
-      <div className="ml-0 grid gap-10 lg:grid-cols-[1fr_3fr]">
+      <div className="ml-0 grid gap-10 xl:grid-cols-[1fr_3fr]">
          <NewLessonForm />
          <LessonsList lessons={lessons} />
       </div>
