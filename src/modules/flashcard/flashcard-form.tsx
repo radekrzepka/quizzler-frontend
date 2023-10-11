@@ -124,6 +124,7 @@ const FlashcardForm: FC<FlashcardFormProps> = ({
          if (status === 201) {
             toast.success("Flashcard added successfully");
             onFlashcardAdded();
+            reset();
          } else {
             toast.error("Error when adding flashcard");
          }
@@ -162,7 +163,6 @@ const FlashcardForm: FC<FlashcardFormProps> = ({
          return null;
       }
 
-      reset();
       setSelectedQuestionImage(null);
       setSelectedAnswerImage(null);
       setFlashcardToEdit(null);
@@ -172,8 +172,9 @@ const FlashcardForm: FC<FlashcardFormProps> = ({
    return (
       <form
          onSubmit={handleSubmit(onSubmit)}
-         className="h-fit rounded-xl bg-text text-background"
+         className="rounded-xl bg-text text-background"
       >
+         <input type="submit" style={{ display: "none" }} />
          <div className="flex flex-col gap-3 p-4">
             <h2 className="text-center text-3xl font-bold">
                {selectedMode} new flashcard
@@ -240,7 +241,7 @@ const FlashcardForm: FC<FlashcardFormProps> = ({
                         errors={errors}
                      />
                   </div>
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid  gap-4 md:grid-cols-2">
                      <div>
                         <p>Add question image: </p>
                         <div

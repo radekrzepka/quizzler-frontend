@@ -2,10 +2,8 @@
 
 import Button from "@/components/ui/button";
 import Textarea from "@/components/ui/textarea";
-import Image from "next/image";
 import { FC } from "react";
 import { useForm } from "react-hook-form";
-import WhitePenIcon from "./../../assets/icons/white-pen-icon.svg";
 import Select from "@/components/ui/select";
 import { NewLessonForm, newLessonFormSchema } from "./new-lesson-form-schema";
 import { zodResolver } from "@hookform/resolvers/zod";

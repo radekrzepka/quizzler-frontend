@@ -2,7 +2,7 @@ import { Flashcard } from "@/types/flashcard";
 import { FC, Dispatch, SetStateAction } from "react";
 import Image from "next/image";
 import PenIcon from "./../../assets/icons/white-pen-icon.svg";
-import DeleteIcon from "./../../assets/icons/delete-icon.svg";
+import DeleteIcon from "./../../assets/icons/white-delete-icon.svg";
 import { useMutation } from "@tanstack/react-query";
 import { getCookie } from "cookies-next";
 import {

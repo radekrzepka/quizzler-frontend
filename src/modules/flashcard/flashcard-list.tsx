@@ -28,7 +28,7 @@ const FlashcardList: FC<FlashcardListProps> = ({
    selectedMode,
 }) => {
    return (
-      <div className="h-[70vh] overflow-y-auto rounded-xl bg-text p-4 text-background">
+      <div className="overflow-y-auto rounded-xl bg-text p-4 text-background">
          <h2 className="text-center text-3xl font-bold">Flashcards list</h2>
          <p className="my-1 text-lg">
             Number of flashcards: {flashcards.length}

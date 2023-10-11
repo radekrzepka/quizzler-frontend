@@ -8,6 +8,7 @@ import {
 } from "@tanstack/react-query";
 import FlashcardList from "../flashcard/flashcard-list";
 import { Flashcard } from "@/types/flashcard";
+import EditLessonForm from "./edit-lesson-form";
 
 interface EditLessonProps {
    lesson: Lesson;
@@ -23,7 +24,8 @@ const EditLesson: FC<EditLessonProps> = ({ lesson, refetchLesson }) => {
    const [selectedMode, setSelectedMode] = useState<"Add" | "Edit">("Add");
 
    return (
-      <div className="grid grid-cols-[3fr_1fr] gap-4">
+      <div className="grid gap-4 xl:grid-cols-[2fr_2fr_1fr]">
+         <EditLessonForm lesson={lesson} />
          <FlashcardForm
             lessonId={lesson.lessonId}
             onFlashcardAdded={refetchLesson}

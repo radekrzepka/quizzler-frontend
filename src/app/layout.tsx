@@ -24,7 +24,7 @@ export default function RootLayout({
          <body className={`bg-background text-text ${jaldi.className}`}>
             <Providers>
                {children}
-               <Toaster position="bottom-right" reverseOrder={true} />
+               <Toaster position="top-right" reverseOrder={true} />
                <Analytics />
             </Providers>
          </body>
