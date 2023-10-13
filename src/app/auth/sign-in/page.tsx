@@ -3,7 +3,7 @@ import { FC } from "react";
 
 const SignIn: FC = () => {
    return (
-      <div className="mt-20 grid w-full place-items-center lg:mt-0 lg:h-[100vh]">
+      <div className="grid w-full place-items-center h-screen">
          <SignInForm />
       </div>
    );
