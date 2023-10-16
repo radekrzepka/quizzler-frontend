@@ -24,7 +24,7 @@ const LineChart: FC<LineChartProps> = ({ data, id }) => {
             <Line type="monotone" dataKey="value" stroke="#141326" />
             <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
             <XAxis dataKey="name" />
-            <YAxis />
+            <YAxis allowDecimals={false}/>
             <Tooltip />
          </RechartLineChart>
       </ResponsiveContainer>

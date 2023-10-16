@@ -1,15 +1,14 @@
 import { FC } from "react";
-import { cookies } from "next/headers";
 import { UserInfo } from "@/types/user-info";
 import ProfileCard from "@/modules/my-profile/profile-card";
 import ProfileChangeForms from "@/modules/my-profile/profile-change-forms";
+import { LogData } from "@/types/log-data";
+import getJWT from "@/utils/get-jwt";
 
-const getProfileData = async () => {
-   const cookieStore = cookies();
-   const JWT = cookieStore.get("JWT");
 
-   const res = await fetch(`${process.env.URL}/api/user/profile`, {
-      headers: { Authorization: JWT?.value as string },
+const fetchFromAPI = async (endpoint: string, JWT: string | undefined) => {
+   const res = await fetch(`${process.env.URL}${endpoint}`, {
+      headers: { Authorization: JWT as string },
    });
 
    if (!res.ok) {
@@ -17,15 +16,31 @@ const getProfileData = async () => {
    }
 
    return res.json();
+}
+
+const getProfileData = async () => {
+   return (await fetchFromAPI("/api/user/profile", getJWT())).data;
 };
 
+const getStatsData = async(): Promise<[Date[], LogData[]]> => {
+   const JWT = getJWT();
+   const [createdRes, learnedRes] = await Promise.all([
+     fetchFromAPI("/api/user/flashcardsCreated", JWT),
+     fetchFromAPI("/api/user/logs", JWT),
+   ]);
+ 
+   return [createdRes.data, learnedRes.data];
+};
+   
 const MyProfile: FC = async () => {
-   const { data: profileData }: { data: UserInfo; status: number } =
-      await getProfileData();
+   const profileData: UserInfo =    
+      await getProfileData(); 
+   const [createdData, learnedData]: [Date[], LogData[]] = 
+      await getStatsData();
 
    return (
       <div className="ml-0 grid gap-10 lg:grid-cols-[3fr_2fr]">
-         <ProfileCard profile={profileData} />
+         <ProfileCard profile={profileData} createdDates={createdData} learnedDates={learnedData}/>
          <ProfileChangeForms profile={profileData} />
       </div>
    );
