@@ -7,67 +7,98 @@ import { UserInfo } from "@/types/user-info";
 import { generateAbbreviation } from "@/utils/generate-abbreviation";
 import classNames from "classnames";
 import {
-   addDays,
-   format,
-   isBefore,
-   isEqual,
-   parseISO,
-   subDays,
+  subDays,
+  format,
+  parseISO,
 } from "date-fns";
+import { ChartData, ChartRecord } from "@/types/chart-data";
 import Image from "next/image";
 import { FC, useMemo, useState } from "react";
 import PenImage from "./../../assets/icons/pen-icon.svg";
-import ChangeAvatar from "./change-avatar";
+import { LogData } from "@/types/log-data";
 
 interface ProfileCardProps {
-   profile: UserInfo;
+  profile: UserInfo;
+  createdDates: Date[];
+  learnedDates: LogData[];
 }
-
-const generateDateRange = (startDate: Date, endDate: Date): Date[] => {
-   let currentDate = startDate;
-   const dateArray: Date[] = [];
-
-   while (isBefore(currentDate, endDate) || isEqual(currentDate, endDate)) {
-      dateArray.push(currentDate);
-      currentDate = addDays(currentDate, 1);
-   }
-
-   return dateArray;
-};
-
-// TODO: Convert to real api data
-const generateRandomData = (dataRange: Date[]) => {
-   const data: ChartData = [];
-   for (const date of dataRange) {
-      data.push({
-         name: format(date, "dd MMMM yyyy"),
-         value: Math.floor(Math.random() * 10),
-      });
-   }
-
-   return data;
-};
 
 const today = new Date();
 
-const ProfileCard: FC<ProfileCardProps> = ({ profile }) => {
-   const [flashcardCreatedStartDate, setFlashcardCreatedStartDate] =
-      useState<Date>(subDays(today, 30));
-   const [flashcardLearnedStartDate, setFlashcardLearnedStartDate] =
-      useState<Date>(subDays(today, 30));
-   const [isOpen, setIsOpen] = useState(false);
+const generateEmptyDates = () => {
+  const dates = new Map<string, number>();
+  for (let i = 365; i >= 0; i--) {
+    dates.set(format(subDays(today, i), "dd MMMM yyyy"), 0);
+  }
+  return dates;
+};
 
-   const flashcardCreatedStatsData = useMemo(() => {
-      return generateRandomData(
-         generateDateRange(flashcardCreatedStartDate, today),
-      );
-   }, [flashcardCreatedStartDate]);
+const datesChartFormat = (data: Date[], template: Map<string, number>) => {
+  data.sort();
+  const dateCounts = template;
+  data.forEach(date => {
+    const formattedDate: string = format(new Date(date), "dd MMMM yyyy");
+    if (dateCounts.has(formattedDate)) {
+      dateCounts.set(formattedDate, dateCounts.get(formattedDate)! + 1);
+    } else {
+      dateCounts.set(formattedDate, 1);
+    }
+  });
+  return Array.from(dateCounts, ([name, value]) => ({ name, value }));
+};
 
-   const flashcardLearnedStatsData = useMemo(() => {
-      return generateRandomData(
-         generateDateRange(flashcardLearnedStartDate, today),
-      );
-   }, [flashcardLearnedStartDate]);
+const reduceData = (data: ChartRecord[]) => {
+   const recordsLength = data.length;
+   if (recordsLength <= 20) return data;
+
+   let newSize = 12;
+   const chunkSize = Math.ceil(recordsLength / newSize);
+   const result: ChartRecord[] = [];
+   for (let i = 0; i < recordsLength; i += chunkSize) {
+     const chunk = data.slice(i, i + chunkSize);
+     const avgValue = chunk.reduce((acc, data) => acc + data.value, 0) / chunk.length;
+     result.push({
+       name: chunk.map(c => c.name)[0],
+       value: Math.round(avgValue * 100) / 100
+     });
+   }
+ 
+   return result;
+ };
+ 
+const ProfileCard: FC<ProfileCardProps> = ({ profile, createdDates, learnedDates }) => {
+  const emptyDates = generateEmptyDates();
+
+  const createdStats = useMemo(() => {
+    return datesChartFormat(createdDates, emptyDates)
+  }, [createdDates]);
+
+  const learnedStats = useMemo(() => {
+    return datesChartFormat(
+      learnedDates.filter(log => log.date && log.wasCorrect).map((log) => log.date),
+      emptyDates
+    )
+  }, [learnedDates]);
+
+  let firstCreatedDate = createdStats.find(stat => stat.value !== 0)?.name || createdStats[0].name;
+  let firstLearnedDate = learnedStats.find(stat => stat.value !== 0)?.name || learnedStats[0].name;
+
+  const [createdStartDate, setCreatedStartDate] = useState<Date>(new Date(firstCreatedDate));
+  const [learnedStartDate, setLearnedStartDate] = useState<Date>(new Date(firstLearnedDate));
+
+  const selectedCreatedData = useMemo(() => {
+    return reduceData(createdStats.filter((record) =>
+      new Date(record.name) >= createdStartDate && new Date(record.name) <= new Date())
+    );
+  }, [createdStartDate, createdStats]);
+
+  const selectedLearnedData = useMemo(() => {
+    return reduceData(learnedStats.filter((record) =>
+      new Date(record.name) >= learnedStartDate && new Date(record.name) <= new Date())
+    );
+  }, [learnedStartDate, learnedStats]);
+
+  const [isAvatarModalVisible, setAvatarModalVisibility] = useState(false);
 
    return (
       <div className="flex flex-col items-center rounded-xl bg-text text-background">
@@ -123,19 +154,22 @@ const ProfileCard: FC<ProfileCardProps> = ({ profile }) => {
          <p className=" text-3xl font-bold">Your stats: </p>
          <p className="text-lg">Created flashcards: </p>
          <ChartDateFilers
-            changeStartDate={setFlashcardCreatedStartDate}
+            changeStartDate={setCreatedStartDate}
             registerDate={parseISO(profile.dateRegistered)}
          />
          <LineChart
-            data={flashcardCreatedStatsData}
+            data={selectedCreatedData}
             id="Flashcard stats chart"
          />
          <p className="text-lg">Learned flashcards: </p>
          <ChartDateFilers
-            changeStartDate={setFlashcardLearnedStartDate}
+            changeStartDate={setLearnedStartDate}
             registerDate={parseISO(profile.dateRegistered)}
          />
-         <LineChart data={flashcardLearnedStatsData} id="Lessons stats chart" />
+         <LineChart
+            data={selectedLearnedData}
+            id="Lessons stats chart"
+         />
       </div>
    );
 };

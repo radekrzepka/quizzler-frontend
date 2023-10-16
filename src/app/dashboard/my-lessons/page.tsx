@@ -1,14 +1,13 @@
 import LessonsList from "@/modules/my-lessons/lessons-list";
 import NewLessonForm from "@/modules/my-lessons/new-lesson-form";
-import { cookies } from "next/headers";
 import { FC } from "react";
+import getJWT from "@/utils/get-jwt";
 
 const getUserLessons = async () => {
-   const cookieStore = cookies();
-   const JWT = cookieStore.get("JWT");
+   const JWT = getJWT();
 
    const res = await fetch(`${process.env.URL}/api/user/lessons`, {
-      headers: { Authorization: JWT?.value as string },
+      headers: { Authorization: JWT as string },
    });
 
    if (!res.ok) {
