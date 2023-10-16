@@ -3,7 +3,7 @@
 import { ChartData } from "@/types/chart-data";
 import { FC } from "react";
 import {
-   LineChart,
+   LineChart as RechartLineChart,
    Line,
    CartesianGrid,
    XAxis,
@@ -12,23 +12,23 @@ import {
    ResponsiveContainer,
 } from "recharts";
 
-interface CustomLineChartProps {
+interface LineChartProps {
    data: ChartData;
    id: string;
 }
 
-const CustomLineChart: FC<CustomLineChartProps> = ({ data, id }) => {
+const LineChart: FC<LineChartProps> = ({ data, id }) => {
    return (
       <ResponsiveContainer width="90%" height={300}>
-         <LineChart data={data} id={id}>
+         <RechartLineChart data={data} id={id}>
             <Line type="monotone" dataKey="value" stroke="#141326" />
             <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
             <XAxis dataKey="name" />
             <YAxis />
             <Tooltip />
-         </LineChart>
+         </RechartLineChart>
       </ResponsiveContainer>
    );
 };
 
-export default CustomLineChart;
+export default LineChart;

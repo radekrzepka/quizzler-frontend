@@ -42,8 +42,6 @@ const EditLessonForm: FC<EditLessonFormProps> = ({ lesson }) => {
       },
    });
 
-   console.log(lesson);
-
    const [buttonLoading, setButtonLoading] = useState(false);
    const [selectedImage, setSelectedImage] = useState<
       string | null | undefined

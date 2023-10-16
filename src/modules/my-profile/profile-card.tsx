@@ -2,7 +2,7 @@
 
 import { UserInfo } from "@/types/user-info";
 import { FC, useMemo, useState } from "react";
-import CustomLineChart from "@/components/chart/line-chart";
+import LineChart from "@/components/chart/line-chart";
 import ChartDateFilers from "@/components/chart/chart-date-filters";
 import {
    subDays,
@@ -120,7 +120,7 @@ const ProfileCard: FC<ProfileCardProps> = ({ profile }) => {
             changeStartDate={setFlashcardCreatedStartDate}
             registerDate={parseISO(profile.dateRegistered)}
          />
-         <CustomLineChart
+         <LineChart
             data={flashcardCreatedStatsData}
             id="Flashcard stats chart"
          />
@@ -129,10 +129,7 @@ const ProfileCard: FC<ProfileCardProps> = ({ profile }) => {
             changeStartDate={setFlashcardLearnedStartDate}
             registerDate={parseISO(profile.dateRegistered)}
          />
-         <CustomLineChart
-            data={flashcardLearnedStatsData}
-            id="Lessons stats chart"
-         />
+         <LineChart data={flashcardLearnedStatsData} id="Lessons stats chart" />
       </div>
    );
 };
