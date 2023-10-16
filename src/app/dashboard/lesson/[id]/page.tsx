@@ -2,11 +2,11 @@
 
 import EditLesson from "@/modules/lesson/edit-lesson";
 import { Lesson } from "@/types/lesson";
-import getJWT from "@/utils/get-jwt";
 import { useQuery } from "@tanstack/react-query";
+import { getCookie } from "cookies-next";
 
 const getLesson = async (id: string) => {
-   const JWT = getJWT();
+   const JWT = getCookie("JWT") as string;
    const res = await fetch(`/api/lesson/${id}`, {
       headers: { Authorization: JWT as string},
    });
