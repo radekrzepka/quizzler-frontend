@@ -3,13 +3,13 @@
 import { UserInfo } from "@/types/user-info";
 import { FC, useMemo, useState } from "react";
 import LineChart from "@/components/chart/line-chart";
-import ChartDateFilers from "@/components/chart/chart-date-filters";
+import ChartDateFilters from "@/components/chart/chart-date-filters";
 import {
   subDays,
   format,
   parseISO,
 } from "date-fns";
-import { ChartData, ChartRecord } from "@/types/chart-data";
+import { ChartRecord } from "@/types/chart-data";
 import Image from "next/image";
 import classNames from "classnames";
 import ChangeAvatar from "./change-avatar";
@@ -32,9 +32,9 @@ const generateEmptyDates = () => {
   return dates;
 };
 
-const datesChartFormat = (data: Date[], template: Map<string, number>) => {
+const datesChartFormat = (data: Date[], emptyDates: Map<string, number>) => {
   data.sort();
-  const dateCounts = template;
+  const dateCounts = emptyDates;
   data.forEach(date => {
     const formattedDate: string = format(new Date(date), "dd MMMM yyyy");
     if (dateCounts.has(formattedDate)) {
@@ -48,54 +48,61 @@ const datesChartFormat = (data: Date[], template: Map<string, number>) => {
 
 const reduceData = (data: ChartRecord[]) => {
    const recordsLength = data.length;
-   if (recordsLength <= 20) return data;
-
-   let newSize = 12;
-   const chunkSize = Math.ceil(recordsLength / newSize);
-   const result: ChartRecord[] = [];
-   for (let i = 0; i < recordsLength; i += chunkSize) {
-     const chunk = data.slice(i, i + chunkSize);
-     const avgValue = chunk.reduce((acc, data) => acc + data.value, 0) / chunk.length;
-     result.push({
-       name: chunk.map(c => c.name)[0],
-       value: Math.round(avgValue * 100) / 100
-     });
+   if (recordsLength < 28){ // days without year
+      data.forEach(ele => {
+         ele.name = format(new Date(ele.name), "do")
+      });
+      return data;
+   }else if (recordsLength >= 28 && recordsLength < 90){ // weeks 
+      data.forEach(ele => {
+         ele.name = format(new Date(ele.name), "wo")
+      });   
+      return data;
+   }else { // months
+      data.forEach(ele => {
+         ele.name = format(new Date(ele.name), "LLLL")
+      });
+      return data;
    }
- 
-   return result;
  };
  
 const ProfileCard: FC<ProfileCardProps> = ({ profile, createdDates, learnedDates }) => {
   const emptyDates = generateEmptyDates();
 
-  const createdStats = useMemo(() => {
+  const createdFlashcards = useMemo(() => {
     return datesChartFormat(createdDates, emptyDates)
   }, [createdDates]);
 
-  const learnedStats = useMemo(() => {
+  const learnedFlashcards = useMemo(() => {
     return datesChartFormat(
       learnedDates.filter(log => log.date && log.wasCorrect).map((log) => log.date),
       emptyDates
     )
   }, [learnedDates]);
 
-  let firstCreatedDate = createdStats.find(stat => stat.value !== 0)?.name || createdStats[0].name;
-  let firstLearnedDate = learnedStats.find(stat => stat.value !== 0)?.name || learnedStats[0].name;
+  const firstCreatedDate = createdFlashcards.find(stat => stat.value !== 0)?.name || createdFlashcards[0].name;
+  const firstLearnedDate = learnedFlashcards.find(stat => stat.value !== 0)?.name || learnedFlashcards[0].name;
+
+  console.log(firstCreatedDate)
+  console.log(firstLearnedDate)
+  console.log(createdFlashcards)
+  console.log(learnedFlashcards)
+
 
   const [createdStartDate, setCreatedStartDate] = useState<Date>(new Date(firstCreatedDate));
   const [learnedStartDate, setLearnedStartDate] = useState<Date>(new Date(firstLearnedDate));
 
-  const selectedCreatedData = useMemo(() => {
-    return reduceData(createdStats.filter((record) =>
+  const selectedCreatedFlashcards = useMemo(() => {
+    return reduceData(createdFlashcards.filter((record) =>
       new Date(record.name) >= createdStartDate && new Date(record.name) <= new Date())
     );
-  }, [createdStartDate, createdStats]);
+  }, [createdStartDate, createdFlashcards]);
 
-  const selectedLearnedData = useMemo(() => {
-    return reduceData(learnedStats.filter((record) =>
+  const selectedLearnedFlashcards = useMemo(() => {
+    return reduceData(learnedFlashcards.filter((record) =>
       new Date(record.name) >= learnedStartDate && new Date(record.name) <= new Date())
     );
-  }, [learnedStartDate, learnedStats]);
+  }, [learnedStartDate, learnedFlashcards]);
 
   const [isAvatarModalVisible, setAvatarModalVisibility] = useState(false);
 
@@ -147,21 +154,21 @@ const ProfileCard: FC<ProfileCardProps> = ({ profile, createdDates, learnedDates
          </p>
          <p className="mt-5 text-3xl font-bold">Your stats: </p>
          <p className="text-lg">Created flashcards: </p>
-         <ChartDateFilers
+         <ChartDateFilters
             changeStartDate={setCreatedStartDate}
             registerDate={parseISO(profile.dateRegistered)}
          />
          <LineChart
-            data={selectedCreatedData}
+            data={selectedCreatedFlashcards}
             id="Flashcard stats chart"
          />
          <p className="text-lg">Learned flashcards: </p>
-         <ChartDateFilers
+         <ChartDateFilters
             changeStartDate={setLearnedStartDate}
             registerDate={parseISO(profile.dateRegistered)}
          />
          <LineChart
-            data={selectedLearnedData}
+            data={selectedLearnedFlashcards}
             id="Lessons stats chart"
          />
       </div>
