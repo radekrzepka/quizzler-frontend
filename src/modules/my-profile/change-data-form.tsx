@@ -1,21 +1,21 @@
 "use client";
 
-import { FC, useState } from "react";
-import { UserInfo } from "@/types/user-info";
-import { useForm } from "react-hook-form";
-import PenImage from "./../../assets/icons/pen-icon.svg";
-import Image from "next/image";
 import Button from "@/components/ui/button";
-import { useMutation } from "@tanstack/react-query";
-import { zodResolver } from "@hookform/resolvers/zod";
-import {
-   changeDataFormSchema,
-   ChangeDataForm,
-} from "./change-data-form-schema";
-import { getCookie } from "cookies-next";
-import { useRouter } from "next/navigation";
-import { toast } from "react-hot-toast";
 import LabelInput from "@/components/ui/label-input";
+import { UserInfo } from "@/types/user-info";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import { getCookie } from "cookies-next";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { FC, useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "react-hot-toast";
+import PenImage from "./../../assets/icons/pen-icon.svg";
+import {
+   ChangeDataForm,
+   changeDataFormSchema,
+} from "./change-data-form-schema";
 
 interface ChangeDataFormProps {
    profile: UserInfo;
@@ -28,7 +28,6 @@ const ChangeDataForm: FC<ChangeDataFormProps> = ({ profile }) => {
    const {
       register,
       handleSubmit,
-      getValues,
       formState: { errors },
    } = useForm<ChangeDataForm>({
       defaultValues: {
@@ -41,13 +40,11 @@ const ChangeDataForm: FC<ChangeDataFormProps> = ({ profile }) => {
       resolver: zodResolver(changeDataFormSchema),
    });
 
-   const { email, firstName, lastName, username, currentPassword } =
-      getValues();
+   const { mutate: updateDataMutation } = useMutation({
+      mutationFn: async (data: ChangeDataForm) => {
+         const { email, firstName, lastName, username, currentPassword } = data;
 
-   const { mutate: updateDataMutation, data: response } = useMutation({
-      mutationFn: async () => {
          const JWT = getCookie("JWT") as string;
-
          const res = await fetch(`/api/user/update`, {
             headers: {
                Accept: "application/json",
@@ -73,7 +70,7 @@ const ChangeDataForm: FC<ChangeDataFormProps> = ({ profile }) => {
             toast.success("Data has been changed");
             setDisabled(true);
          } else {
-            toast.error(res.message);
+            toast.error(res.data);
          }
 
          setButtonLoading(false);
@@ -88,8 +85,8 @@ const ChangeDataForm: FC<ChangeDataFormProps> = ({ profile }) => {
       },
    });
 
-   const onSubmit = () => {
-      updateDataMutation();
+   const onSubmit: SubmitHandler<ChangeDataForm> = (data) => {
+      updateDataMutation(data);
       setButtonLoading(true);
    };
 
@@ -156,7 +153,7 @@ const ChangeDataForm: FC<ChangeDataFormProps> = ({ profile }) => {
             </div>
             <div className="flex flex-col">
                <LabelInput
-                  label="Current password: "
+                  label="Provide your password to change data: "
                   inputType="password"
                   disabled={disabled}
                   register={register}

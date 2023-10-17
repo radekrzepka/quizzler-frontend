@@ -1,7 +1,7 @@
-import { FC } from "react";
-import { usePathname } from "next/navigation";
 import classNames from "classnames";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { FC } from "react";
 
 interface DashboardNavigationLinkProps {
    path: string;

@@ -1,6 +1,6 @@
-import { UseFormRegister, FieldValues, Path } from "react-hook-form";
-import { MutableRefObject, Dispatch, SetStateAction } from "react";
 import classNames from "classnames";
+import { Dispatch, MutableRefObject, SetStateAction } from "react";
+import { FieldValues, Path, UseFormRegister } from "react-hook-form";
 
 interface ImageInputProps<T extends FieldValues> {
    register: UseFormRegister<T>;

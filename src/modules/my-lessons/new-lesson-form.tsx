@@ -1,21 +1,21 @@
 "use client";
 
+import TagsMultiSelect from "@/components/lesson/tags-multi-select";
 import Button from "@/components/ui/button";
-import Textarea from "@/components/ui/textarea";
-import { FC } from "react";
-import { useForm } from "react-hook-form";
-import Select from "@/components/ui/select";
-import { NewLessonForm, newLessonFormSchema } from "./new-lesson-form-schema";
-import { zodResolver } from "@hookform/resolvers/zod";
-import LabelInput from "@/components/ui/label-input";
-import { useState, useRef } from "react";
-import { useMutation } from "@tanstack/react-query";
 import ErrorMessage from "@/components/ui/error-message";
+import ImageContainer from "@/components/ui/image-container";
+import ImageInput from "@/components/ui/image-input";
+import LabelInput from "@/components/ui/label-input";
+import Select from "@/components/ui/select";
+import Textarea from "@/components/ui/textarea";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
 import { getCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
+import { FC, useRef, useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import ImageInput from "@/components/ui/image-input";
-import ImageContainer from "@/components/ui/image-container";
+import { NewLessonForm, newLessonFormSchema } from "./new-lesson-form-schema";
 
 const NewLessonForm: FC = () => {
    const {
@@ -23,10 +23,12 @@ const NewLessonForm: FC = () => {
       handleSubmit,
       watch,
       setValue,
+      control,
       formState: { errors },
    } = useForm<NewLessonForm>({
       resolver: zodResolver(newLessonFormSchema),
       defaultValues: {
+         lessonType: { label: "Public", value: "public" },
          image: null,
       },
    });
@@ -65,20 +67,27 @@ const NewLessonForm: FC = () => {
       },
    });
 
-   const onSubmit = () => {
+   const onSubmit: SubmitHandler<NewLessonForm> = ({
+      title,
+      lessonType,
+      description,
+      image,
+      tags,
+   }) => {
       setButtonLoading(true);
 
       const formData = new FormData();
-      formData.append("title", watch("title"));
-      formData.append("description", watch("description") || "");
+      formData.append("title", title);
+      formData.append("description", description || "");
       formData.append(
          "isPublic",
-         watch("lessonType") === "public" ? "true" : "false",
+         lessonType.value === "public" ? "true" : "false",
       );
 
-      const watchedImage = watch("image");
-      if (watchedImage !== undefined) {
-         formData.append("image", watchedImage);
+      if (image !== undefined) formData.append("image", image);
+
+      if (tags) {
+         tags.forEach((tag) => formData.append("tagNames", tag.value));
       }
 
       mutate(formData);
@@ -137,15 +146,20 @@ const NewLessonForm: FC = () => {
                   Lesson type:
                </label>
                <Select
-                  id="type"
                   name="lessonType"
-                  register={register}
+                  control={control}
                   className="mb-[23px]"
                   options={[
                      { label: "Public", value: "public" },
                      { label: "Private", value: "private" },
                   ]}
                />
+            </div>
+            <div className="flex flex-col">
+               <label className="mr-3" htmlFor="lessonType">
+                  Add tags to your lesson:
+               </label>
+               <TagsMultiSelect name="tags" control={control} />
             </div>
 
             <Button variant="primary" type="submit" isLoading={buttonLoading}>

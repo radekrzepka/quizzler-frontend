@@ -10,7 +10,18 @@ export const newLessonFormSchema = z.object({
       .string()
       .max(150, { message: "Description too long (max 150 characters)" })
       .optional(),
-   lessonType: z.enum(["public", "private"]),
+   lessonType: z.object({
+      label: z.enum(["Public", "Private"]),
+      value: z.enum(["public", "private"]),
+   }),
+   tags: z
+      .array(
+         z.object({
+            label: z.string(),
+            value: z.string(),
+         }),
+      )
+      .optional(),
    image: imageSchema,
 });
 

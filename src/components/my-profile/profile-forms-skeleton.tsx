@@ -1,6 +1,6 @@
+import InputSkeleton from "@/components/ui/input-skeleton";
 import Skeleton from "@/components/ui/skeleton";
 import { FC } from "react";
-import InputSkeleton from "@/components/ui/input-skeleton";
 
 const ProfileFormsSkeleton: FC = () => {
    return (

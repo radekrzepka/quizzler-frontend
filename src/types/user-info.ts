@@ -5,5 +5,5 @@ export interface UserInfo {
    firstName?: string;
    lastName?: string;
    dateRegistered: string;
-   avatar: number;
+   avatar: number | null;
 }

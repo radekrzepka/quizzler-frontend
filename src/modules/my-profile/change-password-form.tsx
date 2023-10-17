@@ -1,20 +1,20 @@
 "use client";
 
-import { FC, useState } from "react";
-import { useForm } from "react-hook-form";
-import PenImage from "./../../assets/icons/pen-icon.svg";
-import Image from "next/image";
 import Button from "@/components/ui/button";
+import LabelInput from "@/components/ui/label-input";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import { getCookie } from "cookies-next";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { FC, useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "react-hot-toast";
+import PenImage from "./../../assets/icons/pen-icon.svg";
 import {
    ChangePasswordForm,
    changePasswordFormSchema,
 } from "./change-password-form-schema";
-import { getCookie, deleteCookie } from "cookies-next";
-import { useMutation } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
-import { toast } from "react-hot-toast";
-import LabelInput from "@/components/ui/label-input";
 
 const ChangePasswordForm: FC = () => {
    const [disabled, setDisabled] = useState(true);
@@ -24,16 +24,13 @@ const ChangePasswordForm: FC = () => {
    const {
       register,
       handleSubmit,
-      getValues,
       formState: { errors },
    } = useForm<ChangePasswordForm>({
       resolver: zodResolver(changePasswordFormSchema),
    });
 
-   const { oldPassword, newPassword } = getValues();
-
    const { mutate: updatePasswordMutation } = useMutation({
-      mutationFn: async () => {
+      mutationFn: async ({ newPassword, oldPassword }: ChangePasswordForm) => {
          const JWT = getCookie("JWT") as string;
 
          const res = await fetch(`/api/user/update`, {
@@ -65,8 +62,8 @@ const ChangePasswordForm: FC = () => {
       },
    });
 
-   const onSubmit = () => {
-      updatePasswordMutation();
+   const onSubmit: SubmitHandler<ChangePasswordForm> = (data) => {
+      updatePasswordMutation(data);
       setButtonLoading(true);
    };
 

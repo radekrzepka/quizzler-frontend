@@ -1,26 +1,29 @@
-import Modal from "@/components/ui/modal";
-import { UserInfo } from "@/types/user-info";
-import { FC, useState } from "react";
-import Image from "next/image";
-import classNames from "classnames";
 import Button from "@/components/ui/button";
-import { useMutation } from "@tanstack/react-query";
+import Dialog from "@/components/ui/dialog";
+import { UserInfo } from "@/types/user-info";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import classNames from "classnames";
 import { getCookie } from "cookies-next";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { Dispatch, FC, SetStateAction, useState } from "react";
 import { toast } from "react-hot-toast";
 
 interface ChangeAvatarProps {
    profile: UserInfo;
-   closeModalFunction: () => void;
+   isOpen: boolean;
+   setIsOpen: Dispatch<SetStateAction<boolean>>;
 }
 
 const ChangeAvatar: FC<ChangeAvatarProps> = ({
    profile,
-   closeModalFunction,
+   isOpen,
+   setIsOpen,
 }) => {
    const [selectedAvatar, setSelectedAvatar] = useState(profile.avatar);
    const [buttonLoading, setButtonLoading] = useState(false);
    const router = useRouter();
+   const queryClient = useQueryClient();
 
    const { mutate: changeAvatarMutation } = useMutation({
       mutationFn: async () => {
@@ -45,7 +48,8 @@ const ChangeAvatar: FC<ChangeAvatarProps> = ({
          if (res?.status === 200) {
             router.refresh();
             toast.success("Avatar has been changed");
-            closeModalFunction();
+            queryClient.invalidateQueries({ queryKey: ["profileData"] });
+            setIsOpen(false);
          } else {
             toast.error("Error when changing avatar");
          }
@@ -54,11 +58,8 @@ const ChangeAvatar: FC<ChangeAvatarProps> = ({
    });
 
    return (
-      <Modal closeModalFunction={closeModalFunction}>
+      <Dialog title="Change your avatar" isOpen={isOpen} setIsOpen={setIsOpen}>
          <div className="flex flex-col items-center">
-            <h2 className="mb-3 text-center text-3xl font-bold">
-               Change your avatar
-            </h2>
             <div className="grid grid-cols-3 gap-4 md:grid-cols-4">
                {Array.from({ length: 16 }, (_, i) => i).map((_, index) => (
                   <button
@@ -71,7 +72,7 @@ const ChangeAvatar: FC<ChangeAvatarProps> = ({
                         alt={`Avatar number ${index + 1}`}
                         src={`/images/avatars/avatar_${index + 1}.png`}
                         className={classNames(
-                           selectedAvatar - 1 === index &&
+                           Number(selectedAvatar) - 1 === index &&
                               "border-2 border-black",
                            "rounded-full",
                         )}
@@ -91,7 +92,7 @@ const ChangeAvatar: FC<ChangeAvatarProps> = ({
                isLoading={buttonLoading}
             />
          </div>
-      </Modal>
+      </Dialog>
    );
 };
 

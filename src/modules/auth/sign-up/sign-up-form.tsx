@@ -1,15 +1,15 @@
 "use client";
 
-import { type SubmitHandler, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { type SignUpForm, signUpFormSchema } from "./sign-up-form-schema";
 import Button from "@/components/ui/button";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import LabelInput from "@/components/ui/label-input";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useForm, type SubmitHandler } from "react-hook-form";
 import { toast } from "react-hot-toast";
-import LabelInput from "@/components/ui/label-input";
+import { signUpFormSchema, type SignUpForm } from "./sign-up-form-schema";
 
 const SignUpForm = () => {
    const {
@@ -22,11 +22,12 @@ const SignUpForm = () => {
    });
 
    const router = useRouter();
-   const { email, username, password, firstName, lastName } = getValues();
    const [buttonLoading, setButtonLoading] = useState(false);
 
    const { mutate: registerUserMutation } = useMutation({
-      mutationFn: async () => {
+      mutationFn: async (data: SignUpForm) => {
+         const { email, username, password, firstName, lastName } = data;
+
          const res = await fetch(`/api/user/register`, {
             headers: {
                Accept: "application/json",
@@ -66,9 +67,9 @@ const SignUpForm = () => {
       },
    });
 
-   const onSubmit: SubmitHandler<SignUpForm> = async () => {
+   const onSubmit: SubmitHandler<SignUpForm> = async (data) => {
       setButtonLoading(true);
-      registerUserMutation();
+      registerUserMutation(data);
    };
 
    return (

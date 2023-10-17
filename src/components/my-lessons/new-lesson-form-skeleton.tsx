@@ -1,8 +1,8 @@
 "use client";
 
 import { FC } from "react";
-import Skeleton from "../ui/skeleton";
 import InputSkeleton from "../ui/input-skeleton";
+import Skeleton from "../ui/skeleton";
 
 const NewLessonFormSkeleton: FC = () => {
    return (

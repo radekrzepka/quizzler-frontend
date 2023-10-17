@@ -1,28 +1,32 @@
-import Image from "next/image";
-import { FC, useState, useRef, useEffect } from "react";
-import BackIcon from "./../../assets/icons/back-icon.svg";
-import { useForm } from "react-hook-form";
-import {
-   editLessonFormSchema,
-   EditLessonForm,
-} from "./edit-lesson-form-schema";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
-import toast from "react-hot-toast";
-import { getCookie } from "cookies-next";
-import LabelInput from "@/components/ui/label-input";
-import ImageInput from "@/components/ui/image-input";
-import Select from "@/components/ui/select";
+import MultiSelect from "@/components/lesson/tags-multi-select";
 import Button from "@/components/ui/button";
 import ErrorMessage from "@/components/ui/error-message";
-import Textarea from "@/components/ui/textarea";
 import ImageContainer from "@/components/ui/image-container";
+import ImageInput from "@/components/ui/image-input";
+import LabelInput from "@/components/ui/label-input";
+import Select from "@/components/ui/select";
+import Textarea from "@/components/ui/textarea";
 import { Lesson } from "@/types/lesson";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import { getCookie } from "cookies-next";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { FC, useEffect, useRef, useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import BackIcon from "./../../assets/icons/back-icon.svg";
+import {
+   EditLessonForm,
+   editLessonFormSchema,
+} from "./edit-lesson-form-schema";
 
 interface EditLessonFormProps {
    lesson: Lesson;
 }
+
+const formatTags = (tags: string[]) =>
+   tags.map((tag) => ({ label: tag, value: tag }));
 
 const EditLessonForm: FC<EditLessonFormProps> = ({ lesson }) => {
    const router = useRouter();
@@ -30,6 +34,7 @@ const EditLessonForm: FC<EditLessonFormProps> = ({ lesson }) => {
       register,
       handleSubmit,
       watch,
+      control,
       setValue,
       formState: { errors },
    } = useForm<EditLessonForm>({
@@ -37,8 +42,12 @@ const EditLessonForm: FC<EditLessonFormProps> = ({ lesson }) => {
       defaultValues: {
          title: lesson.title,
          description: lesson.description,
-         lessonType: lesson.isPublic ? "public" : "private",
+         lessonType: lesson.isPublic
+            ? { label: "Public", value: "public" }
+            : { label: "Private", value: "private" },
+
          image: null,
+         tags: lesson.tags ? formatTags(lesson.tags) : [],
       },
    });
 
@@ -77,24 +86,36 @@ const EditLessonForm: FC<EditLessonFormProps> = ({ lesson }) => {
       },
    });
 
-   const onSubmit = () => {
+   const onSubmit: SubmitHandler<EditLessonForm> = ({
+      title,
+      description,
+      lessonType,
+      image,
+      tags,
+   }) => {
       setButtonLoading(true);
 
       const formData = new FormData();
-      const title = watch("title");
-      const description = watch("description");
+
       formData.append("lessonId", lesson.lessonId.toString());
       if (title !== lesson.title) formData.append("title", title);
       if (description !== lesson.description && description)
          formData.append("description", description);
+
       formData.append(
          "isPublic",
-         watch("lessonType") === "public" ? "true" : "false",
+         lessonType.value === "public" ? "true" : "false",
       );
 
-      const watchedImage = watch("image");
-      if (watchedImage !== undefined) {
-         formData.append("image", watchedImage);
+      if (image) {
+         formData.append("image", image);
+      }
+
+      if (tags) {
+         if (tags.length === 0) formData.append("tagNames", "");
+         else {
+            tags.forEach((tag) => formData.append("tagNames", tag.value));
+         }
       }
 
       mutate(formData);
@@ -173,14 +194,24 @@ const EditLessonForm: FC<EditLessonFormProps> = ({ lesson }) => {
                      Lesson type:
                   </label>
                   <Select
-                     id="type"
                      name="lessonType"
-                     register={register}
+                     control={control}
                      className="mb-[23px]"
                      options={[
                         { label: "Public", value: "public" },
                         { label: "Private", value: "private" },
                      ]}
+                     defaultValue={watch("lessonType")}
+                  />
+               </div>
+               <div className="flex flex-col">
+                  <label className="mr-3" htmlFor="lessonType">
+                     Add tags to your lesson:
+                  </label>
+                  <MultiSelect
+                     name="tags"
+                     control={control}
+                     defaultTags={watch("tags")}
                   />
                </div>
 

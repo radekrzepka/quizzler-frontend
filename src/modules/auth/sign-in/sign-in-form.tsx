@@ -1,22 +1,21 @@
 "use client";
 
-import { type SubmitHandler, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { type SignInForm, signInFormSchema } from "./sign-in-form-schema";
 import Button from "@/components/ui/button";
-import { useRouter } from "next/navigation";
-import { useMutation } from "@tanstack/react-query";
-import { useState } from "react";
-import Link from "next/link";
-import { setCookie } from "cookies-next";
-import toast from "react-hot-toast";
 import LabelInput from "@/components/ui/label-input";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import { setCookie } from "cookies-next";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useForm, type SubmitHandler } from "react-hook-form";
+import toast from "react-hot-toast";
+import { signInFormSchema, type SignInForm } from "./sign-in-form-schema";
 
 const SignInForm = () => {
    const {
       register,
       handleSubmit,
-      getValues,
       formState: { errors },
    } = useForm<SignInForm>({
       resolver: zodResolver(signInFormSchema),
@@ -25,10 +24,10 @@ const SignInForm = () => {
    const router = useRouter();
    const [buttonLoading, setButtonLoading] = useState(false);
 
-   const { email, password } = getValues();
-
    const { mutate: loginUserMutation } = useMutation({
-      mutationFn: async () => {
+      mutationFn: async (data: SignInForm) => {
+         const { email, password } = data;
+
          const res = await fetch(`/api/user/login`, {
             headers: {
                Accept: "application/json",
@@ -63,9 +62,9 @@ const SignInForm = () => {
       },
    });
 
-   const onSubmit: SubmitHandler<SignInForm> = () => {
+   const onSubmit: SubmitHandler<SignInForm> = (data) => {
       setButtonLoading(true);
-      loginUserMutation();
+      loginUserMutation(data);
    };
 
    return (

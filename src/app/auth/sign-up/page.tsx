@@ -2,7 +2,7 @@ import SignUpForm from "@/modules/auth/sign-up/sign-up-form";
 
 const SignUp = () => {
    return (
-      <div className="mt-10 grid w-full place-items-center lg:mt-0 lg:h-[100vh]">
+      <div className="grid w-full place-items-center lg:mt-0 absolute inset-0">
          <SignUpForm />
       </div>
    );
