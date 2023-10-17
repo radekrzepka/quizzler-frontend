@@ -1,6 +1,6 @@
 "use client";
 
-import { ChartData } from "@/types/chart-data";
+import { ChartRecord } from "@/types/chart-data";
 import { FC } from "react";
 import {
    CartesianGrid,
@@ -13,7 +13,7 @@ import {
 } from "recharts";
 
 interface LineChartProps {
-   data: ChartData;
+   data: ChartRecord[];
    id: string;
 }
 

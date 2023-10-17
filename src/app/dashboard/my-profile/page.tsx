@@ -19,7 +19,8 @@ const fetchFromAPI = async (endpoint: string, JWT: string | undefined) => {
 }
 
 const getProfileData = async () => {
-   return (await fetchFromAPI("/api/user/profile", getJWT())).data;
+   const JWT = getJWT();
+   return (await fetchFromAPI("/api/user/profile", JWT)).data;
 };
 
 const getStatsData = async(): Promise<[Date[], LogData[]]> => {

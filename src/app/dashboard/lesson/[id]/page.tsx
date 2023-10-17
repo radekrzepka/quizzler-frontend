@@ -8,7 +8,7 @@ import { getCookie } from "cookies-next";
 const getLesson = async (id: string) => {
    const JWT = getCookie("JWT") as string;
    const res = await fetch(`/api/lesson/${id}`, {
-      headers: { Authorization: JWT as string},
+      headers: { Authorization: JWT },
    });
 
    if (!res.ok) {
