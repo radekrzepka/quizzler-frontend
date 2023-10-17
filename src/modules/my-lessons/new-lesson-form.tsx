@@ -23,6 +23,7 @@ const NewLessonForm: FC = () => {
       handleSubmit,
       watch,
       setValue,
+      control,
       formState: { errors },
    } = useForm<NewLessonForm>({
       resolver: zodResolver(newLessonFormSchema),
@@ -73,7 +74,7 @@ const NewLessonForm: FC = () => {
       formData.append("description", watch("description") || "");
       formData.append(
          "isPublic",
-         watch("lessonType") === "public" ? "true" : "false",
+         watch("lessonType").value === "public" ? "true" : "false",
       );
 
       const watchedImage = watch("image");
@@ -83,6 +84,8 @@ const NewLessonForm: FC = () => {
 
       mutate(formData);
    };
+
+   console.log(watch());
 
    return (
       <form
@@ -137,9 +140,8 @@ const NewLessonForm: FC = () => {
                   Lesson type:
                </label>
                <Select
-                  id="type"
                   name="lessonType"
-                  register={register}
+                  control={control}
                   className="mb-[23px]"
                   options={[
                      { label: "Public", value: "public" },

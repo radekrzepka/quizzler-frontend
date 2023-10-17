@@ -30,6 +30,7 @@ const EditLessonForm: FC<EditLessonFormProps> = ({ lesson }) => {
       register,
       handleSubmit,
       watch,
+      control,
       setValue,
       formState: { errors },
    } = useForm<EditLessonForm>({
@@ -37,7 +38,9 @@ const EditLessonForm: FC<EditLessonFormProps> = ({ lesson }) => {
       defaultValues: {
          title: lesson.title,
          description: lesson.description,
-         lessonType: lesson.isPublic ? "public" : "private",
+         lessonType: lesson.isPublic
+            ? { label: "Public", value: "public" }
+            : { label: "Private", value: "private" },
          image: null,
       },
    });
@@ -89,7 +92,7 @@ const EditLessonForm: FC<EditLessonFormProps> = ({ lesson }) => {
          formData.append("description", description);
       formData.append(
          "isPublic",
-         watch("lessonType") === "public" ? "true" : "false",
+         watch("lessonType").value === "public" ? "true" : "false",
       );
 
       const watchedImage = watch("image");
@@ -173,14 +176,14 @@ const EditLessonForm: FC<EditLessonFormProps> = ({ lesson }) => {
                      Lesson type:
                   </label>
                   <Select
-                     id="type"
                      name="lessonType"
-                     register={register}
+                     control={control}
                      className="mb-[23px]"
                      options={[
                         { label: "Public", value: "public" },
                         { label: "Private", value: "private" },
                      ]}
+                     defaultValue={watch("lessonType")}
                   />
                </div>
 
