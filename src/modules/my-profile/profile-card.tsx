@@ -54,7 +54,7 @@ const ProfileCard: FC<ProfileCardProps> = ({ profile }) => {
       useState<Date>(subDays(today, 30));
    const [flashcardLearnedStartDate, setFlashcardLearnedStartDate] =
       useState<Date>(subDays(today, 30));
-   const [showAvatarChangeModal, setShowAvatarChangeModal] = useState(false);
+   const [isOpen, setIsOpen] = useState(false);
 
    const flashcardCreatedStatsData = useMemo(() => {
       return generateRandomData(
@@ -70,12 +70,12 @@ const ProfileCard: FC<ProfileCardProps> = ({ profile }) => {
 
    return (
       <div className="flex flex-col items-center rounded-xl bg-text text-background">
-         {showAvatarChangeModal && (
-            <ChangeAvatar
-               profile={profile}
-               closeModalFunction={() => setShowAvatarChangeModal(false)}
-            />
-         )}
+         <ChangeAvatar
+            profile={profile}
+            isOpen={isOpen}
+            setIsOpen={setIsOpen}
+         />
+
          {profile.firstName && (
             <h2 className="mt-2 text-3xl font-bold">
                {profile.firstName} {profile?.lastName}
@@ -83,7 +83,7 @@ const ProfileCard: FC<ProfileCardProps> = ({ profile }) => {
          )}
          <button
             className="relative inline-block"
-            onClick={() => setShowAvatarChangeModal(true)}
+            onClick={() => setIsOpen(true)}
          >
             <Image
                width={64}

@@ -1,15 +1,15 @@
 import { FC, useState } from "react";
 import Button from "@/components/ui/button";
-import Modal from "@/components/ui/modal";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import { deleteCookie, getCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 import LabelInput from "@/components/ui/label-input";
+import Dialog from "@/components/ui/dialog";
 
 const DeleteProfileForm: FC = ({}) => {
-   const [showModal, setShowModal] = useState(false);
+   const [isOpenModal, setIsOpenModal] = useState(false);
    const [buttonLoading, setButtonLoading] = useState(false);
    const {
       register,
@@ -59,29 +59,32 @@ const DeleteProfileForm: FC = ({}) => {
 
    return (
       <div className="flex w-3/4 flex-col items-center">
-         {showModal && (
-            <Modal closeModalFunction={() => setShowModal(false)}>
-               <form
-                  className="flex w-4/5 flex-col gap-4 lg:w-3/5 xl:w-2/5"
-                  onSubmit={handleSubmit(onSubmit)}
+         <Dialog
+            isOpen={isOpenModal}
+            setIsOpen={setIsOpenModal}
+            title="Enter your password to delete account"
+         >
+            <form
+               className="flex flex-col gap-4 "
+               onSubmit={handleSubmit(onSubmit)}
+            >
+               <LabelInput
+                  className="mb-0 border border-gray-300"
+                  inputType="password"
+                  register={register}
+                  name="password"
+                  errors={errors}
+               />
+               <Button
+                  variant="primary"
+                  type="submit"
+                  isLoading={buttonLoading}
                >
-                  <LabelInput
-                     label="Enter your password to delete account:"
-                     inputType="password"
-                     register={register}
-                     name="password"
-                     errors={errors}
-                  />
-                  <Button
-                     variant="primary"
-                     type="submit"
-                     isLoading={buttonLoading}
-                  >
-                     Delete my account
-                  </Button>
-               </form>
-            </Modal>
-         )}
+                  Delete my account
+               </Button>
+            </form>
+         </Dialog>
+
          <h2 className="mt-2 text-3xl font-bold">Delete your account</h2>
          <p className="my-3 text-center">
             If you click on this button, you will delete your account in our
@@ -89,7 +92,7 @@ const DeleteProfileForm: FC = ({}) => {
             cannot be restored.
          </p>
          <Button
-            onClick={() => setShowModal(true)}
+            onClick={() => setIsOpenModal(true)}
             variant="primary"
             type="button"
             label="Delete your account"
