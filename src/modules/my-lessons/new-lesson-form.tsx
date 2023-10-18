@@ -16,6 +16,7 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import ImageInput from "@/components/ui/image-input";
 import ImageContainer from "@/components/ui/image-container";
+import TagsMultiSelect from "@/components/lesson/tags-multi-select";
 
 const NewLessonForm: FC = () => {
    const {
@@ -28,6 +29,7 @@ const NewLessonForm: FC = () => {
    } = useForm<NewLessonForm>({
       resolver: zodResolver(newLessonFormSchema),
       defaultValues: {
+         lessonType: { label: "Public", value: "public" },
          image: null,
       },
    });
@@ -78,14 +80,15 @@ const NewLessonForm: FC = () => {
       );
 
       const watchedImage = watch("image");
-      if (watchedImage !== undefined) {
-         formData.append("image", watchedImage);
+      if (watchedImage !== undefined) formData.append("image", watchedImage);
+
+      const watchedTags = watch("tags");
+      if (watchedTags) {
+         watchedTags.forEach((tag) => formData.append("tagNames", tag.value));
       }
 
       mutate(formData);
    };
-
-   console.log(watch());
 
    return (
       <form
@@ -148,6 +151,12 @@ const NewLessonForm: FC = () => {
                      { label: "Private", value: "private" },
                   ]}
                />
+            </div>
+            <div className="flex flex-col">
+               <label className="mr-3" htmlFor="lessonType">
+                  Add tags to your lesson:
+               </label>
+               <TagsMultiSelect name="tags" control={control} />
             </div>
 
             <Button variant="primary" type="submit" isLoading={buttonLoading}>

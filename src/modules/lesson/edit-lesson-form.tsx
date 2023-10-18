@@ -19,10 +19,14 @@ import Textarea from "@/components/ui/textarea";
 import ImageContainer from "@/components/ui/image-container";
 import { Lesson } from "@/types/lesson";
 import { useRouter } from "next/navigation";
+import MultiSelect from "@/components/lesson/tags-multi-select";
 
 interface EditLessonFormProps {
    lesson: Lesson;
 }
+
+const formatTags = (tags: string[]) =>
+   tags.map((tag) => ({ label: tag, value: tag }));
 
 const EditLessonForm: FC<EditLessonFormProps> = ({ lesson }) => {
    const router = useRouter();
@@ -41,7 +45,9 @@ const EditLessonForm: FC<EditLessonFormProps> = ({ lesson }) => {
          lessonType: lesson.isPublic
             ? { label: "Public", value: "public" }
             : { label: "Private", value: "private" },
+
          image: null,
+         tags: lesson.tags ? formatTags(lesson.tags) : [],
       },
    });
 
@@ -90,18 +96,26 @@ const EditLessonForm: FC<EditLessonFormProps> = ({ lesson }) => {
       if (title !== lesson.title) formData.append("title", title);
       if (description !== lesson.description && description)
          formData.append("description", description);
+
       formData.append(
          "isPublic",
          watch("lessonType").value === "public" ? "true" : "false",
       );
 
       const watchedImage = watch("image");
-      if (watchedImage !== undefined) {
+      if (watchedImage) {
          formData.append("image", watchedImage);
+      }
+
+      const watchedTags = watch("tags");
+      if (watchedTags) {
+         watchedTags.forEach((tag) => formData.append("tagNames", tag.value));
       }
 
       mutate(formData);
    };
+
+   console.log(watch());
 
    return (
       <div className="flex flex-col rounded-xl bg-text p-4 text-background">
@@ -184,6 +198,16 @@ const EditLessonForm: FC<EditLessonFormProps> = ({ lesson }) => {
                         { label: "Private", value: "private" },
                      ]}
                      defaultValue={watch("lessonType")}
+                  />
+               </div>
+               <div className="flex flex-col">
+                  <label className="mr-3" htmlFor="lessonType">
+                     Add tags to your lesson:
+                  </label>
+                  <MultiSelect
+                     name="tags"
+                     control={control}
+                     defaultTags={watch("tags")}
                   />
                </div>
 

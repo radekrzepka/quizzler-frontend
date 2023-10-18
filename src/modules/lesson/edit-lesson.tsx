@@ -1,27 +1,50 @@
+"use client";
+
 import { Lesson } from "@/types/lesson";
 import { FC, useState } from "react";
 import FlashcardForm from "../flashcard/flashcard-form";
-import {
-   RefetchOptions,
-   RefetchQueryFilters,
-   QueryObserverResult,
-} from "@tanstack/react-query";
 import FlashcardList from "../flashcard/flashcard-list";
 import { Flashcard } from "@/types/flashcard";
 import EditLessonForm from "./edit-lesson-form";
+import { useQuery } from "@tanstack/react-query";
+import { getCookie } from "cookies-next";
+
+const getLesson = async (id: string) => {
+   const JWT = getCookie("JWT") as string;
+
+   const res = await fetch(`/api/lesson/${id}`, {
+      headers: { Authorization: JWT },
+   });
+
+   if (!res.ok) {
+      throw new Error("Failed to fetch data");
+   }
+
+   const { data } = await res.json();
+
+   return data;
+};
 
 interface EditLessonProps {
-   lesson: Lesson;
-   refetchLesson: <TPageData>(
-      options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined,
-   ) => Promise<QueryObserverResult<Lesson, unknown>>;
+   lessonId: string;
 }
 
-const EditLesson: FC<EditLessonProps> = ({ lesson, refetchLesson }) => {
+const EditLesson: FC<EditLessonProps> = ({ lessonId }) => {
    const [flashcardToEdit, setFlashcardToEdit] = useState<Flashcard | null>(
       null,
    );
    const [selectedMode, setSelectedMode] = useState<"Add" | "Edit">("Add");
+   const {
+      data: lesson,
+      refetch: refetchLesson,
+      isLoading,
+      isError,
+   } = useQuery<Lesson>({
+      queryKey: ["lesson", lessonId],
+      queryFn: () => getLesson(lessonId),
+   });
+
+   if (isLoading || isError) return <div></div>; //TODO: loading state
 
    return (
       <div className="grid gap-4 xl:grid-cols-[2fr_2fr_1fr]">

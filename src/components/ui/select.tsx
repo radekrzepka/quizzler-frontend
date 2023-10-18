@@ -2,6 +2,7 @@ import { Controller, FieldValues, Path, Control } from "react-hook-form";
 import classNames from "classnames";
 import { Listbox, Transition } from "@headlessui/react";
 import { useState, Fragment } from "react";
+import { ChevronUpDownIcon } from "@heroicons/react/20/solid";
 
 interface Option {
    value: string;
@@ -46,13 +47,19 @@ const Select = <T extends FieldValues>({
                   <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-white py-[6px] pl-4 text-left text-base">
                      <span className="block truncate">{selected.label}</span>
                   </Listbox.Button>
+                  <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                     <ChevronUpDownIcon
+                        className="h-5 w-5 text-gray-400"
+                        aria-hidden="true"
+                     />
+                  </span>
                   <Transition
                      as={Fragment}
                      leave="transition ease-in duration-100"
                      leaveFrom="opacity-100"
                      leaveTo="opacity-0"
                   >
-                     <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                     <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                         {options.map((option) => (
                            <Listbox.Option
                               key={option.value}

@@ -14,6 +14,14 @@ export const newLessonFormSchema = z.object({
       label: z.enum(["Public", "Private"]),
       value: z.enum(["public", "private"]),
    }),
+   tags: z
+      .array(
+         z.object({
+            label: z.string(),
+            value: z.string(),
+         }),
+      )
+      .optional(),
    image: imageSchema,
 });
 
