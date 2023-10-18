@@ -93,6 +93,18 @@ const LessonCard: FC<LessonCardProps> = ({ lesson }) => {
                   </button>
                </div>
             </div>
+            {lesson.tags && (
+               <div className="mx-3 my-1 flex w-full flex-wrap gap-1">
+                  {lesson.tags.map((tag) => (
+                     <div
+                        className="rounded-md bg-accent px-3 text-sm shadow-md"
+                        key={tag}
+                     >
+                        {tag}
+                     </div>
+                  ))}
+               </div>
+            )}
             <p className="text-center text-sm text-gray-700">
                {lesson.description}
             </p>

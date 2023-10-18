@@ -31,9 +31,6 @@ const DashboardNavigation: FC = () => {
                   label="Search"
                />
             </li>
-            <li className="grid place-items-center">
-               <DashboardNavigationLink path="/dashboard/idk" label="Idk" />
-            </li>
          </ul>
          <div className="grid w-full place-items-center lg:block lg:w-auto">
             <Link href="/dashboard/my-profile" className="w-full">

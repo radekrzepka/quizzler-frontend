@@ -120,7 +120,7 @@ const FlashcardForm: FC<FlashcardFormProps> = ({
 
          return res.json();
       },
-      onSettled: ({ data, status }) => {
+      onSettled: ({ status }) => {
          if (status === 201) {
             toast.success("Flashcard added successfully");
             onFlashcardAdded();
@@ -175,7 +175,7 @@ const FlashcardForm: FC<FlashcardFormProps> = ({
          className="rounded-xl bg-text text-background"
       >
          <input type="submit" style={{ display: "none" }} />
-         <div className="flex flex-col gap-3 p-4">
+         <div className="flex h-full flex-col gap-3 p-4">
             <h2 className="text-center text-3xl font-bold">
                {selectedMode} new flashcard
             </h2>
@@ -207,7 +207,7 @@ const FlashcardForm: FC<FlashcardFormProps> = ({
                   Edit
                </button>
             </div>
-            <div className="relative">
+            <div className="relative flex h-full flex-col ">
                {selectedMode === "Edit" && !flashcardToEdit && (
                   <div className="absolute inset-0 z-10 flex items-center justify-center">
                      <h2 className="z-20 text-3xl font-bold">
@@ -217,7 +217,7 @@ const FlashcardForm: FC<FlashcardFormProps> = ({
                )}
                <div
                   className={classNames(
-                     "transition duration-300 ease-in-out",
+                     "flex h-full flex-col justify-between gap-2 transition duration-300 ease-in-out",
                      selectedMode === "Edit" &&
                         !flashcardToEdit &&
                         "pointer-events-none blur-sm",
@@ -241,7 +241,7 @@ const FlashcardForm: FC<FlashcardFormProps> = ({
                         errors={errors}
                      />
                   </div>
-                  <div className="grid  gap-4 md:grid-cols-2">
+                  <div className="grid gap-4 md:grid-cols-2">
                      <div>
                         <p>Add question image: </p>
                         <div
@@ -293,7 +293,7 @@ const FlashcardForm: FC<FlashcardFormProps> = ({
                   <Button
                      variant="primary"
                      type="submit"
-                     className="mt-2 w-full"
+                     className="mt-auto w-full"
                      isLoading={buttonLoading}
                   >
                      {selectedMode === "Add" ? "Add new" : "Change"} flashcard

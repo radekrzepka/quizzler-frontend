@@ -10,4 +10,5 @@ export interface Lesson {
    description?: string;
    dateCreated: string;
    flashcards: Flashcard[];
+   tags?: string[];
 }
