@@ -69,12 +69,20 @@ const DeleteProfileForm: FC = ({}) => {
                onSubmit={handleSubmit(onSubmit)}
             >
                <LabelInput
-                  className="mb-0 border border-gray-300"
+                  className="!mb-0 border border-gray-300"
                   inputType="password"
                   register={register}
                   name="password"
                   errors={errors}
                />
+               <Button
+                  variant="white"
+                  type="button"
+                  isLoading={buttonLoading}
+                  onClick={() => setIsOpenModal(false)}
+               >
+                  Go back to settings
+               </Button>
                <Button
                   variant="primary"
                   type="submit"

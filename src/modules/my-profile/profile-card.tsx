@@ -113,7 +113,7 @@ const ProfileCard: FC<ProfileCardProps> = ({ profile }) => {
             Member since:{" "}
             {format(parseISO(profile.dateRegistered), "dd MMMM yyyy")}
          </p>
-         <p className="mt-5 text-3xl font-bold">Your stats: </p>
+         <p className=" text-3xl font-bold">Your stats: </p>
          <p className="text-lg">Created flashcards: </p>
          <ChartDateFilers
             changeStartDate={setFlashcardCreatedStartDate}
