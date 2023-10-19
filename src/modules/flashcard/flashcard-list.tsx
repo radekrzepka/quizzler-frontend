@@ -7,6 +7,7 @@ import {
    QueryObserverResult,
 } from "@tanstack/react-query";
 import { Lesson } from "@/types/lesson";
+import DropdownMenu from "@/components/ui/dropdown-menu";
 
 interface FlashcardListProps {
    flashcards: Flashcard[];
@@ -27,17 +28,31 @@ const FlashcardList: FC<FlashcardListProps> = ({
    flashcardToEdit,
    selectedMode,
 }) => {
+   const menuOptions = [
+      {
+         label: "Import from JSON/CSV/txt",
+         onClickFunction: () => {},
+      },
+      {
+         label: "Export to JSON/CSV/txt",
+         onClickFunction: () => {},
+      },
+   ];
+
    return (
       <div className="overflow-y-auto rounded-xl bg-text p-4 text-background">
          <h2 className="text-center text-3xl font-bold">Flashcards list</h2>
-         <p className="my-1 text-lg">
-            Number of flashcards: {flashcards.length}
-         </p>
+         <div className="my-2 flex items-center justify-between">
+            <p className="text-lg font-bold">
+               Number of flashcards: {flashcards.length}
+            </p>
+            <DropdownMenu options={menuOptions} />
+         </div>
+
          <div className="flex flex-col gap-2">
-            {flashcards.map((flashcard, index) => (
+            {flashcards.map((flashcard) => (
                <FlashcardListRow
                   key={flashcard.flashcardId}
-                  index={index}
                   flashcard={flashcard}
                   refetchLesson={refetchLesson}
                   setFlashcardToEdit={setFlashcardToEdit}

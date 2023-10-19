@@ -11,10 +11,13 @@ const LessonCardSkeleton: FC = () => {
             width="100%"
             className="rounded-none rounded-t-xl"
          ></Skeleton>
-         <div className="my-3 flex w-full flex-col items-center gap-1">
+         <div className="flex w-full flex-col items-center gap-2">
+            <Skeleton className="place-self-end" height="20px" width="30%" />
             <Skeleton height="20px" width="50%" />
             <Skeleton height="14px" width="70%" />
             <Skeleton height="14px" width="70%" />
+            <Skeleton height="14px" width="70%" />
+            <Skeleton height="24px" width="70%" className="mb-1" />
          </div>
       </div>
    );
