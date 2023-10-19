@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import CreatableSelect from "react-select/creatable";
 import { getCookie } from "cookies-next";
 import { Controller, FieldValues, Control, Path } from "react-hook-form";
+import useDebounce from "@/hooks/use-debounce";
 
 interface TagsMultiSelectProps<T extends FieldValues> {
    name: Path<T>;
@@ -42,10 +43,11 @@ const TagsMultiSelect = <T extends FieldValues>({
    defaultTags,
 }: TagsMultiSelectProps<T>) => {
    const [query, setQuery] = useState("");
+   const debouncedQuery = useDebounce(query, 100);
 
-   const { data: options } = useQuery({
-      queryKey: ["tags", query],
-      queryFn: () => getTagsByQuery(query),
+   const { data: options, isLoading } = useQuery({
+      queryKey: ["tags", debouncedQuery],
+      queryFn: () => getTagsByQuery(debouncedQuery),
    });
 
    return (
@@ -54,11 +56,15 @@ const TagsMultiSelect = <T extends FieldValues>({
          name={name}
          render={({ field: { onChange } }) => (
             <CreatableSelect
+               isLoading={isLoading}
                defaultValue={defaultTags}
                onChange={(selected) => onChange(selected)}
                isMulti
                onInputChange={(value) => setQuery(value)}
-               options={options || []}
+               options={options}
+               noOptionsMessage={({ inputValue }) =>
+                  inputValue ? `No options for "${inputValue}"` : "Please write"
+               }
             />
          )}
       />
