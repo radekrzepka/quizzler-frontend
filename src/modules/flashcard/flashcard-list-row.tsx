@@ -13,10 +13,10 @@ import {
 import { Lesson } from "@/types/lesson";
 import toast from "react-hot-toast";
 import classNames from "classnames";
+import DropdownMenu from "@/components/ui/dropdown-menu";
 
 interface FlashcardListRowProps {
    flashcard: Flashcard;
-   index: number;
    refetchLesson: <TPageData>(
       options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined,
    ) => Promise<QueryObserverResult<Lesson, unknown>>;
@@ -28,7 +28,6 @@ interface FlashcardListRowProps {
 
 const FlashcardListRow: FC<FlashcardListRowProps> = ({
    flashcard,
-   index,
    refetchLesson,
    setFlashcardToEdit,
    setSelectedMode,
@@ -60,45 +59,36 @@ const FlashcardListRow: FC<FlashcardListRowProps> = ({
       },
    });
 
+   const menuOptions = [
+      {
+         label: "Edit",
+         onClickFunction: () => {
+            setFlashcardToEdit(flashcard);
+            setSelectedMode("Edit");
+         },
+      },
+      {
+         label: "Delete",
+         onClickFunction: () => deleteFlashcardMutation(),
+      },
+   ];
+
    return (
       <div
          className={classNames(
-            "flex w-full justify-between rounded-md bg-gray-500 p-1 text-left text-text",
+            "flex w-full flex-col rounded-md bg-gray-700 px-2 text-left text-text shadow-lg",
             flashcardToEdit?.flashcardId === flashcard.flashcardId &&
                selectedMode === "Edit" &&
-               "bg-gray-400",
+               "!bg-gray-500",
          )}
       >
-         <p className="text-lg font-bold">
-            {index + 1}. {flashcard.questionText}
-            <span className="text-base font-normal">
-               {" "}
-               {flashcard.answerText}
-            </span>
+         <DropdownMenu options={menuOptions} className="my-1 place-self-end" />
+         <p className="truncate text-lg font-bold">
+            Question: {flashcard.questionText}
          </p>
-         <div className="flex gap-1">
-            <button
-               onClick={() => {
-                  setFlashcardToEdit(flashcard);
-                  setSelectedMode("Edit");
-               }}
-            >
-               <Image
-                  width={20}
-                  height={20}
-                  src={PenIcon}
-                  alt={`Edit flashcard ${flashcard.questionText}`}
-               />
-            </button>
-            <button onClick={() => deleteFlashcardMutation()}>
-               <Image
-                  width={25}
-                  height={25}
-                  src={DeleteIcon}
-                  alt={`Delete flashcard ${flashcard.questionText}`}
-               />
-            </button>
-         </div>
+         <p className="truncate text-base font-normal">
+            Answer: {flashcard.answerText}
+         </p>
       </div>
    );
 };
