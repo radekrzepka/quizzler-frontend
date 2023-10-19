@@ -1,7 +1,7 @@
 "use client";
 
 import { Lesson } from "@/types/lesson";
-import { FC } from "react";
+import { FC, useState } from "react";
 import { formatDistanceToNow } from "date-fns";
 import { utcToZonedTime } from "date-fns-tz";
 import Link from "next/link";
@@ -12,12 +12,15 @@ import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
 import { getCookie } from "cookies-next";
 import toast from "react-hot-toast";
+import Dialog from "@/components/ui/dialog";
+import Button from "@/components/ui/button";
 
 interface LessonCardProps {
    lesson: Lesson;
 }
 
 const LessonCard: FC<LessonCardProps> = ({ lesson }) => {
+   const [isOpenDeleteDialog, setIsOpenDeleteDialog] = useState(false);
    const router = useRouter();
    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
    const dateCreated = lesson.dateCreated + "Z";
@@ -38,16 +41,40 @@ const LessonCard: FC<LessonCardProps> = ({ lesson }) => {
       onSettled: (res) => {
          if (res?.status === 200) {
             toast.success("Lesson deleted successfully");
+            setIsOpenDeleteDialog(true);
             router.refresh();
          }
       },
    });
 
    return (
-      <div
-         onClick={() => router.push(`/dashboard/lesson/${lesson.lessonId}`)}
-         className="flex w-full cursor-pointer flex-col items-center rounded-xl bg-text text-background"
-      >
+      <div className="flex h-full w-full flex-col items-center justify-between rounded-xl bg-text text-background">
+         <Dialog
+            isOpen={isOpenDeleteDialog}
+            setIsOpen={setIsOpenDeleteDialog}
+            title="Are you sure you want to delete your lesson ?"
+         >
+            <Button
+               type="button"
+               variant="white"
+               className="mb-2 w-full"
+               onClick={() => {
+                  setIsOpenDeleteDialog(false);
+               }}
+            >
+               Go back to my lessons page
+            </Button>
+            <Button
+               type="button"
+               variant="primary"
+               className="w-full"
+               onClick={() => {
+                  deleteLessonMutation();
+               }}
+            >
+               Delete my lesson
+            </Button>
+         </Dialog>
          {lesson.imagePath ? (
             <Image
                className="h-[200px] w-full rounded-t-xl bg-gray-700"
@@ -59,10 +86,9 @@ const LessonCard: FC<LessonCardProps> = ({ lesson }) => {
          ) : (
             <div className="h-[200px] w-full rounded-t-xl bg-gray-700" />
          )}
-         <div className="my-3 w-full gap-1">
-            <div className="relative flex items-center justify-center">
-               <h2 className="text-center text-xl font-bold">{lesson.title}</h2>
-               <div className="absolute right-4 top-0 flex gap-2">
+         <div className="my-3 flex w-full flex-col">
+            <div className="relative flex flex-col items-end justify-center md:items-center">
+               <div className="mr-2 flex gap-2 md:absolute md:right-4 md:top-1 md:mr-0">
                   <Link
                      href={`/dashboard/lesson/${lesson.lessonId}?edit=true`}
                      onClick={(event: React.MouseEvent) =>
@@ -79,7 +105,7 @@ const LessonCard: FC<LessonCardProps> = ({ lesson }) => {
                   </Link>
                   <button
                      onClick={(event: React.MouseEvent) => {
-                        deleteLessonMutation();
+                        setIsOpenDeleteDialog(true);
                         event.stopPropagation();
                      }}
                   >
@@ -92,12 +118,15 @@ const LessonCard: FC<LessonCardProps> = ({ lesson }) => {
                      />
                   </button>
                </div>
+               <h2 className="place-self-center text-center text-xl font-bold">
+                  {lesson.title}
+               </h2>
             </div>
-            {lesson.tags && (
-               <div className="mx-3 my-1 flex w-full flex-wrap gap-1">
+            {lesson.tags?.length !== 0 && lesson.tags && (
+               <div className="mx-3 my-1 mb-2 flex w-full flex-wrap gap-1">
                   {lesson.tags.map((tag) => (
                      <div
-                        className="rounded-md bg-accent px-3 text-sm shadow-md"
+                        className="rounded-3xl border border-gray-700 px-4 text-sm text-gray-700"
                         key={tag}
                      >
                         {tag}
@@ -114,6 +143,19 @@ const LessonCard: FC<LessonCardProps> = ({ lesson }) => {
             <p className="text-center text-sm text-gray-700">
                {lesson.isPublic ? "Public" : "Private"} lesson
             </p>
+
+            <Link
+               className="fl mx-auto flex w-full"
+               href={`/dashboard/lesson/${lesson.lessonId}`}
+            >
+               <Button
+                  variant="accent"
+                  type="button"
+                  className="mx-auto mt-1 w-3/4 place-self-end !py-[2px] shadow-md md:w-1/2"
+               >
+                  Study now
+               </Button>
+            </Link>
          </div>
       </div>
    );

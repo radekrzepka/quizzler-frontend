@@ -4,7 +4,6 @@ import { FC } from "react";
 const ProfileCardSkeleton: FC = () => {
    return (
       <div className="flex flex-col items-center rounded-xl bg-text py-2 text-background">
-         <Skeleton height="36px" className="mt-2" width="50%" />
          <Skeleton height="64px" width="64px" circle={true} className="my-2" />
          <Skeleton height="16px" width="20%" />
          <Skeleton height="16px" className="mt-2" width="60%" />
