@@ -86,7 +86,7 @@ const LessonCard: FC<LessonCardProps> = ({ lesson }) => {
          ) : (
             <div className="h-[200px] w-full rounded-t-xl bg-gray-700" />
          )}
-         <div className="my-3 flex w-full flex-col">
+         <div className="my-3 flex w-full flex-grow-[2] flex-col justify-between">
             <div className="relative flex flex-col items-end justify-center md:items-center">
                <div className="mr-2 flex gap-2 md:absolute md:right-4 md:top-1 md:mr-0">
                   <Link
@@ -134,15 +134,17 @@ const LessonCard: FC<LessonCardProps> = ({ lesson }) => {
                   ))}
                </div>
             )}
-            <p className="text-center text-sm text-gray-700">
-               {lesson.description}
-            </p>
-            <p className="text-center text-sm font-bold text-gray-700">
-               Added {formatDistanceToNow(localDate)} ago
-            </p>
-            <p className="text-center text-sm text-gray-700">
-               {lesson.isPublic ? "Public" : "Private"} lesson
-            </p>
+            <div>
+               <p className="text-center text-sm text-gray-700">
+                  {lesson.description}
+               </p>
+               <p className="text-center text-sm font-bold text-gray-700">
+                  Added {formatDistanceToNow(localDate)} ago
+               </p>
+               <p className="text-center text-sm text-gray-700">
+                  {lesson.isPublic ? "Public" : "Private"} lesson
+               </p>
+            </div>
 
             <Link
                className="fl mx-auto flex w-full"
@@ -151,7 +153,7 @@ const LessonCard: FC<LessonCardProps> = ({ lesson }) => {
                <Button
                   variant="accent"
                   type="button"
-                  className="mx-auto mt-1 w-3/4 place-self-end !py-[2px] shadow-md md:w-1/2"
+                  className="mx-auto mt-1 w-3/4 !py-[2px] shadow-md md:w-3/5"
                >
                   Study now
                </Button>

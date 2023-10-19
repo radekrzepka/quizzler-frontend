@@ -108,14 +108,18 @@ const EditLessonForm: FC<EditLessonFormProps> = ({ lesson }) => {
       }
 
       const watchedTags = watch("tags");
+
       if (watchedTags) {
-         watchedTags.forEach((tag) => formData.append("tagNames", tag.value));
+         if (watchedTags.length === 0) formData.append("tagNames", "");
+         else {
+            watchedTags.forEach((tag) =>
+               formData.append("tagNames", tag.value),
+            );
+         }
       }
 
       mutate(formData);
    };
-
-   console.log(watch());
 
    return (
       <div className="flex flex-col rounded-xl bg-text p-4 text-background">
