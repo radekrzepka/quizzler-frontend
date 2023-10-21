@@ -108,7 +108,7 @@ const LessonCard: FC<LessonCardProps> = ({ lesson }) => {
                <DropdownMenu options={menuOptions} />
             </div>
             <div className="relative flex flex-col items-end justify-center md:items-center">
-               <h2 className="place-self-center text-center text-xl font-bold">
+               <h2 className="place-self-center text-center text-3xl font-bold">
                   {lesson.title}
                </h2>
             </div>

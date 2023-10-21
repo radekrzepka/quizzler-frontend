@@ -8,10 +8,36 @@ import DashboardNavigationLink from "@/components/dashboard/dashboard-navigation
 import { deleteCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
+import { useQuery } from "@tanstack/react-query";
+import { getCookie } from "cookies-next";
+import { UserInfo } from "@/types/user-info";
+import Image from "next/image";
+import { generateAbbreviation } from "@/utils/generate-abbreviation";
+import Skeleton from "@/components/ui/skeleton";
+
+const getProfileData = async () => {
+   const JWT = getCookie("JWT") as string;
+
+   const res = await fetch("/api/user/profile", {
+      headers: { Authorization: JWT },
+   });
+   const json = await res.json();
+
+   return json.data;
+};
 
 const DashboardNavigation: FC = () => {
    const [signOutClicked, setSignOutClicked] = useState(false);
    const router = useRouter();
+
+   const {
+      data: profileData,
+      isLoading,
+      isError,
+   } = useQuery<UserInfo>({
+      queryFn: getProfileData,
+      queryKey: ["profileData"],
+   });
 
    return (
       <nav className="shadow-shadow my-6 flex w-full flex-col items-center justify-between gap-4 rounded-xl border-[1px] border-borderContainer bg-background p-4 text-text shadow-containerShadow lg:flex-row">
@@ -32,15 +58,35 @@ const DashboardNavigation: FC = () => {
                />
             </li>
          </ul>
-         <div className="grid w-full place-items-center lg:block lg:w-auto">
-            <Link href="/dashboard/my-profile" className="w-full">
-               <Button
-                  label="My profile"
-                  variant="white"
-                  type="button"
-                  className="mb-3 w-full lg:mr-3  lg:w-auto"
-               />
-            </Link>
+         <div className="grid w-full place-items-center lg:w-auto lg:grid-cols-2">
+            {isLoading || isError ? (
+               <div className="mb-6 flex w-full items-center justify-center gap-3 lg:mb-0">
+                  <Skeleton circle height="44px" width="44px" />
+                  <Skeleton height="20px" width="180px" />
+               </div>
+            ) : (
+               <Link
+                  href="/dashboard/my-profile"
+                  className="mb-6 flex w-full items-center justify-center gap-3 lg:mb-0"
+               >
+                  {profileData.avatar === null ? (
+                     <div className="grid h-11 w-11 place-items-center rounded-full border text-3xl font-bold text-primary">
+                        {generateAbbreviation(profileData)}
+                     </div>
+                  ) : (
+                     <Image
+                        width={44}
+                        height={44}
+                        src={`/images/avatars/avatar_${profileData.avatar}.png`}
+                        alt={`Avatar of ${profileData.username}`}
+                     />
+                  )}
+
+                  <p className="pt-2 text-2xl">
+                     Welcome, {profileData?.firstName || profileData.username}!
+                  </p>
+               </Link>
+            )}
 
             <Button
                isLoading={signOutClicked}

@@ -12,7 +12,7 @@ Frontend for quiz and flashcards app
 -  TanStack Query
 -  Zod
 -  React Hook Form
--  Jest
+-  Vitest
 -  React Testing Library
 -  Playwright
 

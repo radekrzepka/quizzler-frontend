@@ -8,6 +8,7 @@ import { getCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 import Dialog from "@/components/ui/dialog";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface ChangeAvatarProps {
    profile: UserInfo;
@@ -23,6 +24,7 @@ const ChangeAvatar: FC<ChangeAvatarProps> = ({
    const [selectedAvatar, setSelectedAvatar] = useState(profile.avatar);
    const [buttonLoading, setButtonLoading] = useState(false);
    const router = useRouter();
+   const queryClient = useQueryClient();
 
    const { mutate: changeAvatarMutation } = useMutation({
       mutationFn: async () => {
@@ -47,6 +49,7 @@ const ChangeAvatar: FC<ChangeAvatarProps> = ({
          if (res?.status === 200) {
             router.refresh();
             toast.success("Avatar has been changed");
+            queryClient.invalidateQueries({ queryKey: ["profileData"] });
             setIsOpen(false);
          } else {
             toast.error("Error when changing avatar");
@@ -70,7 +73,7 @@ const ChangeAvatar: FC<ChangeAvatarProps> = ({
                         alt={`Avatar number ${index + 1}`}
                         src={`/images/avatars/avatar_${index + 1}.png`}
                         className={classNames(
-                           selectedAvatar - 1 === index &&
+                           Number(selectedAvatar) - 1 === index &&
                               "border-2 border-black",
                            "rounded-full",
                         )}

@@ -17,6 +17,7 @@ import Image from "next/image";
 import classNames from "classnames";
 import ChangeAvatar from "./change-avatar";
 import PenImage from "./../../assets/icons/pen-icon.svg";
+import { generateAbbreviation } from "@/utils/generate-abbreviation";
 
 interface ProfileCardProps {
    profile: UserInfo;
@@ -85,13 +86,19 @@ const ProfileCard: FC<ProfileCardProps> = ({ profile }) => {
             className="relative inline-block"
             onClick={() => setIsOpen(true)}
          >
-            <Image
-               width={64}
-               height={64}
-               src={`/images/avatars/avatar_${profile.avatar}.png`}
-               alt={`Avatar of ${profile.username}`}
-               className="mt-2"
-            />
+            {profile.avatar === null ? (
+               <div className="grid h-16 w-16 place-items-center rounded-full border border-background text-4xl font-bold text-background">
+                  {generateAbbreviation(profile)}
+               </div>
+            ) : (
+               <Image
+                  width={64}
+                  height={64}
+                  src={`/images/avatars/avatar_${profile.avatar}.png`}
+                  alt={`Avatar of ${profile.username}`}
+                  className="mt-2"
+               />
+            )}
             <Image
                width={15}
                height={15}

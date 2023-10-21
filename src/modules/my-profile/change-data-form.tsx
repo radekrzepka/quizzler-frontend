@@ -156,7 +156,7 @@ const ChangeDataForm: FC<ChangeDataFormProps> = ({ profile }) => {
             </div>
             <div className="flex flex-col">
                <LabelInput
-                  label="Current password: "
+                  label="Provide your password to change data: "
                   inputType="password"
                   disabled={disabled}
                   register={register}
