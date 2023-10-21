@@ -1,17 +1,5 @@
-import EditLesson from "@/modules/lesson/edit-lesson";
-
-const LessonPage = ({
-   params,
-   searchParams,
-}: {
-   params: { id: string };
-   searchParams: { [key: string]: string };
-}) => {
-   const editLesson = searchParams?.edit === "true";
-
-   if (editLesson) return <EditLesson lessonId={params.id} />;
-
-   return <div></div>;
+const LessonPage = ({ params }: { params: { id: string } }) => {
+   return <div>Learning page</div>;
 };
 
 export default LessonPage;

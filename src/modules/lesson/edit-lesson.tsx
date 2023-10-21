@@ -8,6 +8,7 @@ import { FC, useState } from "react";
 import FlashcardForm from "../flashcard/flashcard-form";
 import FlashcardList from "../flashcard/flashcard-list";
 import EditLessonForm from "./edit-lesson-form";
+import EditLessonSkeleton from "./edit-lesson-skeleton";
 
 const getLesson = async (id: string) => {
    const JWT = getCookie("JWT") as string;
@@ -44,7 +45,7 @@ const EditLesson: FC<EditLessonProps> = ({ lessonId }) => {
       queryFn: () => getLesson(lessonId),
    });
 
-   if (isLoading || isError) return <div></div>; //TODO: loading state
+   if (isLoading || isError) return <EditLessonSkeleton />;
 
    return (
       <div className="grid gap-4 xl:grid-cols-[2fr_2fr_1fr]">

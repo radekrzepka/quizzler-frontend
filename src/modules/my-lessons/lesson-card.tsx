@@ -29,7 +29,7 @@ const LessonCard: FC<LessonCardProps> = ({ lesson }) => {
       {
          label: "Edit",
          onClickFunction: () => {
-            router.push(`/dashboard/lesson/${lesson.lessonId}?edit=true`);
+            router.push(`/dashboard/lesson/${lesson.lessonId}/edit`);
          },
       },
       {
