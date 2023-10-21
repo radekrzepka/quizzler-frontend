@@ -2,7 +2,7 @@
 
 import Button from "@/components/ui/button";
 import { FC, Dispatch, SetStateAction, useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import {
    NewFlashcardForm,
    newFlashcardFormSchema,
@@ -45,7 +45,6 @@ const FlashcardForm: FC<FlashcardFormProps> = ({
    const {
       register,
       handleSubmit,
-      watch,
       setValue,
       reset,
       formState: { errors },
@@ -132,9 +131,16 @@ const FlashcardForm: FC<FlashcardFormProps> = ({
       },
    });
 
-   const onSubmit = () => {
+   const onSubmit: SubmitHandler<NewFlashcardForm> = ({
+      answer,
+      answerImage,
+      question,
+      questionImage,
+   }) => {
       setButtonLoading(true);
+
       const formData = new FormData();
+
       if (selectedMode === "Add") {
          formData.append("lessonId", lessonId.toString());
       } else {
@@ -144,18 +150,15 @@ const FlashcardForm: FC<FlashcardFormProps> = ({
          );
       }
 
-      formData.append("questionText", watch("question") || "");
-      formData.append("answerText", watch("answer") || "");
+      formData.append("questionText", question || "");
+      formData.append("answerText", answer || "");
 
-      const watchedQuestionImage = watch("questionImage");
-      if (watchedQuestionImage && typeof watchedQuestionImage !== "string") {
-         formData.append("questionImage", watchedQuestionImage);
+      if (questionImage && typeof questionImage !== "string") {
+         formData.append("questionImage", questionImage);
       }
 
-      const watchedAnswerImage = watch("answerImage");
-
-      if (watchedAnswerImage && typeof watchedAnswerImage !== "string") {
-         formData.append("answerImage", watchedAnswerImage);
+      if (answerImage && typeof answerImage !== "string") {
+         formData.append("answerImage", answerImage);
       }
 
       if (selectedMode === "Edit" && !flashcardToEdit) {

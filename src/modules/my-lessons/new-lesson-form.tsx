@@ -3,7 +3,7 @@
 import Button from "@/components/ui/button";
 import Textarea from "@/components/ui/textarea";
 import { FC } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 import Select from "@/components/ui/select";
 import { NewLessonForm, newLessonFormSchema } from "./new-lesson-form-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -68,23 +68,27 @@ const NewLessonForm: FC = () => {
       },
    });
 
-   const onSubmit = () => {
+   const onSubmit: SubmitHandler<NewLessonForm> = ({
+      title,
+      lessonType,
+      description,
+      image,
+      tags,
+   }) => {
       setButtonLoading(true);
 
       const formData = new FormData();
-      formData.append("title", watch("title"));
-      formData.append("description", watch("description") || "");
+      formData.append("title", title);
+      formData.append("description", description || "");
       formData.append(
          "isPublic",
-         watch("lessonType").value === "public" ? "true" : "false",
+         lessonType.value === "public" ? "true" : "false",
       );
 
-      const watchedImage = watch("image");
-      if (watchedImage !== undefined) formData.append("image", watchedImage);
+      if (image !== undefined) formData.append("image", image);
 
-      const watchedTags = watch("tags");
-      if (watchedTags) {
-         watchedTags.forEach((tag) => formData.append("tagNames", tag.value));
+      if (tags) {
+         tags.forEach((tag) => formData.append("tagNames", tag.value));
       }
 
       mutate(formData);

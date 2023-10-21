@@ -16,7 +16,6 @@ const SignInForm = () => {
    const {
       register,
       handleSubmit,
-      getValues,
       formState: { errors },
    } = useForm<SignInForm>({
       resolver: zodResolver(signInFormSchema),
@@ -25,10 +24,10 @@ const SignInForm = () => {
    const router = useRouter();
    const [buttonLoading, setButtonLoading] = useState(false);
 
-   const { email, password } = getValues();
-
    const { mutate: loginUserMutation } = useMutation({
-      mutationFn: async () => {
+      mutationFn: async (data: SignInForm) => {
+         const { email, password } = data;
+
          const res = await fetch(`/api/user/login`, {
             headers: {
                Accept: "application/json",
@@ -63,9 +62,9 @@ const SignInForm = () => {
       },
    });
 
-   const onSubmit: SubmitHandler<SignInForm> = () => {
+   const onSubmit: SubmitHandler<SignInForm> = (data) => {
       setButtonLoading(true);
-      loginUserMutation();
+      loginUserMutation(data);
    };
 
    return (

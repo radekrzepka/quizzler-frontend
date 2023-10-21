@@ -22,11 +22,12 @@ const SignUpForm = () => {
    });
 
    const router = useRouter();
-   const { email, username, password, firstName, lastName } = getValues();
    const [buttonLoading, setButtonLoading] = useState(false);
 
    const { mutate: registerUserMutation } = useMutation({
-      mutationFn: async () => {
+      mutationFn: async (data: SignUpForm) => {
+         const { email, username, password, firstName, lastName } = data;
+
          const res = await fetch(`/api/user/register`, {
             headers: {
                Accept: "application/json",
@@ -66,9 +67,9 @@ const SignUpForm = () => {
       },
    });
 
-   const onSubmit: SubmitHandler<SignUpForm> = async () => {
+   const onSubmit: SubmitHandler<SignUpForm> = async (data) => {
       setButtonLoading(true);
-      registerUserMutation();
+      registerUserMutation(data);
    };
 
    return (

@@ -1,7 +1,7 @@
 "use client";
 
 import { FC, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 import PenImage from "./../../assets/icons/pen-icon.svg";
 import Image from "next/image";
 import Button from "@/components/ui/button";
@@ -10,7 +10,7 @@ import {
    ChangePasswordForm,
    changePasswordFormSchema,
 } from "./change-password-form-schema";
-import { getCookie, deleteCookie } from "cookies-next";
+import { getCookie } from "cookies-next";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
@@ -24,16 +24,13 @@ const ChangePasswordForm: FC = () => {
    const {
       register,
       handleSubmit,
-      getValues,
       formState: { errors },
    } = useForm<ChangePasswordForm>({
       resolver: zodResolver(changePasswordFormSchema),
    });
 
-   const { oldPassword, newPassword } = getValues();
-
    const { mutate: updatePasswordMutation } = useMutation({
-      mutationFn: async () => {
+      mutationFn: async ({ newPassword, oldPassword }: ChangePasswordForm) => {
          const JWT = getCookie("JWT") as string;
 
          const res = await fetch(`/api/user/update`, {
@@ -65,8 +62,8 @@ const ChangePasswordForm: FC = () => {
       },
    });
 
-   const onSubmit = () => {
-      updatePasswordMutation();
+   const onSubmit: SubmitHandler<ChangePasswordForm> = (data) => {
+      updatePasswordMutation(data);
       setButtonLoading(true);
    };
 

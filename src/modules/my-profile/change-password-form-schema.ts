@@ -14,7 +14,7 @@ export const changePasswordFormSchema = z
    })
    .refine((data) => data.newPassword === data.repeatedNewPassword, {
       message: "Passwords don't match",
-      path: ["repeatedPassword"],
+      path: ["repeatedNewPassword"],
    });
 
 export type ChangePasswordForm = z.infer<typeof changePasswordFormSchema>;

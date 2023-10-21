@@ -1,6 +1,6 @@
 import { FC, useState } from "react";
 import Button from "@/components/ui/button";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import { deleteCookie, getCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
@@ -14,15 +14,12 @@ const DeleteProfileForm: FC = ({}) => {
    const {
       register,
       handleSubmit,
-      getValues,
       formState: { errors },
-   } = useForm();
+   } = useForm<{ password: string }>();
    const router = useRouter();
 
-   const { password } = getValues();
-
    const { mutate: deleteMutation } = useMutation({
-      mutationFn: async () => {
+      mutationFn: async (password: string) => {
          const JWT = getCookie("JWT") as string;
 
          const res = await fetch(`/api/user/delete`, {
@@ -52,9 +49,9 @@ const DeleteProfileForm: FC = ({}) => {
       },
    });
 
-   const onSubmit = () => {
+   const onSubmit: SubmitHandler<{ password: string }> = ({ password }) => {
       setButtonLoading(true);
-      deleteMutation();
+      deleteMutation(password);
    };
 
    return (

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { FC, useState, useRef, useEffect } from "react";
 import BackIcon from "./../../assets/icons/back-icon.svg";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import {
    editLessonFormSchema,
    EditLessonForm,
@@ -86,12 +86,17 @@ const EditLessonForm: FC<EditLessonFormProps> = ({ lesson }) => {
       },
    });
 
-   const onSubmit = () => {
+   const onSubmit: SubmitHandler<EditLessonForm> = ({
+      title,
+      description,
+      lessonType,
+      image,
+      tags,
+   }) => {
       setButtonLoading(true);
 
       const formData = new FormData();
-      const title = watch("title");
-      const description = watch("description");
+
       formData.append("lessonId", lesson.lessonId.toString());
       if (title !== lesson.title) formData.append("title", title);
       if (description !== lesson.description && description)
@@ -99,22 +104,17 @@ const EditLessonForm: FC<EditLessonFormProps> = ({ lesson }) => {
 
       formData.append(
          "isPublic",
-         watch("lessonType").value === "public" ? "true" : "false",
+         lessonType.value === "public" ? "true" : "false",
       );
 
-      const watchedImage = watch("image");
-      if (watchedImage) {
-         formData.append("image", watchedImage);
+      if (image) {
+         formData.append("image", image);
       }
 
-      const watchedTags = watch("tags");
-
-      if (watchedTags) {
-         if (watchedTags.length === 0) formData.append("tagNames", "");
+      if (tags) {
+         if (tags.length === 0) formData.append("tagNames", "");
          else {
-            watchedTags.forEach((tag) =>
-               formData.append("tagNames", tag.value),
-            );
+            tags.forEach((tag) => formData.append("tagNames", tag.value));
          }
       }
 
