@@ -1,5 +1,5 @@
-import { UserInfo } from "./user-info";
 import { Flashcard } from "./flashcard";
+import { UserInfo } from "./user-info";
 
 export interface Lesson {
    lessonId: number;

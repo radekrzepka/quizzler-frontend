@@ -1,6 +1,5 @@
-import { FC } from "react";
-import { Dispatch, SetStateAction } from "react";
 import { subDays } from "date-fns";
+import { Dispatch, FC, SetStateAction } from "react";
 
 interface ChartDateFilersProps {
    changeStartDate: Dispatch<SetStateAction<Date>>;

@@ -1,8 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import Button from "@/components/ui/button";
 import LogoText from "@/components/ui/logo-text";
+import Link from "next/link";
 import { useState } from "react";
 
 const HomeNavigation = () => {

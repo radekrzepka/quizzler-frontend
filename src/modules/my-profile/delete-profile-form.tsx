@@ -1,12 +1,12 @@
-import { FC, useState } from "react";
 import Button from "@/components/ui/button";
-import { SubmitHandler, useForm } from "react-hook-form";
+import Dialog from "@/components/ui/dialog";
+import LabelInput from "@/components/ui/label-input";
 import { useMutation } from "@tanstack/react-query";
 import { deleteCookie, getCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
+import { FC, useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
-import LabelInput from "@/components/ui/label-input";
-import Dialog from "@/components/ui/dialog";
 
 const DeleteProfileForm: FC = ({}) => {
    const [isOpenModal, setIsOpenModal] = useState(false);

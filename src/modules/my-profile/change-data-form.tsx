@@ -1,21 +1,21 @@
 "use client";
 
-import { FC, useState } from "react";
-import { UserInfo } from "@/types/user-info";
-import { useForm, SubmitHandler } from "react-hook-form";
-import PenImage from "./../../assets/icons/pen-icon.svg";
-import Image from "next/image";
 import Button from "@/components/ui/button";
-import { useMutation } from "@tanstack/react-query";
-import { zodResolver } from "@hookform/resolvers/zod";
-import {
-   changeDataFormSchema,
-   ChangeDataForm,
-} from "./change-data-form-schema";
-import { getCookie } from "cookies-next";
-import { useRouter } from "next/navigation";
-import { toast } from "react-hot-toast";
 import LabelInput from "@/components/ui/label-input";
+import { UserInfo } from "@/types/user-info";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import { getCookie } from "cookies-next";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { FC, useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "react-hot-toast";
+import PenImage from "./../../assets/icons/pen-icon.svg";
+import {
+   ChangeDataForm,
+   changeDataFormSchema,
+} from "./change-data-form-schema";
 
 interface ChangeDataFormProps {
    profile: UserInfo;

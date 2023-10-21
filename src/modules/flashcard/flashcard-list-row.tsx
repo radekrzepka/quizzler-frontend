@@ -1,19 +1,16 @@
+import DropdownMenu from "@/components/ui/dropdown-menu";
 import { Flashcard } from "@/types/flashcard";
-import { FC, Dispatch, SetStateAction } from "react";
-import Image from "next/image";
-import PenIcon from "./../../assets/icons/white-pen-icon.svg";
-import DeleteIcon from "./../../assets/icons/white-delete-icon.svg";
-import { useMutation } from "@tanstack/react-query";
-import { getCookie } from "cookies-next";
+import { Lesson } from "@/types/lesson";
 import {
+   QueryObserverResult,
    RefetchOptions,
    RefetchQueryFilters,
-   QueryObserverResult,
+   useMutation,
 } from "@tanstack/react-query";
-import { Lesson } from "@/types/lesson";
-import toast from "react-hot-toast";
 import classNames from "classnames";
-import DropdownMenu from "@/components/ui/dropdown-menu";
+import { getCookie } from "cookies-next";
+import { Dispatch, FC, SetStateAction } from "react";
+import toast from "react-hot-toast";
 
 interface FlashcardListRowProps {
    flashcard: Flashcard;

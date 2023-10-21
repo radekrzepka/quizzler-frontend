@@ -1,12 +1,12 @@
+import classNames from "classnames";
 import {
-   UseFormRegister,
+   FieldErrors,
    FieldValues,
    Path,
-   FieldErrors,
+   UseFormRegister,
 } from "react-hook-form";
-import TextInput from "./text-input";
 import ErrorMessage from "./error-message";
-import classNames from "classnames";
+import TextInput from "./text-input";
 
 interface LabelInputProps<T extends FieldValues> {
    label?: string;

@@ -3,13 +3,13 @@
 import { ChartData } from "@/types/chart-data";
 import { FC } from "react";
 import {
-   LineChart as RechartLineChart,
-   Line,
    CartesianGrid,
+   Line,
+   LineChart as RechartLineChart,
+   ResponsiveContainer,
+   Tooltip,
    XAxis,
    YAxis,
-   Tooltip,
-   ResponsiveContainer,
 } from "recharts";
 
 interface LineChartProps {

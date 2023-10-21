@@ -1,20 +1,20 @@
 "use client";
 
-import { FC, useState } from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
-import PenImage from "./../../assets/icons/pen-icon.svg";
-import Image from "next/image";
 import Button from "@/components/ui/button";
+import LabelInput from "@/components/ui/label-input";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import { getCookie } from "cookies-next";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { FC, useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "react-hot-toast";
+import PenImage from "./../../assets/icons/pen-icon.svg";
 import {
    ChangePasswordForm,
    changePasswordFormSchema,
 } from "./change-password-form-schema";
-import { getCookie } from "cookies-next";
-import { useMutation } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
-import { toast } from "react-hot-toast";
-import LabelInput from "@/components/ui/label-input";
 
 const ChangePasswordForm: FC = () => {
    const [disabled, setDisabled] = useState(true);

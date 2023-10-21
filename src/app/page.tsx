@@ -1,5 +1,5 @@
-import HomeNavigation from "@/modules/home-page/home-navigation";
 import HomeMain from "@/modules/home-page/home-main";
+import HomeNavigation from "@/modules/home-page/home-navigation";
 import { FC } from "react";
 
 const Home: FC = () => {

@@ -1,13 +1,13 @@
+import DropdownMenu from "@/components/ui/dropdown-menu";
 import { Flashcard } from "@/types/flashcard";
-import { FC, Dispatch, SetStateAction } from "react";
-import FlashcardListRow from "./flashcard-list-row";
+import { Lesson } from "@/types/lesson";
 import {
+   QueryObserverResult,
    RefetchOptions,
    RefetchQueryFilters,
-   QueryObserverResult,
 } from "@tanstack/react-query";
-import { Lesson } from "@/types/lesson";
-import DropdownMenu from "@/components/ui/dropdown-menu";
+import { Dispatch, FC, SetStateAction } from "react";
+import FlashcardListRow from "./flashcard-list-row";
 
 interface FlashcardListProps {
    flashcards: Flashcard[];

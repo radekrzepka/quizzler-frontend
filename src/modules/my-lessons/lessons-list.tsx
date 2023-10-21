@@ -1,7 +1,7 @@
-import { Lesson } from "@/types/lesson";
-import { FC, useMemo } from "react";
 import LessonCard from "@/modules/my-lessons/lesson-card";
+import { Lesson } from "@/types/lesson";
 import { compareDesc, parseISO } from "date-fns";
+import { FC, useMemo } from "react";
 
 interface LessonsListProps {
    lessons: Lesson[];

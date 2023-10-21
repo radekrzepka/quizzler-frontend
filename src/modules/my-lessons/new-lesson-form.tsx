@@ -1,22 +1,21 @@
 "use client";
 
+import TagsMultiSelect from "@/components/lesson/tags-multi-select";
 import Button from "@/components/ui/button";
-import Textarea from "@/components/ui/textarea";
-import { FC } from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
-import Select from "@/components/ui/select";
-import { NewLessonForm, newLessonFormSchema } from "./new-lesson-form-schema";
-import { zodResolver } from "@hookform/resolvers/zod";
-import LabelInput from "@/components/ui/label-input";
-import { useState, useRef } from "react";
-import { useMutation } from "@tanstack/react-query";
 import ErrorMessage from "@/components/ui/error-message";
+import ImageContainer from "@/components/ui/image-container";
+import ImageInput from "@/components/ui/image-input";
+import LabelInput from "@/components/ui/label-input";
+import Select from "@/components/ui/select";
+import Textarea from "@/components/ui/textarea";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
 import { getCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
+import { FC, useRef, useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import ImageInput from "@/components/ui/image-input";
-import ImageContainer from "@/components/ui/image-container";
-import TagsMultiSelect from "@/components/lesson/tags-multi-select";
+import { NewLessonForm, newLessonFormSchema } from "./new-lesson-form-schema";
 
 const NewLessonForm: FC = () => {
    const {

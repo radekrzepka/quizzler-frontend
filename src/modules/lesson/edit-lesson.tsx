@@ -1,13 +1,13 @@
 "use client";
 
+import { Flashcard } from "@/types/flashcard";
 import { Lesson } from "@/types/lesson";
+import { useQuery } from "@tanstack/react-query";
+import { getCookie } from "cookies-next";
 import { FC, useState } from "react";
 import FlashcardForm from "../flashcard/flashcard-form";
 import FlashcardList from "../flashcard/flashcard-list";
-import { Flashcard } from "@/types/flashcard";
 import EditLessonForm from "./edit-lesson-form";
-import { useQuery } from "@tanstack/react-query";
-import { getCookie } from "cookies-next";
 
 const getLesson = async (id: string) => {
    const JWT = getCookie("JWT") as string;

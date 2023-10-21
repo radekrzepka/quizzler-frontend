@@ -1,23 +1,23 @@
 "use client";
 
-import { UserInfo } from "@/types/user-info";
-import { FC, useMemo, useState } from "react";
-import LineChart from "@/components/chart/line-chart";
 import ChartDateFilers from "@/components/chart/chart-date-filters";
+import LineChart from "@/components/chart/line-chart";
+import { ChartData } from "@/types/chart-data";
+import { UserInfo } from "@/types/user-info";
+import { generateAbbreviation } from "@/utils/generate-abbreviation";
+import classNames from "classnames";
 import {
-   subDays,
    addDays,
+   format,
    isBefore,
    isEqual,
-   format,
    parseISO,
+   subDays,
 } from "date-fns";
-import { ChartData } from "@/types/chart-data";
 import Image from "next/image";
-import classNames from "classnames";
-import ChangeAvatar from "./change-avatar";
+import { FC, useMemo, useState } from "react";
 import PenImage from "./../../assets/icons/pen-icon.svg";
-import { generateAbbreviation } from "@/utils/generate-abbreviation";
+import ChangeAvatar from "./change-avatar";
 
 interface ProfileCardProps {
    profile: UserInfo;

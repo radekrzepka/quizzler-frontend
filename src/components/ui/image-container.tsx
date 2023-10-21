@@ -1,10 +1,9 @@
+import classNames from "classnames";
 import Image from "next/image";
+import { Dispatch, SetStateAction } from "react";
+import { FieldValues, Path } from "react-hook-form";
 import AddIcon from "./../../assets/icons/add-icon.svg";
 import DeleteIcon from "./../../assets/icons/delete-icon.svg";
-import classNames from "classnames";
-import { FieldValues, Path } from "react-hook-form";
-import { Dispatch, SetStateAction, FC } from "react";
-import { Flashcard } from "@/types/flashcard";
 
 interface ImageContainerProps<T> {
    selectedImage: string | null | undefined;

@@ -1,20 +1,18 @@
 "use client";
 
+import Button from "@/components/ui/button";
+import Dialog from "@/components/ui/dialog";
+import DropdownMenu from "@/components/ui/dropdown-menu";
 import { Lesson } from "@/types/lesson";
-import { FC, useState } from "react";
-import { formatDistanceToNow } from "date-fns";
-import { utcToZonedTime } from "date-fns-tz";
-import Link from "next/link";
-import Image from "next/image";
-import PenIcon from "./../../assets/icons/pen-icon.svg";
-import DeleteIcon from "./../../assets/icons/black-delete-icon.svg";
-import { redirect, useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
 import { getCookie } from "cookies-next";
+import { formatDistanceToNow } from "date-fns";
+import { utcToZonedTime } from "date-fns-tz";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { FC, useState } from "react";
 import toast from "react-hot-toast";
-import Dialog from "@/components/ui/dialog";
-import Button from "@/components/ui/button";
-import DropdownMenu from "@/components/ui/dropdown-menu";
 
 interface LessonCardProps {
    lesson: Lesson;

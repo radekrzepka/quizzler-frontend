@@ -1,9 +1,9 @@
-import { useQuery } from "@tanstack/react-query";
-import React, { useState } from "react";
-import CreatableSelect from "react-select/creatable";
-import { getCookie } from "cookies-next";
-import { Controller, FieldValues, Control, Path } from "react-hook-form";
 import useDebounce from "@/hooks/use-debounce";
+import { useQuery } from "@tanstack/react-query";
+import { getCookie } from "cookies-next";
+import { useState } from "react";
+import { Control, Controller, FieldValues, Path } from "react-hook-form";
+import CreatableSelect from "react-select/creatable";
 
 interface TagsMultiSelectProps<T extends FieldValues> {
    name: Path<T>;

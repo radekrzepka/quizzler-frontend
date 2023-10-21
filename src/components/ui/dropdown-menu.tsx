@@ -1,11 +1,10 @@
-import { FC } from "react";
 import { Menu, Transition } from "@headlessui/react";
-import { Fragment } from "react";
-import PenIcon from "./../../assets/icons/pen-icon.svg";
-import DeleteIcon from "./../../assets/icons/black-delete-icon.svg";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
-import Image from "next/image";
 import classNames from "classnames";
+import Image from "next/image";
+import { FC, Fragment } from "react";
+import DeleteIcon from "./../../assets/icons/black-delete-icon.svg";
+import PenIcon from "./../../assets/icons/pen-icon.svg";
 
 interface DropdownMenuProps {
    options: Array<{

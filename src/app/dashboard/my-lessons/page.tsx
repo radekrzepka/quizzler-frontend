@@ -1,7 +1,7 @@
 import LessonsList from "@/modules/my-lessons/lessons-list";
 import NewLessonForm from "@/modules/my-lessons/new-lesson-form";
-import { FC } from "react";
 import { cookies } from "next/headers";
+import { FC } from "react";
 
 const getUserLessons = async () => {
    const cookieStore = cookies();

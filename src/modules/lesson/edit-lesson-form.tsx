@@ -1,25 +1,25 @@
-import Image from "next/image";
-import { FC, useState, useRef, useEffect } from "react";
-import BackIcon from "./../../assets/icons/back-icon.svg";
-import { SubmitHandler, useForm } from "react-hook-form";
-import {
-   editLessonFormSchema,
-   EditLessonForm,
-} from "./edit-lesson-form-schema";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
-import toast from "react-hot-toast";
-import { getCookie } from "cookies-next";
-import LabelInput from "@/components/ui/label-input";
-import ImageInput from "@/components/ui/image-input";
-import Select from "@/components/ui/select";
+import MultiSelect from "@/components/lesson/tags-multi-select";
 import Button from "@/components/ui/button";
 import ErrorMessage from "@/components/ui/error-message";
-import Textarea from "@/components/ui/textarea";
 import ImageContainer from "@/components/ui/image-container";
+import ImageInput from "@/components/ui/image-input";
+import LabelInput from "@/components/ui/label-input";
+import Select from "@/components/ui/select";
+import Textarea from "@/components/ui/textarea";
 import { Lesson } from "@/types/lesson";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import { getCookie } from "cookies-next";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
-import MultiSelect from "@/components/lesson/tags-multi-select";
+import { FC, useEffect, useRef, useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import BackIcon from "./../../assets/icons/back-icon.svg";
+import {
+   EditLessonForm,
+   editLessonFormSchema,
+} from "./edit-lesson-form-schema";
 
 interface EditLessonFormProps {
    lesson: Lesson;

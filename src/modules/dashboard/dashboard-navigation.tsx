@@ -1,19 +1,18 @@
 "use client";
 
-import { FC, useState } from "react";
-import LogoText from "@/components/ui/logo-text";
-import Link from "next/link";
-import Button from "@/components/ui/button";
 import DashboardNavigationLink from "@/components/dashboard/dashboard-navigation-link";
-import { deleteCookie } from "cookies-next";
-import { useRouter } from "next/navigation";
-import { toast } from "react-hot-toast";
-import { useQuery } from "@tanstack/react-query";
-import { getCookie } from "cookies-next";
-import { UserInfo } from "@/types/user-info";
-import Image from "next/image";
-import { generateAbbreviation } from "@/utils/generate-abbreviation";
+import Button from "@/components/ui/button";
+import LogoText from "@/components/ui/logo-text";
 import Skeleton from "@/components/ui/skeleton";
+import { UserInfo } from "@/types/user-info";
+import { generateAbbreviation } from "@/utils/generate-abbreviation";
+import { useQuery } from "@tanstack/react-query";
+import { deleteCookie, getCookie } from "cookies-next";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { FC, useState } from "react";
+import { toast } from "react-hot-toast";
 
 const getProfileData = async () => {
    const JWT = getCookie("JWT") as string;

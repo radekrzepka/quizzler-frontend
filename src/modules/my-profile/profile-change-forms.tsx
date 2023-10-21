@@ -1,7 +1,7 @@
 "use client";
 
-import { FC } from "react";
 import { UserInfo } from "@/types/user-info";
+import { FC } from "react";
 import ChangeDataForm from "./change-data-form";
 import ChangePasswordForm from "./change-password-form";
 import DeleteProfileForm from "./delete-profile-form";

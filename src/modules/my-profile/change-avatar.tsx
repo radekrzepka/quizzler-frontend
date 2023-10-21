@@ -1,14 +1,13 @@
-import { UserInfo } from "@/types/user-info";
-import { FC, useState, Dispatch, SetStateAction } from "react";
-import Image from "next/image";
-import classNames from "classnames";
 import Button from "@/components/ui/button";
-import { useMutation } from "@tanstack/react-query";
-import { getCookie } from "cookies-next";
-import { useRouter } from "next/navigation";
-import { toast } from "react-hot-toast";
 import Dialog from "@/components/ui/dialog";
-import { useQueryClient } from "@tanstack/react-query";
+import { UserInfo } from "@/types/user-info";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import classNames from "classnames";
+import { getCookie } from "cookies-next";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { Dispatch, FC, SetStateAction, useState } from "react";
+import { toast } from "react-hot-toast";
 
 interface ChangeAvatarProps {
    profile: UserInfo;

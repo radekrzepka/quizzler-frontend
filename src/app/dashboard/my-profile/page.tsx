@@ -1,8 +1,8 @@
-import { FC } from "react";
-import { cookies } from "next/headers";
-import { UserInfo } from "@/types/user-info";
 import ProfileCard from "@/modules/my-profile/profile-card";
 import ProfileChangeForms from "@/modules/my-profile/profile-change-forms";
+import { UserInfo } from "@/types/user-info";
+import { cookies } from "next/headers";
+import { FC } from "react";
 
 const getProfileData = async () => {
    const cookieStore = cookies();

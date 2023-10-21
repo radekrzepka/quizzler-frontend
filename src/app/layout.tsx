@@ -1,8 +1,8 @@
 import "@/styles/globals.css";
-import type { Metadata } from "next";
-import { Analytics } from "@vercel/analytics/react";
-import { Jaldi } from "next/font/google";
 import Providers from "@/utils/provider";
+import { Analytics } from "@vercel/analytics/react";
+import type { Metadata } from "next";
+import { Jaldi } from "next/font/google";
 import { Toaster } from "react-hot-toast";
 
 export const metadata: Metadata = {
