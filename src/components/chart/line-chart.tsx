@@ -6,11 +6,10 @@ import {
    CartesianGrid,
    Line,
    LineChart as RechartLineChart,
+   ResponsiveContainer,
    Tooltip,
    XAxis,
    YAxis,
-   ResponsiveContainer,
-   TooltipProps,
 } from "recharts";
 import { NameType } from "recharts/types/component/DefaultTooltipContent";
 import { ValueType } from "tailwindcss/types/config";
