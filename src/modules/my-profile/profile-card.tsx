@@ -14,7 +14,6 @@ import Image from "next/image";
 import { FC, useMemo, useState } from "react";
 import PenImage from "./../../assets/icons/pen-icon.svg";
 import { LogData } from "@/types/log-data";
-import { record } from "zod";
 
 interface ProfileCardProps {
   profile: UserInfo;

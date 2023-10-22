@@ -3,7 +3,7 @@ import { UserInfo } from "@/types/user-info";
 import ProfileCard from "@/modules/my-profile/profile-card";
 import ProfileChangeForms from "@/modules/my-profile/profile-change-forms";
 import { LogData } from "@/types/log-data";
-import getJWT from "@/utils/get-jwt-server";
+import getJWT from "@/utils/get-jwt";
 
 
 const fetchFromAPI = async (endpoint: string, JWT: string | undefined) => {
