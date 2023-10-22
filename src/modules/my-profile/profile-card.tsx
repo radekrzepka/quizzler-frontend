@@ -78,7 +78,7 @@ const reduceData = (data: ChartRecord[]) => {
          else
             result.push({
                name: format(processDate, formattingOption),
-               value: 0,
+               value: record.value,
             });
       });
    } else {
