@@ -1,12 +1,12 @@
 import { subDays } from "date-fns";
 import { Dispatch, FC, SetStateAction } from "react";
 
-interface ChartDateFilersProps {
+interface ChartDateFiltersProps {
    changeStartDate: Dispatch<SetStateAction<Date>>;
    registerDate: Date;
 }
 
-const ChartDateFilers: FC<ChartDateFilersProps> = ({
+const ChartDateFilters: FC<ChartDateFiltersProps> = ({
    changeStartDate,
    registerDate,
 }) => {
@@ -42,4 +42,4 @@ const ChartDateFilers: FC<ChartDateFilersProps> = ({
    );
 };
 
-export default ChartDateFilers;
+export default ChartDateFilters;
