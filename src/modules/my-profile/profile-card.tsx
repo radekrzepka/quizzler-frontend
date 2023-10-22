@@ -15,7 +15,6 @@ import classNames from "classnames";
 import ChangeAvatar from "./change-avatar";
 import PenImage from "./../../assets/icons/pen-icon.svg";
 import { LogData } from "@/types/log-data";
-import { record } from "zod";
 
 interface ProfileCardProps {
   profile: UserInfo;
