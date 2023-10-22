@@ -1,7 +1,7 @@
 "use client";
 
 import { UserInfo } from "@/types/user-info";
-import { FC, useMemo, useState } from "react";
+
 import LineChart from "@/components/chart/line-chart";
 import ChartDateFilters from "@/components/chart/chart-date-filters";
 import {
