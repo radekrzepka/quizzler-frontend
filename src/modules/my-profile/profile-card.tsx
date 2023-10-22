@@ -14,6 +14,10 @@ import Image from "next/image";
 import { FC, useMemo, useState } from "react";
 import PenImage from "./../../assets/icons/pen-icon.svg";
 import { LogData } from "@/types/log-data";
+import classNames from "classnames";
+import { generateAbbreviation } from "@/utils/generate-abbreviation";
+import ChangeAvatar from "./change-avatar";
+
 
 interface ProfileCardProps {
   profile: UserInfo;
@@ -105,7 +109,7 @@ const ProfileCard: FC<ProfileCardProps> = ({ profile, createdDates, learnedDates
     );
   }, [learnedStartDate, learnedFlashcards]);
 
-  const [isAvatarModalVisible, setAvatarModalVisibility] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
    return (
       <div className="flex flex-col items-center rounded-xl bg-text text-background">

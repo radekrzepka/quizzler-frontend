@@ -10,8 +10,6 @@ import {
    Tooltip,
    XAxis,
    YAxis,
-   Tooltip,
-   ResponsiveContainer,
    TooltipProps,
 } from "recharts";
 import { NameType } from "recharts/types/component/DefaultTooltipContent";
