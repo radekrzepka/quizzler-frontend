@@ -34,14 +34,13 @@ const generateEmptyDates = () => {
    const dates: ChartRecord[] = [];
    const startDate = subMonths(today, 11);
    let procDate = startDate;
-   do {
+   while (!isEqual(procDate, addDays(today, 1))) {
       dates.push({
          name: format(procDate, "dd MMMM yyyy"),
          value: 0,
       });
       procDate = addDays(procDate, 1);
-   } while (!isEqual(procDate, today));
-
+   }
    return dates;
 };
 
