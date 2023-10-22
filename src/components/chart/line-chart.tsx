@@ -8,6 +8,7 @@ import {
    LineChart as RechartLineChart,
    ResponsiveContainer,
    Tooltip,
+   TooltipProps,
    XAxis,
    YAxis,
 } from "recharts";
