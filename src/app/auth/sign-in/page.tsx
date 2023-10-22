@@ -3,7 +3,7 @@ import { FC } from "react";
 
 const SignIn: FC = () => {
    return (
-      <div className="grid h-screen w-full place-items-center">
+      <div className="grid w-full place-items-center absolute inset-0">
          <SignInForm />
       </div>
    );
