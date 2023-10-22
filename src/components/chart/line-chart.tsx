@@ -10,12 +10,31 @@ import {
    Tooltip,
    XAxis,
    YAxis,
+   Tooltip,
+   ResponsiveContainer,
+   TooltipProps,
 } from "recharts";
+import { NameType } from "recharts/types/component/DefaultTooltipContent";
+import { ValueType } from "tailwindcss/types/config";
 
 interface LineChartProps {
    data: ChartRecord[];
    id: string;
 }
+const CustomTooltip = ({
+   active,
+   payload
+}: TooltipProps<ValueType, NameType>) => {
+   if (active) {
+   return (
+       <div className="custom-tooltip rounded-md bg-accent p-1 px-3 text-background">
+         <p className="description"><b>{`${payload?.[0].value}`}</b>{` flashcards`}</p>
+       </div>
+   );
+   }
+
+   return null;
+};
 
 const LineChart: FC<LineChartProps> = ({ data, id }) => {
    return (
@@ -25,7 +44,7 @@ const LineChart: FC<LineChartProps> = ({ data, id }) => {
             <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
             <XAxis dataKey="name" />
             <YAxis allowDecimals={false}/>
-            <Tooltip />
+            <Tooltip content = {<CustomTooltip />}/>
          </RechartLineChart>
       </ResponsiveContainer>
    );

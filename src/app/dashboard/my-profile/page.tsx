@@ -38,7 +38,6 @@ const MyProfile: FC = async () => {
       await getProfileData(); 
    const [createdData, learnedData]: [Date[], LogData[]] = 
       await getStatsData();
-
    return (
       <div className="ml-0 grid gap-10 lg:grid-cols-[3fr_2fr]">
          <ProfileCard profile={profileData} createdDates={createdData} learnedDates={learnedData}/>
