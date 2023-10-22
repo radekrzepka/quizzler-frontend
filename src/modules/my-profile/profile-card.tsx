@@ -27,7 +27,7 @@ const today = new Date();
 
 const generateEmptyDates = () => {
   const dates: ChartRecord[] = [];
-  for (let i = 365; i >= 0; i--) {
+  for (let i = 334; i >= 0; i--) {
     dates.push({ name: format(subDays(today, i), "dd MMMM yyyy"), value: 0});
   }
   return dates;
@@ -36,7 +36,7 @@ const generateEmptyDates = () => {
 const datesChartFormat = (data: Date[], emptyDates: ChartRecord[]) => {
    data.forEach((date) =>{
       date = new Date(date);
-      const dateInEmptyDates = emptyDates.find(ele => ele.name == format(date, "dd MMMM yyyy"));
+      const dateInEmptyDates = emptyDates.find(ele => ele.name == format(date, "dd MMMM yyyy"));    
       if(dateInEmptyDates) dateInEmptyDates.value+=1;
       else emptyDates.push({name: format(date, "dd MMMM yyyy"), value: 1});
    });
@@ -44,35 +44,53 @@ const datesChartFormat = (data: Date[], emptyDates: ChartRecord[]) => {
 };
 
 const reduceData = (data: ChartRecord[]) => {
+   const result: ChartRecord[] = [];
    const recordsLength = data.length;
-   let formattingOption = "do";
-   if(recordsLength >= 28 && recordsLength < 90) formattingOption = "do";
-   else if(recordsLength >= 90) formattingOption = "LLLL";
-   data.forEach((record) => {
-      record.name = format(new Date(record.name), formattingOption);
-   });
-   return data;
+   // Determine formatting option based on the length of records.
+   let formattingOption = recordsLength >= 90 ? "LLLL" : recordsLength >= 28 ? "PP" : "do";
+
+   if(formattingOption !== "PP"){
+      data.forEach((record) => {
+         const dateInResult = result.find(item => item.name === format(new Date(record.name), formattingOption));
+         if(dateInResult) dateInResult.value += record.value;
+         else result.push({name: format(new Date(record.name), formattingOption), value: 0});
+      })
+   }
+   else {
+      let sumForTheWeek = 0;
+      data.forEach((record, index) =>{
+         sumForTheWeek += record.value;
+         const isLastRecord = index === data.length - 1;
+         const isSunday = format(new Date(record.name), "EEEE") === "Sunday";
+
+         if (isSunday || isLastRecord) {
+           const date = new Date(record.name);
+           const stringDates = `${format(subDays(date, 6), "d")} ${format(subDays(date, 6), "MMM")} - ${format(date, "d")} ${format(date, "MMM")}`;
+           result.push({ name: stringDates, value: sumForTheWeek });
+           sumForTheWeek = 0; // reset for the next week
+         }
+      })
+   }
+   return result;
  };
  
 const ProfileCard: FC<ProfileCardProps> = ({ profile, createdDates, learnedDates }) => {
-  const emptyDates = generateEmptyDates();
+  const emptyDatesCreated = generateEmptyDates();
+  const emptyDatesLearned = generateEmptyDates();
 
   const createdFlashcards = useMemo(() => {
-    return datesChartFormat(createdDates, emptyDates.slice())
-  }, [emptyDates, createdDates]);
+    return datesChartFormat(createdDates, emptyDatesCreated.slice())
+  }, [emptyDatesCreated, createdDates]);
 
   const learnedFlashcards = useMemo(() => {
     return datesChartFormat(
       learnedDates.filter(log => log.wasCorrect).map((log) => log.date),
-      emptyDates.slice()
+      emptyDatesLearned.slice()
     )
-  }, [emptyDates, learnedDates]);
+  }, [emptyDatesLearned, learnedDates]);
 
-  const firstCreatedDate = format(new Date(createdFlashcards.find(stat =>{
-    return stat.value !== 0;
-   })?.name || createdFlashcards[0].name), "dd MMMM yyyy");
+  const firstCreatedDate = format(new Date(createdFlashcards.find(stat => stat.value !== 0)?.name || createdFlashcards[0].name), "dd MMMM yyyy");
   const firstLearnedDate = format(new Date(learnedFlashcards.find(stat => stat.value !== 0)?.name || learnedFlashcards[0].name), "dd MMMM yyyy");
-
 
   const [createdStartDate, setCreatedStartDate] = useState(new Date(firstCreatedDate));
   const [learnedStartDate, setLearnedStartDate] = useState(new Date(firstLearnedDate));
@@ -88,8 +106,6 @@ const ProfileCard: FC<ProfileCardProps> = ({ profile, createdDates, learnedDates
       new Date(record.name) >= learnedStartDate )
     );
   }, [learnedStartDate, learnedFlashcards]);
-
-  console.log(selectedCreatedFlashcards)
 
   const [isAvatarModalVisible, setAvatarModalVisibility] = useState(false);
 
