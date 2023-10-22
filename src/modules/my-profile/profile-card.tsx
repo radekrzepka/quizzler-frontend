@@ -26,6 +26,9 @@ interface ProfileCardProps {
    learnedDates: LogData[];
 }
 
+const DAY_VIEW_NUMBER = 28;
+const MONTH_VIEW_NUMBER = 90;
+
 const generateEmptyDates = () => {
    const today = new Date();
    const dates: ChartRecord[] = [];
@@ -59,7 +62,11 @@ const reduceData = (data: ChartRecord[]) => {
    const recordsLength = data.length;
    // Determine formatting option based on the length of records.
    let formattingOption =
-      recordsLength >= 90 ? "LLLL yyyy" : recordsLength >= 28 ? "PP" : "do MMM";
+      recordsLength >= MONTH_VIEW_NUMBER
+         ? "LLLL yyyy"
+         : recordsLength >= DAY_VIEW_NUMBER
+         ? "PP"
+         : "do MMM";
 
    if (formattingOption !== "PP") {
       data.forEach((record) => {
@@ -202,13 +209,18 @@ const ProfileCard: FC<ProfileCardProps> = ({
          <LineChart
             data={selectedCreatedFlashcards}
             id="Flashcard stats chart"
+            recordType="flashcards"
          />
          <p className="text-lg">Learned flashcards: </p>
          <ChartDateFilters
             changeStartDate={setLearnedStartDate}
             registerDate={parseISO(profile.dateRegistered)}
          />
-         <LineChart data={selectedLearnedFlashcards} id="Lessons stats chart" />
+         <LineChart
+            data={selectedLearnedFlashcards}
+            id="Lessons stats chart"
+            recordType="flashcards"
+         />
       </div>
    );
 };
