@@ -16,15 +16,19 @@ const DashboardNavigationLink: FC<DashboardNavigationLinkProps> = ({
    const isSelected = currentPath === path;
 
    return (
-      <Link
-         href={path}
-         className={classNames(
-            isSelected && "text-gray-400",
-            "rounded p-1 text-center transition-all hover:text-gray-400 md:p-2",
-         )}
-      >
-         {label}
-      </Link>
+      <li className="grid w-full place-items-center lg:w-auto">
+         <Link
+            href={path}
+            className={classNames(
+               "w-full cursor-pointer rounded p-1 text-center text-xl md:px-8",
+               isSelected
+                  ? "bg-accent text-background"
+                  : "bg-background text-text",
+            )}
+         >
+            {label}
+         </Link>
+      </li>
    );
 };
 

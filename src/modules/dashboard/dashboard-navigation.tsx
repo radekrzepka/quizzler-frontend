@@ -43,21 +43,14 @@ const DashboardNavigation: FC = () => {
          <Link href={"/dashboard"}>
             <LogoText variant="light">Quizzler</LogoText>
          </Link>
-         <ul className="flex flex-col gap-1 text-center md:flex-row md:gap-6">
-            <li className="grid place-items-center">
-               <DashboardNavigationLink
-                  path="/dashboard/my-lessons"
-                  label="My lessons"
-               />
-            </li>
-            <li className="grid place-items-center">
-               <DashboardNavigationLink
-                  path="/dashboard/search"
-                  label="Search"
-               />
-            </li>
+         <ul className="flex w-full flex-col gap-1 text-center md:flex-row md:gap-6 lg:justify-center">
+            <DashboardNavigationLink
+               path="/dashboard/my-lessons"
+               label="My lessons"
+            />
+            <DashboardNavigationLink path="/dashboard/search" label="Search" />
          </ul>
-         <div className="grid w-full place-items-center lg:w-auto lg:grid-cols-2">
+         <div className="grid w-full flex-shrink-0 place-items-end lg:w-auto lg:grid-cols-[auto_auto] lg:gap-6">
             {isLoading || isError ? (
                <div className="mb-6 flex w-full items-center justify-center gap-3 lg:mb-0">
                   <Skeleton circle height="44px" width="44px" />
@@ -81,7 +74,7 @@ const DashboardNavigation: FC = () => {
                      />
                   )}
 
-                  <p className="pt-2 text-2xl">
+                  <p className="whitespace-nowrap pt-2 text-2xl">
                      Welcome, {profileData?.firstName || profileData.username}!
                   </p>
                </Link>
