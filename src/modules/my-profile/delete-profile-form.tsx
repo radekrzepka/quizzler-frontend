@@ -22,16 +22,13 @@ const DeleteProfileForm: FC = ({}) => {
       mutationFn: async (password: string) => {
          const JWT = getCookie("JWT") as string;
 
-         const res = await fetch(`/api/user/delete`, {
+         const res = await fetch(`/api/user/delete?userPassword=${password}`, {
             headers: {
                Accept: "application/json",
                "Content-Type": "application/json",
                Authorization: JWT,
             },
             method: "DELETE",
-            body: JSON.stringify({
-               password,
-            }),
          });
 
          return res.json();
@@ -72,14 +69,6 @@ const DeleteProfileForm: FC = ({}) => {
                   name="password"
                   errors={errors}
                />
-               <Button
-                  variant="white"
-                  type="button"
-                  isLoading={buttonLoading}
-                  onClick={() => setIsOpenModal(false)}
-               >
-                  Go back to settings
-               </Button>
                <Button
                   variant="primary"
                   type="submit"
