@@ -82,12 +82,12 @@ const reduceData = (data: ChartRecord[]) => {
       });
    } else {
       let sumForTheWeek = 0;
+      let lastDate = new Date();
       data.forEach((record, index) => {
          sumForTheWeek += record.value;
          const isLastRecord = index === data.length - 1;
          const isSunday = format(new Date(record.name), "EEEE") === "Sunday";
-
-         if (isSunday || isLastRecord) {
+         if (isSunday) {
             const date = new Date(record.name);
             const stringDates = `${format(subDays(date, 6), "d")} ${format(
                subDays(date, 6),
@@ -97,7 +97,18 @@ const reduceData = (data: ChartRecord[]) => {
                "yyyy",
             )}`;
             result.push({ name: stringDates, value: sumForTheWeek });
+            lastDate = date;
             sumForTheWeek = 0; // reset for the next week
+         } else if (isLastRecord) {
+            const date = addDays(lastDate, 7);
+            const stringDates = `${format(subDays(date, 6), "d")} ${format(
+               subDays(date, 6),
+               "MMM",
+            )} - ${format(date, "d")} ${format(date, "MMM")} ${format(
+               date,
+               "yyyy",
+            )}`;
+            result.push({ name: stringDates, value: sumForTheWeek });
          }
       });
    }
