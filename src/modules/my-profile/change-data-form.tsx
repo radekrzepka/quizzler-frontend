@@ -4,7 +4,7 @@ import Button from "@/components/ui/button";
 import LabelInput from "@/components/ui/label-input";
 import { UserInfo } from "@/types/user-info";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { getCookie } from "cookies-next";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -25,6 +25,7 @@ const ChangeDataForm: FC<ChangeDataFormProps> = ({ profile }) => {
    const [disabled, setDisabled] = useState(true);
    const [buttonLoading, setButtonLoading] = useState(false);
    const router = useRouter();
+   const queryClient = useQueryClient();
    const {
       register,
       handleSubmit,
@@ -68,6 +69,7 @@ const ChangeDataForm: FC<ChangeDataFormProps> = ({ profile }) => {
          if (res?.status === 200) {
             router.refresh();
             toast.success("Data has been changed");
+            queryClient.invalidateQueries({ queryKey: ["profileData"] });
             setDisabled(true);
          } else {
             toast.error(res.data);
