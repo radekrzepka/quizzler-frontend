@@ -10,6 +10,7 @@ import {
    subMonths,
    isEqual,
    addDays,
+   compareAsc,
 } from "date-fns";
 import { ChartRecord } from "@/types/chart-data";
 import Image from "next/image";
@@ -46,7 +47,7 @@ const generateEmptyDates = () => {
 
 const datesChartFormat = (data: Date[], emptyDates: ChartRecord[]) => {
    data.forEach((date) => {
-      date = new Date(date);
+      date = new Date(date + "Z");
       const dateInEmptyDates = emptyDates.find(
          (ele) => ele.name == format(date, "dd MMMM yyyy"),
       );
@@ -140,12 +141,17 @@ const ProfileCard: FC<ProfileCardProps> = ({
    const [learnedStartDate, setLearnedStartDate] = useState(
       new Date(parseISO(profile.dateRegistered)),
    );
-
    const selectedCreatedFlashcards = useMemo(() => {
       return reduceData(
          createdFlashcards
             .slice()
-            .filter((record) => new Date(record.name) >= createdStartDate),
+            .filter(
+               (record) =>
+                  compareAsc(
+                     new Date(record.name),
+                     createdStartDate.setHours(0, 0, 0, 0),
+                  ) >= 0,
+            ),
       );
    }, [createdStartDate, createdFlashcards]);
 
@@ -153,12 +159,17 @@ const ProfileCard: FC<ProfileCardProps> = ({
       return reduceData(
          learnedFlashcards
             .slice()
-            .filter((record) => new Date(record.name) >= learnedStartDate),
+            .filter(
+               (record) =>
+                  compareAsc(
+                     new Date(record.name),
+                     createdStartDate.setHours(0, 0, 0, 0),
+                  ) >= 0,
+            ),
       );
    }, [learnedStartDate, learnedFlashcards]);
 
    const [isOpen, setIsOpen] = useState(false);
-
    return (
       <div className="flex flex-col items-center rounded-xl bg-text text-background">
          <ChangeAvatar
@@ -177,25 +188,27 @@ const ProfileCard: FC<ProfileCardProps> = ({
             onClick={() => setIsOpen(true)}
          >
             {profile.avatar === null ? (
-               <div className="grid h-16 w-16 place-items-center rounded-full border border-background text-4xl font-bold text-background">
+               <div className="grid h-16 w-16 place-items-center rounded-full border border-2 border-white bg-background text-4xl font-bold text-background text-primary">
                   {generateAbbreviation(profile)}
                </div>
             ) : (
-               <Image
-                  width={64}
-                  height={64}
-                  src={`/images/avatars/avatar_${profile.avatar}.png`}
-                  alt={`Avatar of ${profile.username}`}
-                  className="mt-2"
-               />
+               <div>
+                  <Image
+                     width={64}
+                     height={64}
+                     src={`/images/avatars/avatar_${profile.avatar}.png`}
+                     alt={`Avatar of ${profile.username}`}
+                     className="mt-2"
+                  />
+                  <Image
+                     width={15}
+                     height={15}
+                     className="absolute right-[-8px] top-[2px]"
+                     alt="Change avatar pen icon"
+                     src={PenImage}
+                  />
+               </div>
             )}
-            <Image
-               width={15}
-               height={15}
-               className="absolute right-[-3px] top-[10px]"
-               alt="Change avatar pen icon"
-               src={PenImage}
-            />
          </button>
 
          <p

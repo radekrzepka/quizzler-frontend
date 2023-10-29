@@ -81,10 +81,10 @@ const FlashcardListRow: FC<FlashcardListRowProps> = ({
       >
          <DropdownMenu options={menuOptions} className="my-1 place-self-end" />
          <p className="truncate text-lg font-bold">
-            Question: {flashcard.questionText}
+            Question: {flashcard.questionText ?? "[image]"}
          </p>
          <p className="truncate text-base font-normal">
-            Answer: {flashcard.answerText}
+            Answer: {flashcard.answerText ?? "[image]"}
          </p>
       </div>
    );
