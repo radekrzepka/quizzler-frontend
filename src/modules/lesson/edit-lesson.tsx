@@ -48,7 +48,7 @@ const EditLesson: FC<EditLessonProps> = ({ lessonId }) => {
    if (isLoading || isError) return <EditLessonSkeleton />;
 
    return (
-      <div className="grid gap-4 xl:grid-cols-[2fr_2fr_1fr]">
+      <div className="grid gap-4 xl:grid-cols-2">
          <EditLessonForm lesson={lesson} />
          <FlashcardForm
             lessonId={lesson.lessonId}

@@ -127,7 +127,9 @@ const FlashcardForm: FC<FlashcardFormProps> = ({
       },
       onSettled: ({ status }) => {
          if (status === 201) {
-            toast.success("Flashcard added successfully");
+            selectedMode === "Add"
+               ? toast.success("Flashcard added successfully")
+               : toast.success("Flashcard updated successfully");
             onFlashcardAdded();
             reset();
          } else {
@@ -182,11 +184,12 @@ const FlashcardForm: FC<FlashcardFormProps> = ({
       <form
          onSubmit={handleSubmit(onSubmit)}
          className="rounded-xl bg-text text-background"
+         id="flashcard-form"
       >
          <input type="submit" style={{ display: "none" }} />
          <div className="flex h-full flex-col gap-3 p-4">
             <h2 className="text-center text-3xl font-bold">
-               {selectedMode} new flashcard
+               {selectedMode} flashcard
             </h2>
             <div className="flex border-collapse justify-between text-center">
                <button
@@ -226,7 +229,7 @@ const FlashcardForm: FC<FlashcardFormProps> = ({
                )}
                <div
                   className={classNames(
-                     "flex h-full flex-col justify-between gap-2 transition duration-300 ease-in-out",
+                     "flex flex-col justify-between gap-2 transition duration-300 ease-in-out",
                      selectedMode === "Edit" &&
                         !flashcardToEdit &&
                         "pointer-events-none blur-sm",
@@ -298,17 +301,16 @@ const FlashcardForm: FC<FlashcardFormProps> = ({
                         </div>
                      </div>
                   </div>
-
-                  <Button
-                     variant="primary"
-                     type="submit"
-                     className="mt-auto w-full"
-                     isLoading={buttonLoading}
-                  >
-                     {selectedMode === "Add" ? "Add new" : "Change"} flashcard
-                  </Button>
                </div>
             </div>
+            <Button
+               variant="primary"
+               type="submit"
+               className="w-full"
+               isLoading={buttonLoading}
+            >
+               {selectedMode === "Add" ? "Add new" : "Change"} flashcard
+            </Button>
          </div>
       </form>
    );

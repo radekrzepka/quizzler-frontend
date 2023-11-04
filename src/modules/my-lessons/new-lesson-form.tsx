@@ -58,7 +58,7 @@ const NewLessonForm: FC = () => {
       onSettled: ({ data, status }) => {
          if (status === 201) {
             const lessonId = data.split(" ")[2];
-            router.push(`/dashboard/lesson/${lessonId}?edit=true`);
+            router.push(`/dashboard/lesson/${lessonId}/edit`);
             toast.success("Lesson added successfully");
          } else if (status === 400) {
             toast.error("Lesson with this name already exists");
