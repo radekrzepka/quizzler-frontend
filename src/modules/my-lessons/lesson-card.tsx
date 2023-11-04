@@ -60,7 +60,6 @@ const LessonCard: FC<LessonCardProps> = ({ lesson }) => {
          }
       },
    });
-
    return (
       <div className="flex h-full w-full flex-col rounded-xl bg-text text-background">
          <Dialog
@@ -89,10 +88,10 @@ const LessonCard: FC<LessonCardProps> = ({ lesson }) => {
                Delete my lesson
             </Button>
          </Dialog>
-         {lesson.imagePath ? (
+         {lesson.imageName ? (
             <Image
                className="h-[200px] w-full rounded-t-xl bg-gray-700"
-               src={`http://104.250.180.67${lesson.imagePath}`}
+               src={`http://104.250.180.67/images/${lesson.imageName}`}
                alt={`Image of ${lesson.title} lesson`}
                width={500}
                height={200}

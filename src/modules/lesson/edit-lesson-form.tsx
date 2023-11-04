@@ -58,7 +58,7 @@ const EditLessonForm: FC<EditLessonFormProps> = ({ lesson }) => {
    const imageInputRef = useRef<HTMLInputElement | null>(null);
 
    useEffect(() => {
-      if (lesson.imagePath) setSelectedImage(lesson.imagePath);
+      if (lesson.imageName) setSelectedImage(lesson.imageName);
    }, []);
 
    const { mutate } = useMutation({
