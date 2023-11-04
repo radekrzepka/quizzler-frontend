@@ -78,14 +78,14 @@ const FlashcardForm: FC<FlashcardFormProps> = ({
          const {
             questionText,
             answerText,
-            questionImagePath,
-            answerImagePath,
+            questionImageName,
+            answerImageName,
          } = flashcardToEdit;
          const fieldsToUpdate = {
             question: questionText,
             answer: answerText,
-            questionImage: questionImagePath,
-            answerImage: answerImagePath,
+            questionImage: questionImageName,
+            answerImage: answerImageName,
          };
 
          for (const [key, value] of Object.entries(fieldsToUpdate)) {
@@ -95,8 +95,8 @@ const FlashcardForm: FC<FlashcardFormProps> = ({
             );
          }
 
-         setSelectedQuestionImage(questionImagePath);
-         setSelectedAnswerImage(answerImagePath);
+         setSelectedQuestionImage(questionImageName);
+         setSelectedAnswerImage(answerImageName);
       } else {
          reset();
          setSelectedQuestionImage(null);

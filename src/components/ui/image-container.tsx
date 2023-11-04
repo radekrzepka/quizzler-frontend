@@ -24,7 +24,9 @@ const ImageContainer = <T extends FieldValues>({
    setValue,
    setSelectedImage,
 }: ImageContainerProps<T>) => {
-   const isImageFromServer = selectedImage?.includes("/images");
+   const isImageFromServer = selectedImage
+      ?.substring(selectedImage?.lastIndexOf("/"))
+      .includes(".");
 
    return (
       <>
@@ -33,7 +35,7 @@ const ImageContainer = <T extends FieldValues>({
                <Image
                   src={
                      isImageFromServer
-                        ? `http://104.250.180.67${selectedImage}`
+                        ? `http://104.250.180.67/images/${selectedImage}`
                         : selectedImage
                   }
                   alt={`Selected ${name}`}

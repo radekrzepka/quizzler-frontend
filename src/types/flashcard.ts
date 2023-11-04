@@ -3,7 +3,7 @@ export interface Flashcard {
    lessonId: number;
    dateCreated: Date;
    questionText?: string;
-   questionImagePath?: string;
+   questionImageName?: string;
    answerText?: string;
-   answerImagePath?: string;
+   answerImageName?: string;
 }

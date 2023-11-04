@@ -51,7 +51,7 @@ const SignInForm = () => {
             toast.success("Logged in");
          } else if (res?.status === 409) {
             toast.error("There is no account set up with the given email");
-         } else if (res?.status === 400) {
+         } else if (res?.status === 401) {
             toast.error("Wrong credentials");
          } else {
             toast.error(
