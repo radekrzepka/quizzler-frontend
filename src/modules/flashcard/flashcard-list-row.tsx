@@ -9,7 +9,7 @@ import {
 } from "@tanstack/react-query";
 import classNames from "classnames";
 import { getCookie } from "cookies-next";
-import { Dispatch, FC, SetStateAction } from "react";
+import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 interface FlashcardListRowProps {
@@ -23,6 +23,20 @@ interface FlashcardListRowProps {
    selectedMode: "Add" | "Edit";
 }
 
+const scrollToElement = (elementId: string) => {
+   const element = document.getElementById(elementId);
+   if (element) {
+      element.scrollIntoView({
+         behavior: "smooth",
+         block: "start",
+         inline: "nearest",
+      });
+   }
+};
+
+const getRandomNumber = (min: number, max: number) =>
+   Math.floor(Math.random() * (max - min) + min).toString();
+
 const FlashcardListRow: FC<FlashcardListRowProps> = ({
    flashcard,
    refetchLesson,
@@ -31,6 +45,13 @@ const FlashcardListRow: FC<FlashcardListRowProps> = ({
    selectedMode,
    flashcardToEdit,
 }) => {
+   const [rotationDegree, setRotationDegree] = useState("");
+
+   useEffect(() => {
+      const degree = getRandomNumber(-5, 5);
+      setRotationDegree(degree);
+   }, []);
+
    const { mutate: deleteFlashcardMutation } = useMutation({
       mutationFn: () => {
          if (flashcardToEdit?.flashcardId === flashcard.flashcardId)
@@ -62,6 +83,7 @@ const FlashcardListRow: FC<FlashcardListRowProps> = ({
          onClickFunction: () => {
             setFlashcardToEdit(flashcard);
             setSelectedMode("Edit");
+            scrollToElement("flashcard-form");
          },
       },
       {
@@ -72,20 +94,33 @@ const FlashcardListRow: FC<FlashcardListRowProps> = ({
 
    return (
       <div
+         style={{
+            transform: `rotate(${rotationDegree}deg)`,
+         }}
          className={classNames(
-            "flex w-full flex-col rounded-md bg-gray-700 px-2 text-left text-text shadow-lg",
+            `relative flex h-40 w-40 flex-col justify-center rounded-md bg-accent px-2 pt-1 text-center text-background shadow-lg`,
             flashcardToEdit?.flashcardId === flashcard.flashcardId &&
                selectedMode === "Edit" &&
-               "!bg-gray-500",
+               "!bg-gray-400",
          )}
       >
-         <DropdownMenu options={menuOptions} className="my-1 place-self-end" />
-         <p className="truncate text-lg font-bold">
-            Question: {flashcard.questionText ?? "[image]"}
-         </p>
-         <p className="truncate text-base font-normal">
-            Answer: {flashcard.answerText ?? "[image]"}
-         </p>
+         <div className="absolute left-1/2 top-1 -translate-x-1/2 transform rounded-full bg-blue-500 shadow-lg">
+            <div className="flex h-5 w-5 items-center justify-center rounded-full"></div>
+         </div>
+         <DropdownMenu
+            options={menuOptions}
+            smallIcon
+            iconColor="background"
+            className="!absolute right-1 top-1"
+         />
+         <div className="flex flex-col truncate">
+            <p className="truncate text-lg font-bold">
+               Question: {flashcard.questionText ?? "[image]"}
+            </p>
+            <p className="truncate text-base font-normal">
+               Answer: {flashcard.answerText ?? "[image]"}
+            </p>
+         </div>
       </div>
    );
 };

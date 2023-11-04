@@ -167,7 +167,7 @@ const ProfileCard: FC<ProfileCardProps> = ({
                   ) >= 0,
             ),
       );
-   }, [learnedStartDate, learnedFlashcards]);
+   }, [learnedFlashcards, createdStartDate]);
 
    const [isOpen, setIsOpen] = useState(false);
    return (
@@ -188,11 +188,20 @@ const ProfileCard: FC<ProfileCardProps> = ({
             onClick={() => setIsOpen(true)}
          >
             {profile.avatar === null ? (
-               <div className="grid h-16 w-16 place-items-center rounded-full border border-2 border-white bg-background text-4xl font-bold text-background text-primary">
-                  {generateAbbreviation(profile)}
-               </div>
+               <>
+                  <div className="mt-2 grid h-16 w-16 place-items-center rounded-full bg-background text-4xl font-bold text-primary">
+                     {generateAbbreviation(profile)}
+                  </div>
+                  <Image
+                     width={15}
+                     height={15}
+                     className="absolute right-[-4px] top-[2px]"
+                     alt="Change avatar pen icon"
+                     src={PenImage}
+                  />
+               </>
             ) : (
-               <div>
+               <>
                   <Image
                      width={64}
                      height={64}
@@ -203,11 +212,11 @@ const ProfileCard: FC<ProfileCardProps> = ({
                   <Image
                      width={15}
                      height={15}
-                     className="absolute right-[-8px] top-[2px]"
+                     className="absolute right-[-4px] top-[2px]"
                      alt="Change avatar pen icon"
                      src={PenImage}
                   />
-               </div>
+               </>
             )}
          </button>
 

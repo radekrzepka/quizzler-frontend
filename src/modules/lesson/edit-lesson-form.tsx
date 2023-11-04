@@ -122,8 +122,8 @@ const EditLessonForm: FC<EditLessonFormProps> = ({ lesson }) => {
    };
 
    return (
-      <div className="flex flex-col rounded-xl bg-text p-4 text-background">
-         <div className="relative mb-3 flex w-full flex-col items-center md:flex-row">
+      <div className="flex flex-col rounded-xl bg-text p-4 pb-0 text-background">
+         <div className="flex w-full flex-col">
             <button
                className="z-20 flex flex-row items-center gap-1"
                onClick={() => {
@@ -138,13 +138,13 @@ const EditLessonForm: FC<EditLessonFormProps> = ({ lesson }) => {
                />
                <span>Go back to my lessons</span>
             </button>
-            <h2 className="inset-x-0 text-center text-3xl font-bold md:absolute">
+            <h2 className="inset-x-0 text-center text-3xl font-bold">
                Lesson details
             </h2>
          </div>
          <form
             onSubmit={handleSubmit(onSubmit)}
-            className="h-fit  items-center justify-center rounded-xl bg-text text-background"
+            className="items-center justify-center rounded-xl bg-text text-background"
          >
             <div
                className="relative h-[200px] w-full cursor-pointer rounded-xl bg-gray-700"

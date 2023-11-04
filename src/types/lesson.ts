@@ -11,4 +11,5 @@ export interface Lesson {
    dateCreated: string;
    flashcards: Flashcard[];
    tags?: string[];
+   flashcardCount: number;
 }

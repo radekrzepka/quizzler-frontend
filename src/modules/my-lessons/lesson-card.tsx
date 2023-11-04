@@ -102,51 +102,88 @@ const LessonCard: FC<LessonCardProps> = ({ lesson }) => {
          )}
 
          <div className="my-1 flex w-full flex-grow-[2] flex-col">
-            <div className="mr-2 place-self-end self-end">
-               <DropdownMenu options={menuOptions} />
+            <div className="relative flex items-center justify-center">
+               <h2 className="text-3xl font-bold">{lesson.title}</h2>
+               <DropdownMenu
+                  options={menuOptions}
+                  smallIcon
+                  iconColor="black"
+                  className="!absolute right-0"
+               />
             </div>
-            <div className="relative flex flex-col items-end justify-center md:items-center">
-               <h2 className="place-self-center text-center text-3xl font-bold">
-                  {lesson.title}
-               </h2>
-            </div>
-            {lesson.tags?.length !== 0 && lesson.tags && (
-               <div className="mx-3 flex w-full flex-wrap gap-1">
-                  {lesson.tags.map((tag) => (
-                     <div
-                        className="rounded-3xl border border-gray-700 px-4 text-sm text-gray-700"
-                        key={tag}
-                     >
-                        {tag}
-                     </div>
-                  ))}
-               </div>
-            )}
-            {lesson.tags?.length === 0 && (
-               <p className="mx-3  text-center">No tags added</p>
-            )}
 
-            <div>
-               <p className="text-center text-sm text-gray-700">
-                  {lesson.description || "No description provided"}
-               </p>
-               <p className="text-center text-sm font-bold text-gray-700">
-                  Added {formatDistanceToNow(localDate)} ago
-               </p>
-               <p className="mb-auto text-center text-sm text-gray-700">
-                  {lesson.isPublic ? "Public" : "Private"} lesson
-               </p>
+            <div className="flex items-center justify-center gap-1 py-1">
+               <Image
+                  className=""
+                  src="/icons/tags.png"
+                  alt="Icon of tags"
+                  width={24}
+                  height={24}
+               />
+               {lesson.tags?.length !== 0 && lesson.tags && (
+                  <div className="flex flex-wrap justify-center gap-1">
+                     {lesson.tags.map((tag) => (
+                        <div
+                           className="h-min rounded-xl border border-gray-700 px-3 text-sm text-gray-700"
+                           key={tag}
+                        >
+                           {tag}
+                        </div>
+                     ))}
+                  </div>
+               )}
+               {lesson.tags?.length === 0 && (
+                  <p className="text-center">No tags added</p>
+               )}
+            </div>
+
+            <div className="grid gap-2 2xl:grid-cols-2">
+               <div className="flex items-center gap-1">
+                  <Image
+                     src="/icons/description.png"
+                     alt="Icon of tags"
+                     width={24}
+                     height={24}
+                  />
+                  <p>{lesson.description || "No description provided"}</p>
+               </div>
+
+               <div className="flex items-center gap-1">
+                  <Image
+                     src="/icons/date.png"
+                     alt="Icon of tags"
+                     width={24}
+                     height={24}
+                  />
+                  <p>Added {formatDistanceToNow(localDate)} ago</p>
+               </div>
+
+               <div className="flex items-center gap-1">
+                  <Image
+                     src="/icons/lock.svg"
+                     alt="Icon of tags"
+                     width={24}
+                     height={24}
+                  />
+                  <p>{lesson.isPublic ? "Public" : "Private"} lesson</p>
+               </div>
+
+               <div className="flex items-center gap-1">
+                  <Image
+                     src="/icons/quantity.png"
+                     alt="Icon of tags"
+                     width={32}
+                     height={32}
+                  />
+                  <p>{lesson.flashcardCount} flashcards</p>
+               </div>
             </div>
 
             <Link
-               className="mt-auto flex w-full justify-center"
+               className="mx-auto flex justify-center py-3"
                href={`/dashboard/lesson/${lesson.lessonId}`}
             >
-               <Button
-                  variant="accent"
-                  type="button"
-                  className="mt-auto w-3/4 !py-[2px] shadow-md md:w-3/5"
-               >
+               <Button variant="accent" type="button" className=" shadow-md">
                   Study now
                </Button>
             </Link>

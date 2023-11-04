@@ -1,16 +1,21 @@
 import { Menu, Transition } from "@headlessui/react";
-import { ChevronDownIcon } from "@heroicons/react/20/solid";
-import classNames from "classnames";
+import {
+   ChevronDownIcon,
+   EllipsisVerticalIcon,
+} from "@heroicons/react/20/solid";
 import Image from "next/image";
 import { FC, Fragment } from "react";
 import DeleteIcon from "./../../assets/icons/black-delete-icon.svg";
 import PenIcon from "./../../assets/icons/pen-icon.svg";
+import classNames from "classnames";
 
 interface DropdownMenuProps {
    options: Array<{
       label: string;
       onClickFunction: () => void;
    }>;
+   smallIcon?: boolean;
+   iconColor?: string;
    className?: string;
 }
 
@@ -19,19 +24,36 @@ const icons = {
    delete: DeleteIcon,
 };
 
-const DropdownMenu: FC<DropdownMenuProps> = ({ options, className }) => {
+const DropdownMenu: FC<DropdownMenuProps> = ({
+   options,
+   smallIcon = false,
+   iconColor = "white",
+   className,
+}) => {
    return (
-      <div className={classNames("text-right", className)}>
-         <Menu as="div" className="relative inline-block text-left">
-            <div>
-               <Menu.Button className="inline-flex w-full justify-center rounded-md bg-accent px-4 py-1 text-sm font-medium text-background hover:bg-opacity-95">
-                  Options
-                  <ChevronDownIcon
-                     className="-mr-1 ml-2 h-5 w-5 text-background"
-                     aria-hidden="true"
-                  />
-               </Menu.Button>
-            </div>
+      <>
+         <Menu
+            as="div"
+            className={classNames("relative inline-block text-left", className)}
+         >
+            <>
+               {smallIcon ? (
+                  <Menu.Button className="grid place-items-center">
+                     <EllipsisVerticalIcon
+                        className={`h-6 w-6 text-${iconColor}`}
+                        aria-hidden="true"
+                     />
+                  </Menu.Button>
+               ) : (
+                  <Menu.Button className="inline-flex w-full justify-center rounded-md bg-accent px-4 py-1 text-sm font-medium text-background hover:bg-opacity-95">
+                     Options
+                     <ChevronDownIcon
+                        className="-mr-1 ml-2 h-5 w-5 text-background"
+                        aria-hidden="true"
+                     />
+                  </Menu.Button>
+               )}
+            </>
             <Transition
                as={Fragment}
                enter="transition ease-out duration-100"
@@ -79,7 +101,7 @@ const DropdownMenu: FC<DropdownMenuProps> = ({ options, className }) => {
                </Menu.Items>
             </Transition>
          </Menu>
-      </div>
+      </>
    );
 };
 
