@@ -48,7 +48,7 @@ const FlashcardListRow: FC<FlashcardListRowProps> = ({
    const [rotationDegree, setRotationDegree] = useState("");
 
    useEffect(() => {
-      const degree = getRandomNumber(-5, 5);
+      const degree = getRandomNumber(-10, 10);
       setRotationDegree(degree);
    }, []);
 

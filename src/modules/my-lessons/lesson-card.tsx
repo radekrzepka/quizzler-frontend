@@ -102,7 +102,9 @@ const LessonCard: FC<LessonCardProps> = ({ lesson }) => {
 
          <div className="my-1 flex w-full flex-grow-[2] flex-col">
             <div className="relative flex items-center justify-center">
-               <h2 className="text-3xl font-bold">{lesson.title}</h2>
+               <h2 className="truncate px-2 text-3xl font-bold">
+                  {lesson.title}
+               </h2>
                <DropdownMenu
                   options={menuOptions}
                   smallIcon
@@ -113,7 +115,6 @@ const LessonCard: FC<LessonCardProps> = ({ lesson }) => {
 
             <div className="flex items-center justify-center gap-1 py-1">
                <Image
-                  className=""
                   src="/icons/tags.png"
                   alt="Icon of tags"
                   width={24}
@@ -136,8 +137,8 @@ const LessonCard: FC<LessonCardProps> = ({ lesson }) => {
                )}
             </div>
 
-            <div className="grid gap-2 2xl:grid-cols-2">
-               <div className="flex items-center gap-1">
+            <div className="m-2 grid gap-2 xl:place-items-center 2xl:grid-cols-2">
+               <div className="flex w-full items-center gap-1 truncate">
                   <Image
                      src="/icons/description.png"
                      alt="Icon of tags"

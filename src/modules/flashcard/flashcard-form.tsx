@@ -229,29 +229,31 @@ const FlashcardForm: FC<FlashcardFormProps> = ({
                )}
                <div
                   className={classNames(
-                     "flex flex-col justify-between gap-2 transition duration-300 ease-in-out",
+                     "flex h-full flex-col justify-between gap-2 transition duration-300 ease-in-out",
                      selectedMode === "Edit" &&
                         !flashcardToEdit &&
                         "pointer-events-none blur-sm",
                   )}
                >
-                  <div className="flex flex-col">
-                     <LabelInput
-                        label="Question:"
-                        inputType="text"
-                        register={register}
-                        name="question"
-                        errors={errors}
-                     />
-                  </div>
-                  <div className="flex flex-col">
-                     <LabelInput
-                        label="Answer:"
-                        inputType="text"
-                        register={register}
-                        name="answer"
-                        errors={errors}
-                     />
+                  <div>
+                     <div className="flex flex-col">
+                        <LabelInput
+                           label="Question:"
+                           inputType="text"
+                           register={register}
+                           name="question"
+                           errors={errors}
+                        />
+                     </div>
+                     <div className="flex flex-col">
+                        <LabelInput
+                           label="Answer:"
+                           inputType="text"
+                           register={register}
+                           name="answer"
+                           errors={errors}
+                        />
+                     </div>
                   </div>
                   <div className="grid gap-4 md:grid-cols-2">
                      <div>
@@ -301,16 +303,16 @@ const FlashcardForm: FC<FlashcardFormProps> = ({
                         </div>
                      </div>
                   </div>
+                  <Button
+                     variant="primary"
+                     type="submit"
+                     className="w-full"
+                     isLoading={buttonLoading}
+                  >
+                     {selectedMode === "Add" ? "Add new" : "Change"} flashcard
+                  </Button>
                </div>
             </div>
-            <Button
-               variant="primary"
-               type="submit"
-               className="w-full"
-               isLoading={buttonLoading}
-            >
-               {selectedMode === "Add" ? "Add new" : "Change"} flashcard
-            </Button>
          </div>
       </form>
    );
