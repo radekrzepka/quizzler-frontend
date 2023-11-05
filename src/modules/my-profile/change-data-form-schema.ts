@@ -16,11 +16,11 @@ export const changeDataFormSchema = z.object({
       .max(32, { message: "Username too long (max 32 characters)" }),
    firstName: z
       .string()
-      .max(20, { message: "Firstname too long (max 20 characters)" })
+      .max(20, { message: "First name too long (max 20 characters)" })
       .optional(),
    lastName: z
       .string()
-      .max(20, { message: "Lastname too long (max 20 characters)" })
+      .max(20, { message: "Last name too long (max 20 characters)" })
       .optional(),
 });
 

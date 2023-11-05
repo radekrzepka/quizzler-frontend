@@ -45,8 +45,8 @@ const SignInForm = () => {
 
       onSettled: (res) => {
          if (res?.status === 200) {
-            router.refresh();
             router.push("/dashboard");
+            router.refresh();
             setCookie("JWT", `Bearer ${res.data}`);
             toast.success("Logged in");
          } else if (res?.status === 409) {

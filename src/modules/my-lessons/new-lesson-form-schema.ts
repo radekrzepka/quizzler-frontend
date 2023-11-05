@@ -17,8 +17,12 @@ export const newLessonFormSchema = z.object({
    tags: z
       .array(
          z.object({
-            label: z.string(),
-            value: z.string(),
+            label: z
+               .string()
+               .max(50, { message: "Tag too long (max 50 characters)" }),
+            value: z
+               .string()
+               .max(50, { message: "Tag too long (max 50 characters)" }),
          }),
       )
       .optional(),

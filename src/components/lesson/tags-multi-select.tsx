@@ -62,8 +62,16 @@ const TagsMultiSelect = <T extends FieldValues>({
                isMulti
                onInputChange={(value) => setQuery(value)}
                options={options}
+               isValidNewOption={(inputValue, selectOptions) =>
+                  inputValue.length <= 50 &&
+                  !selectOptions.some((option) => option.label === inputValue)
+               }
                noOptionsMessage={({ inputValue }) =>
-                  inputValue ? `No options for "${inputValue}"` : "Please write"
+                  inputValue.length > 50
+                     ? "Tag too long (max 50 characters)"
+                     : inputValue
+                     ? `No options for "${inputValue}"`
+                     : "Please write"
                }
             />
          )}

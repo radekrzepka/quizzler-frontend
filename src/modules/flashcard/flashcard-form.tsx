@@ -133,7 +133,9 @@ const FlashcardForm: FC<FlashcardFormProps> = ({
             onFlashcardAdded();
             reset();
          } else {
-            toast.error("Error when adding flashcard");
+            selectedMode === "Add"
+               ? toast.success("Error adding flashcard")
+               : toast.success("Error updating flashcard");
          }
          setButtonLoading(false);
       },

@@ -113,7 +113,7 @@ const LessonCard: FC<LessonCardProps> = ({ lesson }) => {
                />
             </div>
 
-            <div className="flex items-center justify-center gap-1 py-1">
+            <div className="m-2 flex items-center justify-center gap-1 py-1">
                <Image
                   src="/icons/tags.png"
                   alt="Icon of tags"
@@ -137,7 +137,7 @@ const LessonCard: FC<LessonCardProps> = ({ lesson }) => {
                )}
             </div>
 
-            <div className="m-2 grid gap-2 xl:place-items-center 2xl:grid-cols-2">
+            <div className="m-2 grid gap-2 2xl:grid-cols-2">
                <div className="flex w-full items-center gap-1 truncate">
                   <Image
                      src="/icons/description.png"
@@ -148,7 +148,7 @@ const LessonCard: FC<LessonCardProps> = ({ lesson }) => {
                   <p>{lesson.description || "No description provided"}</p>
                </div>
 
-               <div className="flex items-center gap-1">
+               <div className="flex items-center gap-1 2xl:place-self-end">
                   <Image
                      src="/icons/date.png"
                      alt="Icon of tags"
@@ -168,7 +168,7 @@ const LessonCard: FC<LessonCardProps> = ({ lesson }) => {
                   <p>{lesson.isPublic ? "Public" : "Private"} lesson</p>
                </div>
 
-               <div className="flex items-center gap-1">
+               <div className="flex items-center gap-1 2xl:place-self-end">
                   <Image
                      src="/icons/quantity.png"
                      alt="Icon of tags"

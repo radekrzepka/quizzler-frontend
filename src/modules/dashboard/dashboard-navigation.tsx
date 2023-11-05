@@ -74,7 +74,7 @@ const DashboardNavigation: FC = () => {
                      />
                   )}
 
-                  <p className="whitespace-nowrap pt-2 text-2xl">
+                  <p className="whitespace-nowrap text-2xl">
                      Welcome, {profileData?.firstName || profileData.username}!
                   </p>
                </Link>
@@ -87,10 +87,10 @@ const DashboardNavigation: FC = () => {
                type="button"
                className="w-full lg:w-auto"
                onClick={() => {
+                  router.push("/");
                   deleteCookie("JWT");
                   setSignOutClicked(true);
                   toast.success("Logged out");
-                  router.push("/");
                }}
             />
          </div>
