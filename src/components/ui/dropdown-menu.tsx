@@ -5,8 +5,6 @@ import {
 } from "@heroicons/react/20/solid";
 import Image from "next/image";
 import { FC, Fragment } from "react";
-import DeleteIcon from "./../../assets/icons/black-delete-icon.svg";
-import PenIcon from "./../../assets/icons/pen-icon.svg";
 import classNames from "classnames";
 
 interface DropdownMenuProps {
@@ -20,8 +18,8 @@ interface DropdownMenuProps {
 }
 
 const icons = {
-   edit: PenIcon,
-   delete: DeleteIcon,
+   edit: "icons/pen-icon.svg",
+   delete: "/icons/black-delete-icon.svg",
 };
 
 const DropdownMenu: FC<DropdownMenuProps> = ({

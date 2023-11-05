@@ -11,7 +11,6 @@ import { useRouter } from "next/navigation";
 import { FC, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
-import PenImage from "./../../assets/icons/pen-icon.svg";
 import {
    ChangeDataForm,
    changeDataFormSchema,
@@ -105,7 +104,7 @@ const ChangeDataForm: FC<ChangeDataFormProps> = ({ profile }) => {
          >
             <Image
                className="mr-1 inline"
-               src={PenImage}
+               src="/icons/pen-icon.svg"
                alt="Icon of pen"
                width={20}
                height={20}

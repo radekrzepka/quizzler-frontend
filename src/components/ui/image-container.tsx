@@ -2,8 +2,6 @@ import classNames from "classnames";
 import Image from "next/image";
 import { Dispatch, SetStateAction } from "react";
 import { FieldValues, Path } from "react-hook-form";
-import AddIcon from "./../../assets/icons/add-icon.svg";
-import DeleteIcon from "./../../assets/icons/delete-icon.svg";
 
 interface ImageContainerProps<T> {
    selectedImage: string | null | undefined;
@@ -47,7 +45,7 @@ const ImageContainer = <T extends FieldValues>({
                />
                <Image
                   className="absolute right-0 top-0"
-                  src={DeleteIcon}
+                  src="/icons/delete-icon.svg"
                   alt="Delete image icon"
                   onClick={(event) => {
                      event.stopPropagation();
@@ -60,7 +58,7 @@ const ImageContainer = <T extends FieldValues>({
          {!selectedImage && (
             <Image
                className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform"
-               src={AddIcon}
+               src="/icons/add-icon.svg"
                alt="Add image icon"
             />
          )}
