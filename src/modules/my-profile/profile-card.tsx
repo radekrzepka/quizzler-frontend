@@ -162,11 +162,11 @@ const ProfileCard: FC<ProfileCardProps> = ({
                (record) =>
                   compareAsc(
                      new Date(record.name),
-                     createdStartDate.setHours(0, 0, 0, 0),
+                     learnedStartDate.setHours(0, 0, 0, 0),
                   ) >= 0,
             ),
       );
-   }, [learnedFlashcards, createdStartDate]);
+   }, [learnedStartDate, learnedFlashcards]);
 
    const [isOpen, setIsOpen] = useState(false);
    return (
