@@ -15,7 +15,6 @@ import { useRouter } from "next/navigation";
 import { FC, useEffect, useRef, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import BackIcon from "./../../assets/icons/back-icon.svg";
 import {
    EditLessonForm,
    editLessonFormSchema,
@@ -133,7 +132,7 @@ const EditLessonForm: FC<EditLessonFormProps> = ({ lesson }) => {
                <Image
                   width={20}
                   height={20}
-                  src={BackIcon}
+                  src="/icons/back-icon.svg"
                   alt={`Go back to list icon`}
                />
                <span>Go back to my lessons</span>

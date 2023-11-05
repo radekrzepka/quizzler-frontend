@@ -15,7 +15,6 @@ import {
 import { ChartRecord } from "@/types/chart-data";
 import Image from "next/image";
 import { FC, useMemo, useState } from "react";
-import PenImage from "./../../assets/icons/pen-icon.svg";
 import { LogData } from "@/types/log-data";
 import classNames from "classnames";
 import { generateAbbreviation } from "@/utils/generate-abbreviation";
@@ -197,7 +196,7 @@ const ProfileCard: FC<ProfileCardProps> = ({
                      height={15}
                      className="absolute right-[-4px] top-[2px]"
                      alt="Change avatar pen icon"
-                     src={PenImage}
+                     src="/icons/pen-icon.svg"
                   />
                </>
             ) : (
@@ -214,7 +213,7 @@ const ProfileCard: FC<ProfileCardProps> = ({
                      height={15}
                      className="absolute right-[-4px] top-[2px]"
                      alt="Change avatar pen icon"
-                     src={PenImage}
+                     src="/icons/pen-icon.svg"
                   />
                </>
             )}
