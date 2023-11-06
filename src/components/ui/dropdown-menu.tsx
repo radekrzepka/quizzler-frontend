@@ -18,7 +18,7 @@ interface DropdownMenuProps {
 }
 
 const icons = {
-   edit: "icons/pen-icon.svg",
+   edit: "/icons/pen-icon.svg",
    delete: "/icons/black-delete-icon.svg",
 };
 

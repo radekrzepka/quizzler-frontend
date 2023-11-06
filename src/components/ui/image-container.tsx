@@ -46,6 +46,8 @@ const ImageContainer = <T extends FieldValues>({
                <Image
                   className="absolute right-0 top-0"
                   src="/icons/delete-icon.svg"
+                  width={32}
+                  height={32}
                   alt="Delete image icon"
                   onClick={(event) => {
                      event.stopPropagation();
@@ -57,6 +59,8 @@ const ImageContainer = <T extends FieldValues>({
          )}
          {!selectedImage && (
             <Image
+               height={32}
+               width={32}
                className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform"
                src="/icons/add-icon.svg"
                alt="Add image icon"
