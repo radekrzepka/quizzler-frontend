@@ -91,7 +91,7 @@ const LessonCard: FC<LessonCardProps> = ({ lesson }) => {
          {lesson.imageName ? (
             <Image
                className="h-[200px] w-full rounded-t-xl bg-gray-700"
-               src={`http://104.250.180.67/images/${lesson.imageName}`}
+               src={process.env.NEXT_PUBLIC_IMG_URL + lesson.imageName}
                alt={`Image of ${lesson.title} lesson`}
                width={500}
                height={200}
