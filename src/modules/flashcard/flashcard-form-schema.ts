@@ -6,11 +6,11 @@ export const newFlashcardFormSchema = z
       question: z
          .string()
          .max(200, { message: "Question too long (max 200 characters)" })
-         .optional(),
+         .nullable(),
       answer: z
          .string()
          .max(200, { message: "Answer too long (max 200 characters)" })
-         .optional(),
+         .nullable(),
       questionImage: imageSchema,
       answerImage: imageSchema,
    })
