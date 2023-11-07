@@ -72,7 +72,8 @@ const FlashcardForm: FC<FlashcardFormProps> = ({
    >(null);
    const questionImageInputRef = useRef<HTMLInputElement | null>(null);
    const answerImageInputRef = useRef<HTMLInputElement | null>(null);
-
+   const [deleteQuestionImage, setDeleteQuestionImage] = useState(false);
+   const [deleteAnswerImage, setDeleteAnswerImage] = useState(false);
    useEffect(() => {
       if (flashcardToEdit) {
          const {
@@ -165,10 +166,14 @@ const FlashcardForm: FC<FlashcardFormProps> = ({
 
       if (questionImage && typeof questionImage !== "string") {
          formData.append("questionImage", questionImage);
+      } else if (deleteQuestionImage) {
+         formData.append("questionImage", "");
       }
 
       if (answerImage && typeof answerImage !== "string") {
          formData.append("answerImage", answerImage);
+      } else if (deleteAnswerImage) {
+         formData.append("answerImage", "");
       }
 
       if (selectedMode === "Edit" && !flashcardToEdit) {
@@ -180,6 +185,10 @@ const FlashcardForm: FC<FlashcardFormProps> = ({
       setSelectedAnswerImage(null);
       setFlashcardToEdit(null);
       mutate(formData);
+   };
+   const handleDelete = (imageType: string) => {
+      if (imageType === "question") setDeleteQuestionImage(true);
+      if (imageType === "answer") setDeleteAnswerImage(true);
    };
 
    return (
@@ -272,6 +281,7 @@ const FlashcardForm: FC<FlashcardFormProps> = ({
                               setSelectedImage={setSelectedQuestionImage}
                               setValue={setValue}
                               fullRounded
+                              onDelete={() => handleDelete("question")}
                            />
                            <ImageInput
                               setValue={setValue}
@@ -294,6 +304,7 @@ const FlashcardForm: FC<FlashcardFormProps> = ({
                               setSelectedImage={setSelectedAnswerImage}
                               setValue={setValue}
                               fullRounded
+                              onDelete={() => handleDelete("answer")}
                            />
                            <ImageInput
                               setValue={setValue}

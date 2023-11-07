@@ -12,6 +12,7 @@ interface ImageContainerProps<T> {
       value: any,
       options?: Partial<{ shouldValidate: boolean; shouldDirty: boolean }>,
    ) => void;
+   onDelete?: () => void;
    setSelectedImage: Dispatch<SetStateAction<string | null | undefined>>;
 }
 
@@ -21,6 +22,7 @@ const ImageContainer = <T extends FieldValues>({
    name,
    setValue,
    setSelectedImage,
+   onDelete,
 }: ImageContainerProps<T>) => {
    const isImageFromServer = selectedImage
       ?.substring(selectedImage?.lastIndexOf("/"))
@@ -53,6 +55,7 @@ const ImageContainer = <T extends FieldValues>({
                      event.stopPropagation();
                      setValue(name, null);
                      setSelectedImage(null);
+                     onDelete?.();
                   }}
                />
             </div>

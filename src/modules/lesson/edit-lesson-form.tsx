@@ -29,6 +29,7 @@ const formatTags = (tags: string[]) =>
 
 const EditLessonForm: FC<EditLessonFormProps> = ({ lesson }) => {
    const router = useRouter();
+   const [deleteLessonImage, setDeleteLessonImage] = useState(false);
    const {
       register,
       handleSubmit,
@@ -58,7 +59,7 @@ const EditLessonForm: FC<EditLessonFormProps> = ({ lesson }) => {
 
    useEffect(() => {
       if (lesson.imageName) setSelectedImage(lesson.imageName);
-   }, []);
+   }, [lesson.imageName]);
 
    const { mutate } = useMutation({
       mutationFn: async (formData: FormData) => {
@@ -108,6 +109,8 @@ const EditLessonForm: FC<EditLessonFormProps> = ({ lesson }) => {
 
       if (image) {
          formData.append("image", image);
+      } else if (deleteLessonImage) {
+         formData.append("image", "");
       }
 
       if (tags) {
@@ -118,6 +121,9 @@ const EditLessonForm: FC<EditLessonFormProps> = ({ lesson }) => {
       }
 
       mutate(formData);
+   };
+   const handleDelete = () => {
+      setDeleteLessonImage(true);
    };
 
    return (
@@ -155,6 +161,7 @@ const EditLessonForm: FC<EditLessonFormProps> = ({ lesson }) => {
                   setSelectedImage={setSelectedImage}
                   setValue={setValue}
                   selectedImage={selectedImage}
+                  onDelete={handleDelete}
                />
                <ImageInput
                   setValue={setValue}
