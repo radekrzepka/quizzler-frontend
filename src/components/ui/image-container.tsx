@@ -35,7 +35,7 @@ const ImageContainer = <T extends FieldValues>({
                <Image
                   src={
                      isImageFromServer
-                        ? `http://104.250.180.67/images/${selectedImage}`
+                        ? process.env.NEXT_PUBLIC_IMG_URL + selectedImage
                         : selectedImage
                   }
                   alt={`Selected ${name}`}
