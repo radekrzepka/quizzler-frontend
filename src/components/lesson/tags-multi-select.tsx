@@ -64,6 +64,7 @@ const TagsMultiSelect = <T extends FieldValues>({
                options={options}
                isValidNewOption={(inputValue, selectOptions) =>
                   inputValue.length <= 50 &&
+                  inputValue.trim().length > 0 &&
                   !selectOptions.some((option) => option.label === inputValue)
                }
                noOptionsMessage={({ inputValue }) =>

@@ -77,8 +77,9 @@ const EditLessonForm: FC<EditLessonFormProps> = ({ lesson }) => {
          return res.json();
       },
       onSettled: ({ status }) => {
-         if (status === 200) toast.success("Lesson updated successfully");
-         else if (status === 400)
+         if (status === 200) {
+            toast.success("Lesson updated successfully");
+         } else if (status === 400)
             toast.error("Lesson with this name already exist");
          else toast.error("Error with updating your lesson");
 
@@ -128,7 +129,7 @@ const EditLessonForm: FC<EditLessonFormProps> = ({ lesson }) => {
 
    return (
       <div className="flex flex-col rounded-xl bg-text p-4 pb-0 text-background">
-         <div className="flex w-full flex-col">
+         <div className="flex w-full flex-col items-center justify-between sm:flex-row">
             <button
                className="z-20 flex flex-row items-center gap-1"
                onClick={() => {
@@ -143,10 +144,23 @@ const EditLessonForm: FC<EditLessonFormProps> = ({ lesson }) => {
                />
                <span>Go back to my lessons</span>
             </button>
-            <h2 className="inset-x-0 text-center text-3xl font-bold">
-               Lesson details
-            </h2>
+            <button
+               className="z-20 flex flex-row items-center gap-1"
+               onClick={() => {
+                  router.push(`/dashboard/lesson/${lesson.lessonId}`);
+               }}
+            >
+               <span>Go to learning page</span>
+               <Image
+                  width={20}
+                  height={20}
+                  src="/icons/back-icon.svg"
+                  alt={`Go back to list icon`}
+                  className="rotate-180"
+               />
+            </button>
          </div>
+         <h2 className="text-center text-3xl font-bold">Lesson details</h2>
          <form
             onSubmit={handleSubmit(onSubmit)}
             className="items-center justify-center rounded-xl bg-text text-background"
@@ -192,7 +206,8 @@ const EditLessonForm: FC<EditLessonFormProps> = ({ lesson }) => {
                      id="description"
                      register={register}
                      name="description"
-                     className="mb-[23px] h-[100px]"
+                     className="h-[100px]"
+                     errors={errors}
                   />
                </div>
                <div className="flex flex-col">

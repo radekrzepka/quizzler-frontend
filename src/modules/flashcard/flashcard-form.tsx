@@ -63,7 +63,6 @@ const FlashcardForm: FC<FlashcardFormProps> = ({
    });
 
    const [buttonLoading, setButtonLoading] = useState(false);
-
    const [selectedQuestionImage, setSelectedQuestionImage] = useState<
       string | null | undefined
    >(null);

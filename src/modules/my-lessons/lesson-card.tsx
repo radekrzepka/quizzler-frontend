@@ -100,8 +100,8 @@ const LessonCard: FC<LessonCardProps> = ({ lesson }) => {
             <div className="h-[200px] w-full rounded-t-xl bg-gray-700" />
          )}
 
-         <div className="my-1 flex w-full flex-grow-[2] flex-col">
-            <div className="relative flex items-center justify-center">
+         <div className="my-1 flex w-full flex-grow-[2] flex-col justify-between">
+            <div className="relative flex w-full items-center justify-center">
                <h2 className="truncate px-2 text-3xl font-bold">
                   {lesson.title}
                </h2>

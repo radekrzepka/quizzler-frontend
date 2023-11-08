@@ -35,7 +35,7 @@ const scrollToElement = (elementId: string) => {
 };
 
 const getRandomNumber = (min: number, max: number) =>
-   Math.floor(Math.random() * (max - min) + min).toString();
+   Math.floor(Math.random() * (max - min) + min);
 
 const FlashcardListRow: FC<FlashcardListRowProps> = ({
    flashcard,
@@ -45,12 +45,7 @@ const FlashcardListRow: FC<FlashcardListRowProps> = ({
    selectedMode,
    flashcardToEdit,
 }) => {
-   const [rotationDegree, setRotationDegree] = useState("");
-
-   useEffect(() => {
-      const degree = getRandomNumber(-10, 10);
-      setRotationDegree(degree);
-   }, []);
+   const [rotationDegree] = useState(getRandomNumber(-10, 10).toString());
 
    const { mutate: deleteFlashcardMutation } = useMutation({
       mutationFn: () => {
