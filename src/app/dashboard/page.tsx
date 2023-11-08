@@ -5,7 +5,7 @@ interface DashboardProps {}
 const Dashboard: FC<DashboardProps> = ({}) => {
    return (
       <div className="text-6xl text-primary">
-         <h1>Powiększ swojego piekelnika !</h1>
+         <h1>Welcome, welcome, welcome</h1>
       </div>
    );
 };

@@ -28,7 +28,7 @@ const LessonsList: FC<LessonsListProps> = ({ lessons }) => {
       );
 
    return (
-      <div className="grid auto-rows-min gap-4 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid auto-rows-min gap-4 xl:grid-cols-2">
          {sortedLessons.map((lesson) => (
             <LessonCard lesson={lesson} key={lesson.lessonId} />
          ))}

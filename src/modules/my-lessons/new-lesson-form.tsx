@@ -59,6 +59,7 @@ const NewLessonForm: FC = () => {
          if (status === 201) {
             const lessonId = data.split(" ")[2];
             router.push(`/dashboard/lesson/${lessonId}/edit`);
+            router.refresh();
             toast.success("Lesson added successfully");
          } else if (status === 400) {
             toast.error("Lesson with this name already exists");
@@ -99,7 +100,7 @@ const NewLessonForm: FC = () => {
          className="h-fit rounded-xl bg-text  text-background"
       >
          <div
-            className="relative h-[400px] w-full cursor-pointer rounded-t-xl bg-gray-700"
+            className="relative h-[200px] w-full cursor-pointer rounded-t-xl bg-gray-700"
             onClick={() => imageInputRef?.current?.click()}
          >
             <ImageContainer
@@ -138,7 +139,8 @@ const NewLessonForm: FC = () => {
                   id="description"
                   register={register}
                   name="description"
-                  className="mb-[23px] h-[250px]"
+                  className="h-[100px]"
+                  errors={errors}
                />
             </div>
             <div className="flex flex-col">
