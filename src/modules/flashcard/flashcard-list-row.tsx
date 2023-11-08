@@ -14,9 +14,7 @@ import toast from "react-hot-toast";
 
 interface FlashcardListRowProps {
    flashcard: Flashcard;
-   refetchLesson: <TPageData>(
-      options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined,
-   ) => Promise<QueryObserverResult<Lesson, unknown>>;
+   refetchLesson: () => void;
    setFlashcardToEdit: Dispatch<SetStateAction<Flashcard | null>>;
    setSelectedMode: Dispatch<SetStateAction<"Add" | "Edit">>;
    flashcardToEdit: Flashcard | null;

@@ -31,9 +31,7 @@ import {
 
 interface FlashcardFormProps {
    lessonId: number;
-   onFlashcardAdded: <TPageData>(
-      options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined,
-   ) => Promise<QueryObserverResult<any, unknown>>;
+   onFlashcardAdded: () => void;
    selectedMode: "Add" | "Edit";
    setSelectedMode: Dispatch<SetStateAction<"Add" | "Edit">>;
    flashcardToEdit: Flashcard | null;
