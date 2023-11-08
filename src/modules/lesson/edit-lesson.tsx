@@ -45,7 +45,7 @@ const EditLesson: FC<EditLessonProps> = ({ lessonId }) => {
       queryFn: () => getLesson(lessonId),
    });
 
-   if (isLoading || isError) return <EditLessonSkeleton />;
+   if (isLoading || isError || !lesson) return <EditLessonSkeleton />;
 
    return (
       <div className="grid gap-4 xl:grid-cols-2">

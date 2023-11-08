@@ -33,6 +33,7 @@ const DashboardNavigation: FC = () => {
       data: profileData,
       isLoading,
       isError,
+      isFetched,
    } = useQuery<UserInfo>({
       queryFn: getProfileData,
       queryKey: ["profileData"],
@@ -51,7 +52,7 @@ const DashboardNavigation: FC = () => {
             <DashboardNavigationLink path="/dashboard/search" label="Search" />
          </ul>
          <div className="grid w-full flex-shrink-0 place-items-end lg:w-auto lg:grid-cols-[auto_auto] lg:gap-6">
-            {isLoading || isError ? (
+            {isLoading || isError || !profileData ? (
                <div className="mb-6 flex w-full items-center justify-center gap-3 lg:mb-0">
                   <Skeleton circle height="44px" width="44px" />
                   <Skeleton height="20px" width="180px" />
