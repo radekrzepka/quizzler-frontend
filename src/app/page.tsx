@@ -1,8 +1,7 @@
 import HomeMain from "@/modules/home-page/home-main";
 import HomeNavigation from "@/modules/home-page/home-navigation";
-import { FC } from "react";
 
-const Home: FC = () => {
+const Home = () => {
    return (
       <div className="mx-4 mt-4">
          <HomeNavigation />

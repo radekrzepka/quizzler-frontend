@@ -12,7 +12,7 @@ import { useMutation } from "@tanstack/react-query";
 import { getCookie } from "cookies-next";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { FC, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import {
@@ -27,7 +27,7 @@ interface EditLessonFormProps {
 const formatTags = (tags: string[]) =>
    tags.map((tag) => ({ label: tag, value: tag }));
 
-const EditLessonForm: FC<EditLessonFormProps> = ({ lesson }) => {
+const EditLessonForm = ({ lesson }: EditLessonFormProps) => {
    const router = useRouter();
    const [deleteLessonImage, setDeleteLessonImage] = useState(false);
    const {

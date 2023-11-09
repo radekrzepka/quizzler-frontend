@@ -1,12 +1,6 @@
 import DropdownMenu from "@/components/ui/dropdown-menu";
 import { Flashcard } from "@/types/flashcard";
-import { Lesson } from "@/types/lesson";
-import {
-   QueryObserverResult,
-   RefetchOptions,
-   RefetchQueryFilters,
-} from "@tanstack/react-query";
-import { Dispatch, FC, SetStateAction } from "react";
+import { Dispatch, SetStateAction } from "react";
 import FlashcardListRow from "./flashcard-list-row";
 
 interface FlashcardListProps {
@@ -18,14 +12,14 @@ interface FlashcardListProps {
    selectedMode: "Add" | "Edit";
 }
 
-const FlashcardList: FC<FlashcardListProps> = ({
+const FlashcardList = ({
    flashcards,
    refetchLesson,
    setFlashcardToEdit,
    setSelectedMode,
    flashcardToEdit,
    selectedMode,
-}) => {
+}: FlashcardListProps) => {
    const menuOptions = [
       {
          label: "Import from JSON/CSV/txt",

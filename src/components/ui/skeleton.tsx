@@ -1,5 +1,4 @@
 import classNames from "classnames";
-import { FC } from "react";
 
 interface SkeletonProps {
    backgroundColor?: string;
@@ -9,13 +8,13 @@ interface SkeletonProps {
    circle?: boolean;
 }
 
-const Skeleton: FC<SkeletonProps> = ({
+const Skeleton = ({
    backgroundColor = "#b4b4b4",
    height = "16px",
    width = "100%",
    className,
    circle = false,
-}) => {
+}: SkeletonProps) => {
    return (
       <>
          <style>

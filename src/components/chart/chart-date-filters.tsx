@@ -1,15 +1,15 @@
 import { subDays } from "date-fns";
-import { Dispatch, FC, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import classNames from "classnames";
 interface ChartDateFiltersProps {
    changeStartDate: Dispatch<SetStateAction<Date>>;
    registerDate: Date;
 }
 
-const ChartDateFilters: FC<ChartDateFiltersProps> = ({
+const ChartDateFilters = ({
    changeStartDate,
    registerDate,
-}) => {
+}: ChartDateFiltersProps) => {
    const today = new Date();
    const [selectedButton, setSelectedButton] = useState(4);
    const formattingOption = "bg-background text-white";

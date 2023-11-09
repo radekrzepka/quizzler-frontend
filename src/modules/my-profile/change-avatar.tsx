@@ -6,7 +6,7 @@ import classNames from "classnames";
 import { getCookie } from "cookies-next";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { Dispatch, FC, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { toast } from "react-hot-toast";
 
 interface ChangeAvatarProps {
@@ -15,11 +15,7 @@ interface ChangeAvatarProps {
    setIsOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-const ChangeAvatar: FC<ChangeAvatarProps> = ({
-   profile,
-   isOpen,
-   setIsOpen,
-}) => {
+const ChangeAvatar = ({ profile, isOpen, setIsOpen }: ChangeAvatarProps) => {
    const [selectedAvatar, setSelectedAvatar] = useState(profile.avatar);
    const [buttonLoading, setButtonLoading] = useState(false);
    const router = useRouter();

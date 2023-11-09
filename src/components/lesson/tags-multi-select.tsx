@@ -58,14 +58,14 @@ const TagsMultiSelect = <T extends FieldValues>({
             <CreatableSelect
                isLoading={isLoading}
                defaultValue={defaultTags}
-               onChange={(selected) => onChange(selected)}
+               onChange={selected => onChange(selected)}
                isMulti
-               onInputChange={(value) => setQuery(value)}
+               onInputChange={value => setQuery(value)}
                options={options}
                isValidNewOption={(inputValue, selectOptions) =>
                   inputValue.length <= 50 &&
                   inputValue.trim().length > 0 &&
-                  !selectOptions.some((option) => option.label === inputValue)
+                  !selectOptions.some(option => option.label === inputValue)
                }
                noOptionsMessage={({ inputValue }) =>
                   inputValue.length > 50

@@ -1,10 +1,9 @@
 "use client";
 
-import { FC } from "react";
 import InputSkeleton from "../ui/input-skeleton";
 import Skeleton from "../ui/skeleton";
 
-const NewLessonFormSkeleton: FC = () => {
+const NewLessonFormSkeleton = () => {
    return (
       <div className="h-fit rounded-xl bg-text text-background">
          <Skeleton height="400px" width="100%" className="!rounded-t-xl" />

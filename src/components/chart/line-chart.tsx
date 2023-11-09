@@ -1,7 +1,6 @@
 "use client";
 
 import { ChartRecord } from "@/types/chart-data";
-import { FC } from "react";
 import {
    CartesianGrid,
    Line,
@@ -17,6 +16,7 @@ import { ValueType } from "tailwindcss/types/config";
 
 interface AdditionalProps {
    recordType: string;
+   test: Array<string>;
 }
 interface LineChartProps {
    data: ChartRecord[];
@@ -43,7 +43,7 @@ const CustomTooltip = ({
    return null;
 };
 
-const LineChart: FC<LineChartProps> = ({ data, id, recordType }) => {
+const LineChart = ({ data, id, recordType }: LineChartProps) => {
    return (
       <ResponsiveContainer width="90%" height={300}>
          <RechartLineChart data={data} id={id}>

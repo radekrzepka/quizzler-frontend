@@ -1,8 +1,7 @@
 import InputSkeleton from "@/components/ui/input-skeleton";
 import Skeleton from "@/components/ui/skeleton";
-import { FC } from "react";
 
-const EditLessonSkeleton: FC = ({}) => {
+const EditLessonSkeleton = () => {
    return (
       <div className="grid gap-4 xl:grid-cols-2">
          <div className="flex h-[70vh] flex-col items-center rounded-xl bg-text pt-6">

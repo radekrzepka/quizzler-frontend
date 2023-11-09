@@ -14,7 +14,7 @@ import {
 } from "date-fns";
 import { ChartRecord } from "@/types/chart-data";
 import Image from "next/image";
-import { FC, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { LogData } from "@/types/log-data";
 import classNames from "classnames";
 import { generateAbbreviation } from "@/utils/generate-abbreviation";
@@ -22,8 +22,8 @@ import ChangeAvatar from "./change-avatar";
 
 interface ProfileCardProps {
    profile: UserInfo;
-   createdDates: Date[];
-   learnedDates: LogData[];
+   createdDates: Array<Date>;
+   learnedDates: Array<LogData>;
 }
 
 const DAY_VIEW_NUMBER = 28;
@@ -31,8 +31,8 @@ const MONTH_VIEW_NUMBER = 90;
 
 const generateEmptyDates = () => {
    const today = new Date();
-   const dates: ChartRecord[] = [];
-   const startDate = subMonths(today, 11);
+   const dates: Array<ChartRecord> = [];
+   const startDate = new Date(subMonths(today, 11).setHours(0, 0, 0, 0));
    let procDate = startDate;
    while (!isEqual(procDate, today)) {
       dates.push({
@@ -44,11 +44,14 @@ const generateEmptyDates = () => {
    return dates;
 };
 
-const datesChartFormat = (data: Date[], emptyDates: ChartRecord[]) => {
-   data.forEach((date) => {
+const datesChartFormat = (
+   data: Array<Date>,
+   emptyDates: Array<ChartRecord>
+) => {
+   data.forEach(date => {
       date = new Date(date + "Z");
       const dateInEmptyDates = emptyDates.find(
-         (ele) => ele.name == format(date, "dd MMMM yyyy"),
+         ele => ele.name == format(date, "dd MMMM yyyy")
       );
       if (dateInEmptyDates) dateInEmptyDates.value += 1;
       else emptyDates.push({ name: format(date, "dd MMMM yyyy"), value: 1 });
@@ -56,8 +59,8 @@ const datesChartFormat = (data: Date[], emptyDates: ChartRecord[]) => {
    return emptyDates;
 };
 
-const reduceData = (data: ChartRecord[]) => {
-   const result: ChartRecord[] = [];
+const reduceData = (data: Array<ChartRecord>) => {
+   const result: Array<ChartRecord> = [];
    const recordsLength = data.length;
    // Determine formatting option based on the length of records.
    let formattingOption =
@@ -68,10 +71,10 @@ const reduceData = (data: ChartRecord[]) => {
          : "do MMM";
 
    if (formattingOption !== "PP") {
-      data.forEach((record) => {
+      data.forEach(record => {
          const processDate = new Date(record.name);
          const dateInResult = result.find(
-            (item) => item.name === format(processDate, formattingOption),
+            item => item.name === format(processDate, formattingOption)
          );
          if (dateInResult) dateInResult.value += record.value;
          else
@@ -91,10 +94,10 @@ const reduceData = (data: ChartRecord[]) => {
             const date = new Date(record.name);
             const stringDates = `${format(subDays(date, 6), "d")} ${format(
                subDays(date, 6),
-               "MMM",
+               "MMM"
             )} - ${format(date, "d")} ${format(date, "MMM")} ${format(
                date,
-               "yyyy",
+               "yyyy"
             )}`;
             result.push({ name: stringDates, value: sumForTheWeek });
             lastDate = date;
@@ -103,10 +106,10 @@ const reduceData = (data: ChartRecord[]) => {
             const date = addDays(lastDate, 7);
             const stringDates = `${format(subDays(date, 6), "d")} ${format(
                subDays(date, 6),
-               "MMM",
+               "MMM"
             )} - ${format(date, "d")} ${format(date, "MMM")} ${format(
                date,
-               "yyyy",
+               "yyyy"
             )}`;
             result.push({ name: stringDates, value: sumForTheWeek });
          }
@@ -115,11 +118,11 @@ const reduceData = (data: ChartRecord[]) => {
    return result;
 };
 
-const ProfileCard: FC<ProfileCardProps> = ({
+const ProfileCard = ({
    profile,
    createdDates,
    learnedDates,
-}) => {
+}: ProfileCardProps) => {
    const emptyDatesCreated = generateEmptyDates();
    const emptyDatesLearned = generateEmptyDates();
 
@@ -129,28 +132,28 @@ const ProfileCard: FC<ProfileCardProps> = ({
 
    const learnedFlashcards = useMemo(() => {
       return datesChartFormat(
-         learnedDates.filter((log) => log.wasCorrect).map((log) => log.date),
-         emptyDatesLearned,
+         learnedDates.filter(log => log.wasCorrect).map(log => log.date),
+         emptyDatesLearned
       );
    }, [emptyDatesLearned, learnedDates]);
 
    const [createdStartDate, setCreatedStartDate] = useState(
-      new Date(parseISO(profile.dateRegistered)),
+      new Date(parseISO(profile.dateRegistered))
    );
    const [learnedStartDate, setLearnedStartDate] = useState(
-      new Date(parseISO(profile.dateRegistered)),
+      new Date(parseISO(profile.dateRegistered))
    );
    const selectedCreatedFlashcards = useMemo(() => {
       return reduceData(
          createdFlashcards
             .slice()
             .filter(
-               (record) =>
+               record =>
                   compareAsc(
                      new Date(record.name),
-                     createdStartDate.setHours(0, 0, 0, 0),
-                  ) >= 0,
-            ),
+                     createdStartDate.setHours(0, 0, 0, 0)
+                  ) >= 0
+            )
       );
    }, [createdStartDate, createdFlashcards]);
 
@@ -159,12 +162,12 @@ const ProfileCard: FC<ProfileCardProps> = ({
          learnedFlashcards
             .slice()
             .filter(
-               (record) =>
+               record =>
                   compareAsc(
                      new Date(record.name),
-                     learnedStartDate.setHours(0, 0, 0, 0),
-                  ) >= 0,
-            ),
+                     learnedStartDate.setHours(0, 0, 0, 0)
+                  ) >= 0
+            )
       );
    }, [learnedStartDate, learnedFlashcards]);
 
@@ -221,7 +224,7 @@ const ProfileCard: FC<ProfileCardProps> = ({
 
          <p
             className={classNames(
-               profile.firstName ? "text-gray-600" : "mt-2 text-3xl font-bold",
+               profile.firstName ? "text-gray-600" : "mt-2 text-3xl font-bold"
             )}
          >
             {profile.firstName && "@"}

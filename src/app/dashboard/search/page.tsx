@@ -1,8 +1,4 @@
-import { FC } from "react";
-
-interface PageProps {}
-
-const Page: FC<PageProps> = ({}) => {
+const Page = () => {
    return <div>Search</div>;
 };
 

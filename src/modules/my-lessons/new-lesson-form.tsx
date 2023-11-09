@@ -12,16 +12,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { getCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
-import { FC, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { NewLessonForm, newLessonFormSchema } from "./new-lesson-form-schema";
 
-const NewLessonForm: FC = () => {
+const NewLessonForm = () => {
    const {
       register,
       handleSubmit,
-      watch,
       setValue,
       control,
       formState: { errors },

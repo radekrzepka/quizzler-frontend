@@ -1,8 +1,8 @@
 import classnames from "classnames";
-import { FC, ReactNode } from "react";
+import { ReactNode } from "react";
 import BeatLoader from "react-spinners/BeatLoader";
 
-interface buttonProps {
+interface ButtonProps {
    type: "button" | "submit";
    onClick?: () => void;
    label?: string;
@@ -13,7 +13,7 @@ interface buttonProps {
    disabled?: boolean;
 }
 
-const Button: FC<buttonProps> = ({
+const Button = ({
    type,
    label,
    onClick,
@@ -22,7 +22,7 @@ const Button: FC<buttonProps> = ({
    isLoading = false,
    children,
    disabled = false,
-}) => {
+}: ButtonProps) => {
    return (
       <button
          onClick={onClick}

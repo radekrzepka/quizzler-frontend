@@ -6,22 +6,10 @@ import ImageInput from "@/components/ui/image-input";
 import LabelInput from "@/components/ui/label-input";
 import { Flashcard } from "@/types/flashcard";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-   QueryObserverResult,
-   RefetchOptions,
-   RefetchQueryFilters,
-   useMutation,
-} from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import classNames from "classnames";
 import { getCookie } from "cookies-next";
-import {
-   Dispatch,
-   FC,
-   SetStateAction,
-   useEffect,
-   useRef,
-   useState,
-} from "react";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import {
@@ -38,14 +26,14 @@ interface FlashcardFormProps {
    setFlashcardToEdit: Dispatch<SetStateAction<Flashcard | null>>;
 }
 
-const FlashcardForm: FC<FlashcardFormProps> = ({
+const FlashcardForm = ({
    lessonId,
    onFlashcardAdded,
    selectedMode,
    setSelectedMode,
    flashcardToEdit,
    setFlashcardToEdit,
-}) => {
+}: FlashcardFormProps) => {
    const {
       register,
       handleSubmit,

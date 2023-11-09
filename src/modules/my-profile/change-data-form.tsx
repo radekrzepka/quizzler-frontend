@@ -8,7 +8,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { getCookie } from "cookies-next";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { FC, useState } from "react";
+import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import {
@@ -20,7 +20,7 @@ interface ChangeDataFormProps {
    profile: UserInfo;
 }
 
-const ChangeDataForm: FC<ChangeDataFormProps> = ({ profile }) => {
+const ChangeDataForm = ({ profile }: ChangeDataFormProps) => {
    const [disabled, setDisabled] = useState(true);
    const [buttonLoading, setButtonLoading] = useState(false);
    const router = useRouter();
@@ -64,7 +64,7 @@ const ChangeDataForm: FC<ChangeDataFormProps> = ({ profile }) => {
          return res.json();
       },
 
-      onSettled: (res) => {
+      onSettled: res => {
          if (res?.status === 200) {
             router.refresh();
             toast.success("Data has been changed");
@@ -86,7 +86,7 @@ const ChangeDataForm: FC<ChangeDataFormProps> = ({ profile }) => {
       },
    });
 
-   const onSubmit: SubmitHandler<ChangeDataForm> = (data) => {
+   const onSubmit: SubmitHandler<ChangeDataForm> = data => {
       updateDataMutation(data);
       setButtonLoading(true);
    };
@@ -98,7 +98,7 @@ const ChangeDataForm: FC<ChangeDataFormProps> = ({ profile }) => {
       >
          <h2 className="mt-2 text-3xl font-bold">Profile data</h2>
          <button
-            onClick={() => setDisabled((prevState) => !prevState)}
+            onClick={() => setDisabled(prevState => !prevState)}
             type="button"
             className="mr-6 self-end"
          >

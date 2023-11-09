@@ -1,5 +1,5 @@
 import { Dialog as HeadlessUiDialog, Transition } from "@headlessui/react";
-import { Dispatch, FC, Fragment, ReactNode, SetStateAction } from "react";
+import { Dispatch, Fragment, ReactNode, SetStateAction } from "react";
 
 interface DialogProps {
    title: string;
@@ -8,7 +8,7 @@ interface DialogProps {
    setIsOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-const Dialog: FC<DialogProps> = ({ title, children, isOpen, setIsOpen }) => {
+const Dialog = ({ title, children, isOpen, setIsOpen }: DialogProps) => {
    return (
       <Transition appear show={isOpen} as={Fragment}>
          <HeadlessUiDialog

@@ -11,7 +11,7 @@ import { deleteCookie, getCookie } from "cookies-next";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { FC, useState } from "react";
+import { useState } from "react";
 import { toast } from "react-hot-toast";
 
 const getProfileData = async () => {
@@ -25,7 +25,7 @@ const getProfileData = async () => {
    return json.data;
 };
 
-const DashboardNavigation: FC = () => {
+const DashboardNavigation = () => {
    const [signOutClicked, setSignOutClicked] = useState(false);
    const router = useRouter();
 
@@ -33,7 +33,6 @@ const DashboardNavigation: FC = () => {
       data: profileData,
       isLoading,
       isError,
-      isFetched,
    } = useQuery<UserInfo>({
       queryFn: getProfileData,
       queryKey: ["profileData"],
