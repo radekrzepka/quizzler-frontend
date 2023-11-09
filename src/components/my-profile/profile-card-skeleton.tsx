@@ -1,7 +1,6 @@
 import Skeleton from "@/components/ui/skeleton";
-import { FC } from "react";
 
-const ProfileCardSkeleton: FC = () => {
+const ProfileCardSkeleton = () => {
    return (
       <div className="flex flex-col items-center rounded-xl bg-text py-2 text-background">
          <Skeleton height="64px" width="64px" circle={true} className="my-2" />

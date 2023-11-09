@@ -4,11 +4,11 @@ import LabelInput from "@/components/ui/label-input";
 import { useMutation } from "@tanstack/react-query";
 import { deleteCookie, getCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
-import { FC, useState } from "react";
+import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 
-const DeleteProfileForm: FC = ({}) => {
+const DeleteProfileForm = () => {
    const [isOpenModal, setIsOpenModal] = useState(false);
    const [buttonLoading, setButtonLoading] = useState(false);
    const {

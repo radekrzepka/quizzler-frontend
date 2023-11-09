@@ -4,7 +4,7 @@ import {
    EllipsisVerticalIcon,
 } from "@heroicons/react/20/solid";
 import Image from "next/image";
-import { FC, Fragment } from "react";
+import { Fragment } from "react";
 import classNames from "classnames";
 
 interface DropdownMenuProps {
@@ -22,12 +22,12 @@ const icons = {
    delete: "/icons/black-delete-icon.svg",
 };
 
-const DropdownMenu: FC<DropdownMenuProps> = ({
+const DropdownMenu = ({
    options,
    smallIcon = false,
    iconColor = "white",
    className,
-}) => {
+}: DropdownMenuProps) => {
    return (
       <>
          <Menu

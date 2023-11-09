@@ -11,14 +11,14 @@ import { utcToZonedTime } from "date-fns-tz";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { FC, useState } from "react";
+import { useState } from "react";
 import toast from "react-hot-toast";
 
 interface LessonCardProps {
    lesson: Lesson;
 }
 
-const LessonCard: FC<LessonCardProps> = ({ lesson }) => {
+const LessonCard = ({ lesson }: LessonCardProps) => {
    const [isOpenDeleteDialog, setIsOpenDeleteDialog] = useState(false);
    const router = useRouter();
    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -52,7 +52,7 @@ const LessonCard: FC<LessonCardProps> = ({ lesson }) => {
             method: "DELETE",
          });
       },
-      onSettled: (res) => {
+      onSettled: res => {
          if (res?.status === 200) {
             toast.success("Lesson deleted successfully");
             setIsOpenDeleteDialog(true);
@@ -61,48 +61,49 @@ const LessonCard: FC<LessonCardProps> = ({ lesson }) => {
       },
    });
    return (
-      <div className="flex h-full w-full flex-col rounded-xl bg-text text-background">
-         <Dialog
-            isOpen={isOpenDeleteDialog}
-            setIsOpen={setIsOpenDeleteDialog}
-            title="Are you sure you want to delete your lesson ?"
-         >
-            <Button
-               type="button"
-               variant="white"
-               className="mb-2 w-full"
-               onClick={() => {
-                  setIsOpenDeleteDialog(false);
-               }}
+      <div className="flex w-[300px] flex-col justify-between rounded-xl bg-text text-background sm:w-[400px]">
+         <div>
+            <Dialog
+               isOpen={isOpenDeleteDialog}
+               setIsOpen={setIsOpenDeleteDialog}
+               title="Are you sure you want to delete your lesson ?"
             >
-               Go back to my lessons page
-            </Button>
-            <Button
-               type="button"
-               variant="primary"
-               className="w-full"
-               onClick={() => {
-                  deleteLessonMutation();
-               }}
-            >
-               Delete my lesson
-            </Button>
-         </Dialog>
-         {lesson.imageName ? (
-            <Image
-               className="h-[200px] w-full rounded-t-xl bg-gray-700"
-               src={process.env.NEXT_PUBLIC_IMG_URL + lesson.imageName}
-               alt={`Image of ${lesson.title} lesson`}
-               width={500}
-               height={200}
-            />
-         ) : (
-            <div className="h-[200px] w-full rounded-t-xl bg-gray-700" />
-         )}
+               <Button
+                  type="button"
+                  variant="white"
+                  className="mb-2 w-full"
+                  onClick={() => {
+                     setIsOpenDeleteDialog(false);
+                  }}
+               >
+                  Go back to my lessons page
+               </Button>
+               <Button
+                  type="button"
+                  variant="primary"
+                  className="w-full"
+                  onClick={() => {
+                     deleteLessonMutation();
+                  }}
+               >
+                  Delete my lesson
+               </Button>
+            </Dialog>
 
-         <div className="my-1 flex w-full flex-grow-[2] flex-col justify-between">
+            <div className="flex h-[200px] w-full rounded-t-xl bg-gray-700">
+               {lesson.imageName && (
+                  <Image
+                     className="h-[200px] rounded-t-xl"
+                     src={process.env.NEXT_PUBLIC_IMG_URL + lesson.imageName}
+                     alt={`Image of ${lesson.title} lesson`}
+                     width={500}
+                     height={200}
+                     layout="intrinsic"
+                  />
+               )}
+            </div>
             <div className="relative flex w-full items-center justify-center">
-               <h2 className="truncate px-2 text-3xl font-bold">
+               <h2 className="truncate p-2 text-3xl font-bold">
                   {lesson.title}
                </h2>
                <DropdownMenu
@@ -112,17 +113,18 @@ const LessonCard: FC<LessonCardProps> = ({ lesson }) => {
                   className="!absolute right-0"
                />
             </div>
-
-            <div className="m-2 flex items-center justify-center gap-1 py-1">
+         </div>
+         <div className="my-1 flex w-full flex-col">
+            <div className="mx-2 flex items-center justify-center gap-1 py-1">
                <Image
                   src="/icons/tags.png"
                   alt="Icon of tags"
-                  width={24}
-                  height={24}
+                  width={18}
+                  height={18}
                />
                {lesson.tags?.length !== 0 && lesson.tags && (
                   <div className="flex flex-wrap justify-center gap-1">
-                     {lesson.tags.map((tag) => (
+                     {lesson.tags.map(tag => (
                         <div
                            className="h-min rounded-xl border border-gray-700 px-3 text-sm text-gray-700"
                            key={tag}
@@ -137,45 +139,51 @@ const LessonCard: FC<LessonCardProps> = ({ lesson }) => {
                )}
             </div>
 
-            <div className="m-2 grid gap-2 2xl:grid-cols-2">
+            <div className="m-2 grid gap-2">
                <div className="flex w-full items-center gap-1 truncate">
                   <Image
                      src="/icons/description.png"
                      alt="Icon of tags"
-                     width={24}
-                     height={24}
+                     width={18}
+                     height={18}
                   />
-                  <p>{lesson.description || "No description provided"}</p>
+                  <p className="truncate text-sm">
+                     {lesson.description || "No description provided"}
+                  </p>
                </div>
 
-               <div className="flex items-center gap-1 2xl:place-self-end">
+               <div className="flex items-center gap-1">
                   <Image
                      src="/icons/date.png"
                      alt="Icon of tags"
-                     width={24}
-                     height={24}
+                     width={18}
+                     height={18}
                   />
-                  <p>Added {formatDistanceToNow(localDate)} ago</p>
+                  <p className="text-sm">
+                     Added {formatDistanceToNow(localDate)} ago
+                  </p>
                </div>
 
                <div className="flex items-center gap-1">
                   <Image
                      src="/icons/lock.svg"
                      alt="Icon of tags"
-                     width={24}
-                     height={24}
+                     width={18}
+                     height={18}
                   />
-                  <p>{lesson.isPublic ? "Public" : "Private"} lesson</p>
+                  <p className="text-sm">
+                     {lesson.isPublic ? "Public" : "Private"} lesson
+                  </p>
                </div>
 
-               <div className="flex items-center gap-1 2xl:place-self-end">
+               <div className="flex items-center gap-1">
                   <Image
                      src="/icons/quantity.png"
                      alt="Icon of tags"
-                     width={32}
-                     height={32}
+                     width={24}
+                     height={24}
                   />
-                  <p>{lesson.flashcardCount} flashcards</p>
+                  <p className="text-sm">{lesson.flashcardCount} flashcards</p>
                </div>
             </div>
 

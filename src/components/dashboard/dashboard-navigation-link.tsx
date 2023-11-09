@@ -1,17 +1,16 @@
 import classNames from "classnames";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { FC } from "react";
 
 interface DashboardNavigationLinkProps {
    path: string;
    label: string;
 }
 
-const DashboardNavigationLink: FC<DashboardNavigationLinkProps> = ({
+const DashboardNavigationLink = ({
    path,
    label,
-}) => {
+}: DashboardNavigationLinkProps) => {
    const currentPath = usePathname();
    const isSelected = currentPath === path;
 

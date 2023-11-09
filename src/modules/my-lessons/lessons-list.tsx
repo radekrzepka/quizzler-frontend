@@ -1,13 +1,13 @@
 import LessonCard from "@/modules/my-lessons/lesson-card";
 import { Lesson } from "@/types/lesson";
 import { compareDesc, parseISO } from "date-fns";
-import { FC, useMemo } from "react";
+import { useMemo } from "react";
 
 interface LessonsListProps {
    lessons: Lesson[];
 }
 
-const LessonsList: FC<LessonsListProps> = ({ lessons }) => {
+const LessonsList = ({ lessons }: LessonsListProps) => {
    const sortedLessons = useMemo(() => {
       return lessons.sort((a, b) => {
          const dateA = parseISO(a.dateCreated);
@@ -28,7 +28,7 @@ const LessonsList: FC<LessonsListProps> = ({ lessons }) => {
       );
 
    return (
-      <div className="grid auto-rows-min gap-4 xl:grid-cols-2">
+      <div className="flex flex-wrap justify-center gap-4 xl:justify-normal">
          {sortedLessons.map((lesson) => (
             <LessonCard lesson={lesson} key={lesson.lessonId} />
          ))}

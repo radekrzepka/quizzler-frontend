@@ -1,8 +1,7 @@
 import InputSkeleton from "@/components/ui/input-skeleton";
 import Skeleton from "@/components/ui/skeleton";
-import { FC } from "react";
 
-const ProfileFormsSkeleton: FC = () => {
+const ProfileFormsSkeleton = () => {
    return (
       <div className="flex flex-col items-center gap-4 rounded-xl bg-text text-background">
          <div className="flex w-full flex-col items-center">

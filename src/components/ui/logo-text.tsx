@@ -1,12 +1,12 @@
 import classNames from "classnames";
-import { FC, ReactNode } from "react";
+import { ReactNode } from "react";
 
 interface LogoTextProps {
    variant?: "light" | "dark";
    children: ReactNode;
 }
 
-const LogoText: FC<LogoTextProps> = ({ variant = "light", children }) => {
+const LogoText = ({ variant = "light", children }: LogoTextProps) => {
    return (
       <h1
          className={classNames(

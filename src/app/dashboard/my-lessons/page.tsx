@@ -1,6 +1,5 @@
 import LessonsList from "@/modules/my-lessons/lessons-list";
 import NewLessonForm from "@/modules/my-lessons/new-lesson-form";
-import { FC } from "react";
 import getJWT from "@/utils/get-jwt";
 
 const getUserLessons = async () => {
@@ -18,7 +17,7 @@ const getUserLessons = async () => {
    return res.json();
 };
 
-const MyLessons: FC = async () => {
+const MyLessons = async () => {
    const { data: lessons } = await getUserLessons();
 
    return (

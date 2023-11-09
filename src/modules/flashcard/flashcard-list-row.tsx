@@ -1,15 +1,9 @@
 import DropdownMenu from "@/components/ui/dropdown-menu";
 import { Flashcard } from "@/types/flashcard";
-import { Lesson } from "@/types/lesson";
-import {
-   QueryObserverResult,
-   RefetchOptions,
-   RefetchQueryFilters,
-   useMutation,
-} from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import classNames from "classnames";
 import { getCookie } from "cookies-next";
-import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import toast from "react-hot-toast";
 
 interface FlashcardListRowProps {
@@ -35,14 +29,14 @@ const scrollToElement = (elementId: string) => {
 const getRandomNumber = (min: number, max: number) =>
    Math.floor(Math.random() * (max - min) + min);
 
-const FlashcardListRow: FC<FlashcardListRowProps> = ({
+const FlashcardListRow = ({
    flashcard,
    refetchLesson,
    setFlashcardToEdit,
    setSelectedMode,
    selectedMode,
    flashcardToEdit,
-}) => {
+}: FlashcardListRowProps) => {
    const [rotationDegree] = useState(getRandomNumber(-10, 10).toString());
 
    const { mutate: deleteFlashcardMutation } = useMutation({

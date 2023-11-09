@@ -4,7 +4,7 @@ import { Flashcard } from "@/types/flashcard";
 import { Lesson } from "@/types/lesson";
 import { useQuery } from "@tanstack/react-query";
 import { getCookie } from "cookies-next";
-import { FC, useState } from "react";
+import { useState } from "react";
 import FlashcardForm from "../flashcard/flashcard-form";
 import FlashcardList from "../flashcard/flashcard-list";
 import EditLessonForm from "./edit-lesson-form";
@@ -30,7 +30,7 @@ interface EditLessonProps {
    lessonId: string;
 }
 
-const EditLesson: FC<EditLessonProps> = ({ lessonId }) => {
+const EditLesson = ({ lessonId }: EditLessonProps) => {
    const [flashcardToEdit, setFlashcardToEdit] = useState<Flashcard | null>(
       null,
    );

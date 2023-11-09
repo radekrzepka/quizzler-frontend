@@ -1,9 +1,8 @@
 import SignInForm from "@/modules/auth/sign-in/sign-in-form";
-import { FC } from "react";
 
-const SignIn: FC = () => {
+const SignIn = () => {
    return (
-      <div className="grid w-full place-items-center absolute inset-0">
+      <div className="absolute inset-0 grid w-full place-items-center">
          <SignInForm />
       </div>
    );

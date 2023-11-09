@@ -3,7 +3,7 @@ import { UserInfo } from "./user-info";
 
 export interface Lesson {
    lessonId: number;
-   owner?: UserInfo;
+   owner: UserInfo;
    isPublic?: boolean;
    imageName: string | null;
    title: string;
