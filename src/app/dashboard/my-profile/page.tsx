@@ -21,7 +21,7 @@ const getProfileData = async () => {
    return (await fetchFromAPI("/api/user/profile", JWT)).data;
 };
 
-const getStatsData = async (): Promise<[Date[], LogData[]]> => {
+const getStatsData = async (): Promise<[Array<Date>, Array<LogData>]> => {
    const JWT = getJWT();
    const [createdRes, learnedRes] = await Promise.all([
       fetchFromAPI("/api/user/flashcardsCreated", JWT),
@@ -33,7 +33,7 @@ const getStatsData = async (): Promise<[Date[], LogData[]]> => {
 
 const MyProfile = async () => {
    const profileData: UserInfo = await getProfileData();
-   const [createdData, learnedData]: [Date[], LogData[]] = await getStatsData();
+   const [createdData, learnedData]: [Array<Date>, Array<LogData>] = await getStatsData();
    return (
       <div className="ml-0 grid gap-10 lg:grid-cols-[3fr_2fr]">
          <ProfileCard

@@ -19,7 +19,7 @@ interface AdditionalProps {
    test: Array<string>;
 }
 interface LineChartProps {
-   data: ChartRecord[];
+   data: Array<ChartRecord>;
    recordType: string;
    id: string;
 }

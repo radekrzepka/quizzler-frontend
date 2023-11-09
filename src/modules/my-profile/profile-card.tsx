@@ -32,7 +32,7 @@ const MONTH_VIEW_NUMBER = 90;
 const generateEmptyDates = () => {
    const today = new Date();
    const dates: Array<ChartRecord> = [];
-   const startDate = new Date(subMonths(today, 11).setHours(0, 0, 0, 0));
+   const startDate = new Date(subMonths(today, 11));
    let procDate = startDate;
    while (!isEqual(procDate, today)) {
       dates.push({

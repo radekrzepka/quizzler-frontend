@@ -7,7 +7,7 @@ import Link from "next/link";
 import Button from "@/components/ui/button";
 
 interface FlashcardsLearnSectionProps {
-   flashcards: Flashcard[];
+   flashcards: Array<Flashcard>;
    lessonId: string;
 }
 
