@@ -17,11 +17,12 @@ interface ChangeAvatarProps {
 
 const ChangeAvatar = ({ profile, isOpen, setIsOpen }: ChangeAvatarProps) => {
    const [selectedAvatar, setSelectedAvatar] = useState(profile.avatar);
+
    const [buttonLoading, setButtonLoading] = useState(false);
    const router = useRouter();
    const queryClient = useQueryClient();
 
-   const { mutate: changeAvatarMutation } = useMutation({
+   const { mutate: changeAvatarMutation, isPending } = useMutation({
       mutationFn: async () => {
          const JWT = getCookie("JWT") as string;
 
@@ -40,12 +41,11 @@ const ChangeAvatar = ({ profile, isOpen, setIsOpen }: ChangeAvatarProps) => {
          return res.json();
       },
 
-      onSettled: (res) => {
+      onSettled: res => {
          if (res?.status === 200) {
             router.refresh();
             toast.success("Avatar has been changed");
             queryClient.invalidateQueries({ queryKey: ["profileData"] });
-            setIsOpen(false);
          } else {
             toast.error("Error when changing avatar");
          }
@@ -59,8 +59,13 @@ const ChangeAvatar = ({ profile, isOpen, setIsOpen }: ChangeAvatarProps) => {
             <div className="grid grid-cols-3 gap-4 md:grid-cols-4">
                {Array.from({ length: 16 }, (_, i) => i).map((_, index) => (
                   <button
+                     disabled={isPending}
                      key={index + 1}
-                     onClick={() => setSelectedAvatar(index + 1)}
+                     onClick={() => {
+                        setSelectedAvatar(index + 1);
+                        setButtonLoading(true);
+                        changeAvatarMutation();
+                     }}
                   >
                      <Image
                         width={64}
@@ -70,7 +75,7 @@ const ChangeAvatar = ({ profile, isOpen, setIsOpen }: ChangeAvatarProps) => {
                         className={classNames(
                            Number(selectedAvatar) - 1 === index &&
                               "border-2 border-black",
-                           "rounded-full",
+                           "rounded-full"
                         )}
                      />
                   </button>
@@ -79,10 +84,11 @@ const ChangeAvatar = ({ profile, isOpen, setIsOpen }: ChangeAvatarProps) => {
             <Button
                type="button"
                variant="primary"
-               label="Change avatar"
+               label="Set default"
                className="mt-6 w-full"
                onClick={() => {
                   setButtonLoading(true);
+                  setSelectedAvatar(null);
                   changeAvatarMutation();
                }}
                isLoading={buttonLoading}

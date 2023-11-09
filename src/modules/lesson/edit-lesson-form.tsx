@@ -24,7 +24,7 @@ interface EditLessonFormProps {
    lesson: Lesson;
 }
 
-const formatTags = (tags: string[]) =>
+const formatTags = (tags: Array<string>) =>
    tags.map((tag) => ({ label: tag, value: tag }));
 
 const EditLessonForm = ({ lesson }: EditLessonFormProps) => {

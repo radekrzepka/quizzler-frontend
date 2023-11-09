@@ -13,7 +13,7 @@ interface SelectProps<T extends FieldValues> {
    name: Path<T>;
    className?: string;
    disabled?: boolean;
-   options: Option[];
+   options: Array<Option>;
    control: Control<T>;
    defaultValue?: Option;
 }

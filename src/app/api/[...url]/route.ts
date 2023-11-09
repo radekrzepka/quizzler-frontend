@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 
 async function handleRequest(
    request: Request,
-   { params }: { params: { url: string[] } },
+   { params }: { params: { url: Array<string> } },
    method: string,
 ) {
    const bodyBuffer = await request.arrayBuffer();
@@ -30,18 +30,18 @@ async function handleRequest(
    }
 }
 
-export const POST = (request: Request, params: { params: { url: string[] } }) =>
+export const POST = (request: Request, params: { params: { url: Array<string> } }) =>
    handleRequest(request, params, "POST");
 
-export const GET = (request: Request, params: { params: { url: string[] } }) =>
+export const GET = (request: Request, params: { params: { url: Array<string> } }) =>
    handleRequest(request, params, "GET");
 
 export const PATCH = (
    request: Request,
-   params: { params: { url: string[] } },
+   params: { params: { url: Array<string> } },
 ) => handleRequest(request, params, "PATCH");
 
 export const DELETE = (
    request: Request,
-   params: { params: { url: string[] } },
+   params: { params: { url: Array<string> } },
 ) => handleRequest(request, params, "DELETE");

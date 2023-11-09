@@ -4,7 +4,7 @@ import { Dispatch, SetStateAction } from "react";
 import FlashcardListRow from "./flashcard-list-row";
 
 interface FlashcardListProps {
-   flashcards: Flashcard[];
+   flashcards: Array<Flashcard>;
    refetchLesson: () => void;
    setFlashcardToEdit: Dispatch<SetStateAction<Flashcard | null>>;
    setSelectedMode: Dispatch<SetStateAction<"Add" | "Edit">>;

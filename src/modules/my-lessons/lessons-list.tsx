@@ -4,7 +4,7 @@ import { compareDesc, parseISO } from "date-fns";
 import { useMemo } from "react";
 
 interface LessonsListProps {
-   lessons: Lesson[];
+   lessons: Array<Lesson>;
 }
 
 const LessonsList = ({ lessons }: LessonsListProps) => {

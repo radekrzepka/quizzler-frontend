@@ -9,7 +9,7 @@ export interface Lesson {
    title: string;
    description?: string;
    dateCreated: string;
-   flashcards: Flashcard[];
-   tags?: string[];
+   flashcards: Array<Flashcard>;
+   tags?: Array<string>;
    flashcardCount: number;
 }

@@ -4,18 +4,18 @@ import Button from "@/components/ui/button";
 import ImageContainer from "@/components/ui/image-container";
 import ImageInput from "@/components/ui/image-input";
 import LabelInput from "@/components/ui/label-input";
-import { Flashcard } from "@/types/flashcard";
+import type { Flashcard } from "@/types/flashcard";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import classNames from "classnames";
 import { getCookie } from "cookies-next";
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import type { Dispatch, SetStateAction } from "react";
+import { useEffect, useRef, useState } from "react";
+import type { SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import {
-   NewFlashcardForm,
-   newFlashcardFormSchema,
-} from "./flashcard-form-schema";
+import type { NewFlashcardForm } from "./flashcard-form-schema";
+import { newFlashcardFormSchema } from "./flashcard-form-schema";
 
 interface FlashcardFormProps {
    lessonId: number;
@@ -77,7 +77,7 @@ const FlashcardForm = ({
          for (const [key, value] of Object.entries(fieldsToUpdate)) {
             setValue(
                key as "question" | "answer" | "questionImage" | "answerImage",
-               value,
+               value
             );
          }
 
@@ -142,7 +142,7 @@ const FlashcardForm = ({
       } else {
          formData.append(
             "flashcardId",
-            flashcardToEdit?.flashcardId.toString() as string,
+            flashcardToEdit?.flashcardId.toString() as string
          );
       }
 
@@ -191,9 +191,9 @@ const FlashcardForm = ({
                <button
                   className={classNames(
                      "w-1/2 rounded-lg rounded-r-none border border-background transition duration-300 ease-in-out",
-                     selectedMode === "Add" && "bg-primary",
+                     selectedMode === "Add" && "bg-primary"
                   )}
-                  onClick={(event) => {
+                  onClick={event => {
                      event.preventDefault();
                      setFlashcardToEdit(null);
                      reset();
@@ -205,9 +205,9 @@ const FlashcardForm = ({
                <button
                   className={classNames(
                      "w-1/2 rounded-lg rounded-l-none border border-background transition duration-300 ease-in-out",
-                     selectedMode === "Edit" && "bg-primary",
+                     selectedMode === "Edit" && "bg-primary"
                   )}
-                  onClick={(event) => {
+                  onClick={event => {
                      event.preventDefault();
                      setSelectedMode("Edit");
                   }}
@@ -228,7 +228,7 @@ const FlashcardForm = ({
                      "flex h-full flex-col justify-between gap-2 transition duration-300 ease-in-out",
                      selectedMode === "Edit" &&
                         !flashcardToEdit &&
-                        "pointer-events-none blur-sm",
+                        "pointer-events-none blur-sm"
                   )}
                >
                   <div>
