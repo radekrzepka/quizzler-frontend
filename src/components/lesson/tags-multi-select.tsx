@@ -2,13 +2,18 @@ import useDebounce from "@/hooks/use-debounce";
 import { useQuery } from "@tanstack/react-query";
 import { getCookie } from "cookies-next";
 import { useState } from "react";
-import { Control, Controller, FieldValues, Path } from "react-hook-form";
+import type { Control, FieldValues, Path } from "react-hook-form";
+import { Controller } from "react-hook-form";
 import CreatableSelect from "react-select/creatable";
 
 interface TagsMultiSelectProps<T extends FieldValues> {
    name: Path<T>;
    control: Control<T>;
    defaultTags?: Array<{ label: string; value: string }>;
+}
+
+interface ApiResponse {
+   data: Array<string>;
 }
 
 const getTagsByQuery = async (query: string) => {
@@ -24,17 +29,17 @@ const getTagsByQuery = async (query: string) => {
       method: "GET",
    });
 
-   const json = await res.json();
+   const { data } = (await res.json()) as ApiResponse;
 
-   if (json.data.length > 0) {
-      const mappedTags = json.data.map((tag: string) => ({
+   if (data.length > 0) {
+      const mappedTags = data.map((tag: string) => ({
          value: tag,
          label: tag,
       }));
       return mappedTags;
    }
 
-   return json.data;
+   return [];
 };
 
 const TagsMultiSelect = <T extends FieldValues>({

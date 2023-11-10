@@ -12,7 +12,7 @@ const imageSchema = z
    .union([z.literal(null), z.any()])
    .optional()
    .refine(
-      (file) => {
+      (file: File | string) => {
          if (!file || typeof file === "string") return true;
          return (
             file.size <= MAX_FILE_SIZE &&
@@ -21,9 +21,9 @@ const imageSchema = z
       },
       {
          message: `Image must be one of the following types: ${ACCEPTED_IMAGE_TYPES.join(
-            ", ",
+            ", "
          )} and not exceed ${MAX_FILE_SIZE / 100000}MB`,
-      },
+      }
    );
 
 export default imageSchema;

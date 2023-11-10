@@ -8,12 +8,18 @@ import { getCookie } from "cookies-next";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import type { SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import {
    ChangePasswordForm,
    changePasswordFormSchema,
 } from "./change-password-form-schema";
+
+interface ApiResponse {
+   message: string;
+   status: number;
+}
 
 const ChangePasswordForm = () => {
    const [disabled, setDisabled] = useState(true);
@@ -48,20 +54,20 @@ const ChangePasswordForm = () => {
          return res.json();
       },
 
-      onSettled: (res) => {
+      onSettled: (res: ApiResponse | undefined) => {
          if (res?.status === 200) {
             setDisabled(true);
             router.refresh();
             toast.success("Password has been changed");
          } else {
-            toast.error(res.message);
+            toast.error(res?.message as string);
          }
 
          setButtonLoading(false);
       },
    });
 
-   const onSubmit: SubmitHandler<ChangePasswordForm> = (data) => {
+   const onSubmit: SubmitHandler<ChangePasswordForm> = data => {
       updatePasswordMutation(data);
       setButtonLoading(true);
    };
@@ -73,7 +79,7 @@ const ChangePasswordForm = () => {
       >
          <h2 className="mt-2 text-3xl font-bold">Change your password</h2>
          <button
-            onClick={() => setDisabled((prevState) => !prevState)}
+            onClick={() => setDisabled(prevState => !prevState)}
             type="button"
             className="mr-6 self-end"
          >

@@ -120,8 +120,8 @@ const FlashcardForm = ({
             reset();
          } else {
             selectedMode === "Add"
-               ? toast.success("Error adding flashcard")
-               : toast.success("Error updating flashcard");
+               ? toast.error("Error adding flashcard")
+               : toast.error("Error updating flashcard");
          }
          setButtonLoading(false);
       },
@@ -150,13 +150,13 @@ const FlashcardForm = ({
       formData.append("answerText", answer || "");
 
       if (questionImage && typeof questionImage !== "string") {
-         formData.append("questionImage", questionImage);
+         formData.append("questionImage", questionImage as File);
       } else if (deleteQuestionImage) {
          formData.append("questionImage", "");
       }
 
       if (answerImage && typeof answerImage !== "string") {
-         formData.append("answerImage", answerImage);
+         formData.append("answerImage", answerImage as File);
       } else if (deleteAnswerImage) {
          formData.append("answerImage", "");
       }

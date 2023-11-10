@@ -1,22 +1,22 @@
 "use client";
 
-import { ChartRecord } from "@/types/chart-data";
+import type { ChartRecord } from "@/types/chart-data";
+import type {
+   TooltipProps} from "recharts";
 import {
    CartesianGrid,
    Line,
    LineChart as RechartLineChart,
    ResponsiveContainer,
    Tooltip,
-   TooltipProps,
    XAxis,
    YAxis,
 } from "recharts";
-import { NameType } from "recharts/types/component/DefaultTooltipContent";
-import { ValueType } from "tailwindcss/types/config";
+import type { NameType } from "recharts/types/component/DefaultTooltipContent";
+import type { ValueType } from "tailwindcss/types/config";
 
 interface AdditionalProps {
    recordType: string;
-   test: Array<string>;
 }
 interface LineChartProps {
    data: Array<ChartRecord>;

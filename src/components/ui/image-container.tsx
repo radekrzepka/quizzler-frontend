@@ -1,17 +1,18 @@
 import classNames from "classnames";
 import Image from "next/image";
-import { Dispatch, SetStateAction } from "react";
-import { FieldValues, Path } from "react-hook-form";
+import type { Dispatch, SetStateAction } from "react";
+import type {
+   FieldValues,
+   Path,
+   UseFormSetValue,
+   PathValue,
+} from "react-hook-form";
 
-interface ImageContainerProps<T> {
+interface ImageContainerProps<T extends FieldValues> {
    selectedImage: string | null | undefined;
    fullRounded?: boolean;
    name: Path<T>;
-   setValue: (
-      name: Path<T>,
-      value: any,
-      options?: Partial<{ shouldValidate: boolean; shouldDirty: boolean }>,
-   ) => void;
+   setValue: UseFormSetValue<T>;
    onDelete?: () => void;
    setSelectedImage: Dispatch<SetStateAction<string | null | undefined>>;
 }
@@ -42,7 +43,7 @@ const ImageContainer = <T extends FieldValues>({
                   fill={true}
                   className={classNames(
                      "h-full w-full object-cover",
-                     fullRounded ? "rounded-xl" : "rounded-t-xl",
+                     fullRounded ? "rounded-xl" : "rounded-t-xl"
                   )}
                />
                <Image
@@ -51,9 +52,9 @@ const ImageContainer = <T extends FieldValues>({
                   width={32}
                   height={32}
                   alt="Delete image icon"
-                  onClick={(event) => {
+                  onClick={event => {
                      event.stopPropagation();
-                     setValue(name, null);
+                     setValue(name, "" as unknown as PathValue<T, Path<T>>);
                      setSelectedImage(null);
                      onDelete?.();
                   }}

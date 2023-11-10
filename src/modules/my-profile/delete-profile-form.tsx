@@ -5,8 +5,13 @@ import { useMutation } from "@tanstack/react-query";
 import { deleteCookie, getCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import type { SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
+
+interface ApiResponse {
+   status: number;
+}
 
 const DeleteProfileForm = () => {
    const [isOpenModal, setIsOpenModal] = useState(false);
@@ -34,7 +39,7 @@ const DeleteProfileForm = () => {
          return res.json();
       },
 
-      onSettled: (res) => {
+      onSettled: (res: ApiResponse | undefined) => {
          if (res?.status === 200) {
             deleteCookie("JWT");
             toast.success("Account has been deleted");

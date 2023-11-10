@@ -1,8 +1,13 @@
 import LessonsList from "@/modules/my-lessons/lessons-list";
 import NewLessonForm from "@/modules/my-lessons/new-lesson-form";
-import getJWT from "@/utils/get-jwt";
+import type { Lesson } from "@/types/lesson";
+import getJWT from "@/utils/get-server-jwt";
 
-const getUserLessons = async () => {
+interface ApiResponse {
+   data: Array<Lesson>;
+}
+
+const getUserLessons = async (): Promise<ApiResponse> => {
    const JWT = getJWT();
 
    const res = await fetch(`${process.env.URL}/api/user/lessons`, {
@@ -14,7 +19,9 @@ const getUserLessons = async () => {
       throw new Error("Failed to fetch data");
    }
 
-   return res.json();
+   const data = (await res.json()) as ApiResponse;
+
+   return data;
 };
 
 const MyLessons = async () => {

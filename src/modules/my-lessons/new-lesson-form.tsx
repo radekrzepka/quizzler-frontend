@@ -13,9 +13,15 @@ import { useMutation } from "@tanstack/react-query";
 import { getCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import type { SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { NewLessonForm, newLessonFormSchema } from "./new-lesson-form-schema";
+
+interface ApiResponse {
+   data: string;
+   status: number;
+}
 
 const NewLessonForm = () => {
    const {
@@ -54,13 +60,15 @@ const NewLessonForm = () => {
 
          return res.json();
       },
-      onSettled: ({ data, status }) => {
-         if (status === 201) {
-            const lessonId = data.split(" ")[2];
+      onSettled: (res: ApiResponse | undefined) => {
+         if (!res) return;
+
+         if (res.status === 201) {
+            const lessonId = res.data.split(" ")[2];
             router.push(`/dashboard/lesson/${lessonId}/edit`);
             router.refresh();
             toast.success("Lesson added successfully");
-         } else if (status === 400) {
+         } else if (res.status === 400) {
             toast.error("Lesson with this name already exists");
          }
          setButtonLoading(false);
@@ -81,13 +89,13 @@ const NewLessonForm = () => {
       formData.append("description", description || "");
       formData.append(
          "isPublic",
-         lessonType.value === "public" ? "true" : "false",
+         lessonType.value === "public" ? "true" : "false"
       );
 
-      if (image !== undefined) formData.append("image", image);
+      if (image !== undefined) formData.append("image", image as File);
 
       if (tags) {
-         tags.forEach((tag) => formData.append("tagNames", tag.value));
+         tags.forEach(tag => formData.append("tagNames", tag.value));
       }
 
       mutate(formData);

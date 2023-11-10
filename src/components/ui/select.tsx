@@ -2,7 +2,8 @@ import { Listbox, Transition } from "@headlessui/react";
 import { ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import classNames from "classnames";
 import { Fragment, useState } from "react";
-import { Control, Controller, FieldValues, Path } from "react-hook-form";
+import type { Control, FieldValues, Path } from "react-hook-form";
+import { Controller } from "react-hook-form";
 
 interface Option {
    value: string;

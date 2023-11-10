@@ -4,7 +4,7 @@ import DashboardNavigationLink from "@/components/dashboard/dashboard-navigation
 import Button from "@/components/ui/button";
 import LogoText from "@/components/ui/logo-text";
 import Skeleton from "@/components/ui/skeleton";
-import { UserInfo } from "@/types/user-info";
+import type { UserInfo } from "@/types/user-info";
 import { generateAbbreviation } from "@/utils/generate-abbreviation";
 import { useQuery } from "@tanstack/react-query";
 import { deleteCookie, getCookie } from "cookies-next";
@@ -14,15 +14,20 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 
-const getProfileData = async () => {
+interface ApiResponse {
+   data: UserInfo;
+}
+
+const getProfileData = async (): Promise<UserInfo> => {
    const JWT = getCookie("JWT") as string;
 
    const res = await fetch("/api/user/profile", {
       headers: { Authorization: JWT },
    });
-   const json = await res.json();
 
-   return json.data;
+   const { data } = (await res.json()) as ApiResponse;
+
+   return data;
 };
 
 const DashboardNavigation = () => {

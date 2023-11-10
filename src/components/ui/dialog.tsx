@@ -1,5 +1,6 @@
 import { Dialog as HeadlessUiDialog, Transition } from "@headlessui/react";
-import { Dispatch, Fragment, ReactNode, SetStateAction } from "react";
+import type { Dispatch, ReactNode, SetStateAction } from "react";
+import { Fragment } from "react";
 
 interface DialogProps {
    title: string;

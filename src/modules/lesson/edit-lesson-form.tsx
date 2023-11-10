@@ -6,14 +6,15 @@ import ImageInput from "@/components/ui/image-input";
 import LabelInput from "@/components/ui/label-input";
 import Select from "@/components/ui/select";
 import Textarea from "@/components/ui/textarea";
-import { Lesson } from "@/types/lesson";
+import type { Lesson } from "@/types/lesson";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { getCookie } from "cookies-next";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import type { SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import {
    EditLessonForm,
@@ -25,7 +26,7 @@ interface EditLessonFormProps {
 }
 
 const formatTags = (tags: Array<string>) =>
-   tags.map((tag) => ({ label: tag, value: tag }));
+   tags.map(tag => ({ label: tag, value: tag }));
 
 const EditLessonForm = ({ lesson }: EditLessonFormProps) => {
    const router = useRouter();
@@ -105,11 +106,11 @@ const EditLessonForm = ({ lesson }: EditLessonFormProps) => {
 
       formData.append(
          "isPublic",
-         lessonType.value === "public" ? "true" : "false",
+         lessonType.value === "public" ? "true" : "false"
       );
 
       if (image) {
-         formData.append("image", image);
+         formData.append("image", image as File);
       } else if (deleteLessonImage) {
          formData.append("image", "");
       }
@@ -117,7 +118,7 @@ const EditLessonForm = ({ lesson }: EditLessonFormProps) => {
       if (tags) {
          if (tags.length === 0) formData.append("tagNames", "");
          else {
-            tags.forEach((tag) => formData.append("tagNames", tag.value));
+            tags.forEach(tag => formData.append("tagNames", tag.value));
          }
       }
 

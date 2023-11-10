@@ -2,14 +2,15 @@
 
 import Button from "@/components/ui/button";
 import LabelInput from "@/components/ui/label-input";
-import { UserInfo } from "@/types/user-info";
+import type { UserInfo } from "@/types/user-info";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { getCookie } from "cookies-next";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import type { SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import {
    ChangeDataForm,
@@ -18,6 +19,15 @@ import {
 
 interface ChangeDataFormProps {
    profile: UserInfo;
+}
+
+interface ApiResponse {
+   data:
+      | {
+           message: string;
+        }
+      | string;
+   status: number;
 }
 
 const ChangeDataForm = ({ profile }: ChangeDataFormProps) => {
@@ -64,24 +74,28 @@ const ChangeDataForm = ({ profile }: ChangeDataFormProps) => {
          return res.json();
       },
 
-      onSettled: res => {
+      onSettled: async (res: ApiResponse | undefined) => {
+         if (!res) return;
+
          if (res?.status === 200) {
             router.refresh();
             toast.success("Data has been changed");
-            queryClient.invalidateQueries({ queryKey: ["profileData"] });
+            await queryClient.invalidateQueries({ queryKey: ["profileData"] });
             setDisabled(true);
          } else {
-            toast.error(res.data);
+            toast.error(res.data as string);
          }
 
          setButtonLoading(false);
 
-         if (res?.data.message.startsWith("Email")) {
-            toast.error("Email already taken");
-         }
+         if (typeof res.data !== "string") {
+            if (res?.data.message.startsWith("Email")) {
+               toast.error("Email already taken");
+            }
 
-         if (res?.data.message.startsWith("Username")) {
-            toast.error("Username already taken");
+            if (res?.data.message.startsWith("Username")) {
+               toast.error("Username already taken");
+            }
          }
       },
    });

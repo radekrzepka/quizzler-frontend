@@ -1,4 +1,4 @@
-import { UserInfo } from "../types/user-info";
+import type { UserInfo } from "../types/user-info";
 
 export const generateAbbreviation = (profileDate: UserInfo) => {
    if (profileDate.firstName && profileDate.lastName)

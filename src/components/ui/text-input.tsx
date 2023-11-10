@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { FieldValues, Path, UseFormRegister } from "react-hook-form";
+import type { FieldValues, Path, UseFormRegister } from "react-hook-form";
 
 interface TextInputProps<T extends FieldValues> {
    type: "text" | "password" | "email";

@@ -1,10 +1,12 @@
 import FlashcardsLearnSection from "@/modules/flashcard/flashcards-learn-section";
-import { Flashcard } from "@/types/flashcard";
-import { Lesson } from "@/types/lesson";
-import { UserInfo } from "@/types/user-info";
-import getJWT from "@/utils/get-jwt";
+import type { Lesson } from "@/types/lesson";
+import getJWT from "@/utils/get-server-jwt";
 
-const getLesson = async (id: string) => {
+interface ApiResponse {
+   data: Lesson;
+}
+
+const getLesson = async (id: string): Promise<ApiResponse> => {
    const JWT = getJWT();
    const res = await fetch(`${process.env.URL}/api/lesson/${id}`, {
       headers: {
@@ -16,44 +18,19 @@ const getLesson = async (id: string) => {
       throw new Error("Failed to fetch data");
    }
 
-   return res.json();
-};
+   const data = (await res.json()) as ApiResponse;
 
-const getUser = async () => {
-   const JWT = getJWT();
-   const res = await fetch(`${process.env.URL}/api/lesson/profile`, {
-      headers: {
-         Authorization: JWT as string,
-      },
-   });
-
-   if (!res.ok) {
-      throw new Error("Failed to fetch data");
-   }
-
-   return res.json();
+   return data;
 };
 
 const LessonPage = async ({ params }: { params: { id: string } }) => {
-   const { data: lesson }: { data: Lesson } = await getLesson(params.id);
-   const user: UserInfo = await getUser();
-
-   const { userId } = user;
-   const { flashcards } = lesson;
-
-   //TODO: check if user is owner if not, redirect
-
-   if (!userId) {
-      return {
-         redirect: {
-            destination: "/dashboard",
-            permanent: false,
-         },
-      };
-   }
+   const { data: lesson } = await getLesson(params.id);
 
    return (
-      <FlashcardsLearnSection lessonId={params.id} flashcards={flashcards} />
+      <FlashcardsLearnSection
+         lessonId={params.id}
+         flashcards={lesson.flashcards}
+      />
    );
 };
 

@@ -1,10 +1,23 @@
-import { UserInfo } from "@/types/user-info";
+import type { UserInfo } from "@/types/user-info";
 import ProfileCard from "@/modules/my-profile/profile-card";
 import ProfileChangeForms from "@/modules/my-profile/profile-change-forms";
-import { LogData } from "@/types/log-data";
-import getJWT from "@/utils/get-jwt";
+import type { LogData } from "@/types/log-data";
+import getJWT from "@/utils/get-server-jwt";
 
-const fetchFromAPI = async (endpoint: string, JWT: string | undefined) => {
+interface ApiResponseProfileData {
+   data: UserInfo;
+}
+interface ApiResponseLearnedData {
+   data: Array<LogData>;
+}
+interface ApiResponseCreatedData {
+   data: Array<Date>;
+}
+
+const getFromAPI = async <T,>(
+   endpoint: string,
+   JWT: string | undefined
+): Promise<T> => {
    const res = await fetch(`${process.env.URL}${endpoint}`, {
       headers: { Authorization: JWT as string },
    });
@@ -13,27 +26,30 @@ const fetchFromAPI = async (endpoint: string, JWT: string | undefined) => {
       throw new Error("Failed to fetch data");
    }
 
-   return res.json();
+   const data = (await res.json()) as Promise<T>;
+
+   return data;
 };
 
-const getProfileData = async () => {
+const getProfileData = async (): Promise<ApiResponseProfileData> => {
    const JWT = getJWT();
-   return (await fetchFromAPI("/api/user/profile", JWT)).data;
+   const res = getFromAPI<ApiResponseProfileData>("/api/user/profile", JWT);
+   return res;
 };
 
 const getStatsData = async (): Promise<[Array<Date>, Array<LogData>]> => {
    const JWT = getJWT();
    const [createdRes, learnedRes] = await Promise.all([
-      fetchFromAPI("/api/user/flashcardsCreated", JWT),
-      fetchFromAPI("/api/user/logs", JWT),
+      getFromAPI<ApiResponseCreatedData>("/api/user/flashcardsCreated", JWT),
+      getFromAPI<ApiResponseLearnedData>("/api/user/logs", JWT),
    ]);
 
    return [createdRes.data, learnedRes.data];
 };
 
 const MyProfile = async () => {
-   const profileData: UserInfo = await getProfileData();
-   const [createdData, learnedData]: [Array<Date>, Array<LogData>] = await getStatsData();
+   const { data: profileData } = await getProfileData();
+   const [createdData, learnedData] = await getStatsData();
    return (
       <div className="ml-0 grid gap-10 lg:grid-cols-[3fr_2fr]">
          <ProfileCard

@@ -1,7 +1,7 @@
 "use client";
 
-import { Flashcard } from "@/types/flashcard";
-import { Lesson } from "@/types/lesson";
+import type { Flashcard } from "@/types/flashcard";
+import type { Lesson } from "@/types/lesson";
 import { useQuery } from "@tanstack/react-query";
 import { getCookie } from "cookies-next";
 import { useState } from "react";
@@ -9,6 +9,10 @@ import FlashcardForm from "../flashcard/flashcard-form";
 import FlashcardList from "../flashcard/flashcard-list";
 import EditLessonForm from "./edit-lesson-form";
 import EditLessonSkeleton from "./edit-lesson-skeleton";
+
+interface ApiResponse {
+   data: Lesson;
+}
 
 const getLesson = async (id: string) => {
    const JWT = getCookie("JWT") as string;
@@ -21,7 +25,7 @@ const getLesson = async (id: string) => {
       throw new Error("Failed to fetch data");
    }
 
-   const { data } = await res.json();
+   const { data } = (await res.json()) as ApiResponse;
 
    return data;
 };
@@ -32,7 +36,7 @@ interface EditLessonProps {
 
 const EditLesson = ({ lessonId }: EditLessonProps) => {
    const [flashcardToEdit, setFlashcardToEdit] = useState<Flashcard | null>(
-      null,
+      null
    );
    const [selectedMode, setSelectedMode] = useState<"Add" | "Edit">("Add");
    const {

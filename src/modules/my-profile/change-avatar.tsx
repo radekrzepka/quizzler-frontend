@@ -1,18 +1,23 @@
 import Button from "@/components/ui/button";
 import Dialog from "@/components/ui/dialog";
-import { UserInfo } from "@/types/user-info";
+import type { UserInfo } from "@/types/user-info";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import classNames from "classnames";
 import { getCookie } from "cookies-next";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { Dispatch, SetStateAction, useState } from "react";
+import type { Dispatch, SetStateAction } from "react";
+import { useState } from "react";
 import { toast } from "react-hot-toast";
 
 interface ChangeAvatarProps {
    profile: UserInfo;
    isOpen: boolean;
    setIsOpen: Dispatch<SetStateAction<boolean>>;
+}
+
+interface ApiResponse {
+   status: number;
 }
 
 const ChangeAvatar = ({ profile, isOpen, setIsOpen }: ChangeAvatarProps) => {
@@ -41,11 +46,11 @@ const ChangeAvatar = ({ profile, isOpen, setIsOpen }: ChangeAvatarProps) => {
          return res.json();
       },
 
-      onSettled: res => {
+      onSettled: async (res: ApiResponse | undefined) => {
          if (res?.status === 200) {
             router.refresh();
             toast.success("Avatar has been changed");
-            queryClient.invalidateQueries({ queryKey: ["profileData"] });
+            await queryClient.invalidateQueries({ queryKey: ["profileData"] });
          } else {
             toast.error("Error when changing avatar");
          }

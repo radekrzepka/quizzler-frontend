@@ -1,6 +1,6 @@
 import DropdownMenu from "@/components/ui/dropdown-menu";
-import { Flashcard } from "@/types/flashcard";
-import { Dispatch, SetStateAction } from "react";
+import type { Flashcard } from "@/types/flashcard";
+import type { Dispatch, SetStateAction } from "react";
 import FlashcardListRow from "./flashcard-list-row";
 
 interface FlashcardListProps {
@@ -23,11 +23,15 @@ const FlashcardList = ({
    const menuOptions = [
       {
          label: "Import from JSON/CSV/txt",
-         onClickFunction: () => {},
+         onClickFunction: () => {
+            console.log("Import from JSON/CSV/txt");
+         },
       },
       {
          label: "Export to JSON/CSV/txt",
-         onClickFunction: () => {},
+         onClickFunction: () => {
+            console.log("Export to JSON/CSV/txt");
+         },
       },
    ];
 
@@ -40,7 +44,7 @@ const FlashcardList = ({
          </div>
 
          <div className="flex flex-wrap justify-center gap-2 p-4">
-            {flashcards.map((flashcard) => (
+            {flashcards.map(flashcard => (
                <FlashcardListRow
                   key={flashcard.flashcardId}
                   flashcard={flashcard}

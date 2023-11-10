@@ -1,5 +1,6 @@
 import { subDays } from "date-fns";
-import { Dispatch, SetStateAction, useState } from "react";
+import type { Dispatch, SetStateAction} from "react";
+import { useState } from "react";
 import classNames from "classnames";
 interface ChartDateFiltersProps {
    changeStartDate: Dispatch<SetStateAction<Date>>;
