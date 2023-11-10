@@ -1,5 +1,5 @@
 import LessonCard from "@/modules/my-lessons/lesson-card";
-import { Lesson } from "@/types/lesson";
+import type { Lesson } from "@/types/lesson";
 import { compareDesc, parseISO } from "date-fns";
 import { useMemo } from "react";
 

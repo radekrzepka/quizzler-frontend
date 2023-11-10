@@ -12,6 +12,11 @@ import { useForm, type SubmitHandler } from "react-hook-form";
 import toast from "react-hot-toast";
 import { signInFormSchema, type SignInForm } from "./sign-in-form-schema";
 
+interface ApiResponse {
+   data: string;
+   status: number;
+}
+
 const SignInForm = () => {
    const {
       register,
@@ -43,7 +48,7 @@ const SignInForm = () => {
          return res.json();
       },
 
-      onSettled: (res) => {
+      onSettled: (res: ApiResponse | undefined) => {
          if (res?.status === 200) {
             router.push("/dashboard");
             router.refresh();
@@ -55,14 +60,14 @@ const SignInForm = () => {
             toast.error("Wrong credentials");
          } else {
             toast.error(
-               "There is something wrong with server. Try again later.",
+               "There is something wrong with server. Try again later."
             );
          }
          setButtonLoading(false);
       },
    });
 
-   const onSubmit: SubmitHandler<SignInForm> = (data) => {
+   const onSubmit: SubmitHandler<SignInForm> = data => {
       setButtonLoading(true);
       loginUserMutation(data);
    };
@@ -102,7 +107,6 @@ const SignInForm = () => {
                type="submit"
                label="Sign in"
                variant="primary"
-               onClick={handleSubmit(onSubmit)}
                className="mb-3 w-full md:mb-0"
                isLoading={buttonLoading}
             />

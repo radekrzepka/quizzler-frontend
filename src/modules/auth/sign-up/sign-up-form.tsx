@@ -11,6 +11,11 @@ import { useForm, type SubmitHandler } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { signUpFormSchema, type SignUpForm } from "./sign-up-form-schema";
 
+interface ApiResponse {
+   status: number;
+   data: string;
+}
+
 const SignUpForm = () => {
    const {
       register,
@@ -45,13 +50,13 @@ const SignUpForm = () => {
          return res.json();
       },
 
-      onSettled: (res) => {
+      onSettled: (res: ApiResponse | undefined) => {
          if (res?.status === 201) {
             router.push("/auth/sign-in");
             toast.success("Created account, you can log in.");
          } else if (res?.status !== 409)
             toast.error(
-               "There is something wrong with server. Try again later.",
+               "There is something wrong with server. Try again later."
             );
 
          setButtonLoading(false);
@@ -66,7 +71,7 @@ const SignUpForm = () => {
       },
    });
 
-   const onSubmit: SubmitHandler<SignUpForm> = async (data) => {
+   const onSubmit: SubmitHandler<SignUpForm> = data => {
       setButtonLoading(true);
       registerUserMutation(data);
    };

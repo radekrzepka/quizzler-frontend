@@ -3,7 +3,7 @@
 import Button from "@/components/ui/button";
 import Dialog from "@/components/ui/dialog";
 import DropdownMenu from "@/components/ui/dropdown-menu";
-import { Lesson } from "@/types/lesson";
+import type { Lesson } from "@/types/lesson";
 import { useMutation } from "@tanstack/react-query";
 import { getCookie } from "cookies-next";
 import { formatDistanceToNow } from "date-fns";

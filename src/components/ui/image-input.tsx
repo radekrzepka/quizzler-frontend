@@ -1,15 +1,17 @@
 import classNames from "classnames";
-import { Dispatch, MutableRefObject, SetStateAction } from "react";
-import { FieldValues, Path, UseFormRegister } from "react-hook-form";
+import type { Dispatch, MutableRefObject, SetStateAction } from "react";
+import type {
+   FieldValues,
+   Path,
+   UseFormRegister,
+   UseFormSetValue,
+   PathValue,
+} from "react-hook-form";
 
 interface ImageInputProps<T extends FieldValues> {
    register: UseFormRegister<T>;
    name: Path<T>;
-   setValue: (
-      name: Path<T>,
-      value: any,
-      options?: Partial<{ shouldValidate: boolean; shouldDirty: boolean }>,
-   ) => void;
+   setValue: UseFormSetValue<T>;
    setSelectedImage: Dispatch<SetStateAction<string | null | undefined>>;
    imageInputRef: MutableRefObject<HTMLInputElement | null>;
    showInput?: boolean;
@@ -28,7 +30,7 @@ const ImageInput = <T extends FieldValues>({
    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       if (e.target.files && e.target.files[0]) {
          const imageURL = URL.createObjectURL(e.target.files[0]);
-         setValue(name, e.target.files[0]);
+         setValue(name, e.target.files[0] as unknown as PathValue<T, Path<T>>);
          setSelectedImage(imageURL);
       }
    };
@@ -37,7 +39,7 @@ const ImageInput = <T extends FieldValues>({
       <input
          type="file"
          className={classNames(showInput ? "w-full" : "hidden")}
-         ref={(e) => {
+         ref={e => {
             ref(e);
             imageInputRef.current = e;
          }}

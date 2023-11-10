@@ -1,5 +1,5 @@
 import classnames from "classnames";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import BeatLoader from "react-spinners/BeatLoader";
 
 interface ButtonProps {

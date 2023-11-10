@@ -1,6 +1,6 @@
 "use client";
 
-import { UserInfo } from "@/types/user-info";
+import type { UserInfo } from "@/types/user-info";
 import ChangeDataForm from "./change-data-form";
 import ChangePasswordForm from "./change-password-form";
 import DeleteProfileForm from "./delete-profile-form";

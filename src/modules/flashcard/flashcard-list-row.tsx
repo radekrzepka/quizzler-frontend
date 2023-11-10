@@ -1,9 +1,10 @@
 import DropdownMenu from "@/components/ui/dropdown-menu";
-import { Flashcard } from "@/types/flashcard";
+import type { Flashcard } from "@/types/flashcard";
 import { useMutation } from "@tanstack/react-query";
 import classNames from "classnames";
 import { getCookie } from "cookies-next";
-import { Dispatch, SetStateAction, useState } from "react";
+import type { Dispatch, SetStateAction} from "react";
+import { useState } from "react";
 import toast from "react-hot-toast";
 
 interface FlashcardListRowProps {

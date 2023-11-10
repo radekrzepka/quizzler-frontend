@@ -4,6 +4,7 @@
       "heroicons",
       "hookform",
       "Quizzler",
+      "tailwindcss",
       "tanstack"
    ]
 }

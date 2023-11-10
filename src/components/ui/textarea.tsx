@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import {
+import type {
    FieldErrors,
    FieldValues,
    Path,

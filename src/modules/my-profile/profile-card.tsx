@@ -1,6 +1,6 @@
 "use client";
 
-import { UserInfo } from "@/types/user-info";
+import type { UserInfo } from "@/types/user-info";
 import LineChart from "@/components/chart/line-chart";
 import ChartDateFilters from "@/components/chart/chart-date-filters";
 import {
@@ -12,10 +12,10 @@ import {
    addDays,
    compareAsc,
 } from "date-fns";
-import { ChartRecord } from "@/types/chart-data";
+import type { ChartRecord } from "@/types/chart-data";
 import Image from "next/image";
 import { useMemo, useState } from "react";
-import { LogData } from "@/types/log-data";
+import type { LogData } from "@/types/log-data";
 import classNames from "classnames";
 import { generateAbbreviation } from "@/utils/generate-abbreviation";
 import ChangeAvatar from "./change-avatar";
@@ -49,7 +49,7 @@ const datesChartFormat = (
    emptyDates: Array<ChartRecord>
 ) => {
    data.forEach(date => {
-      date = new Date(date + "Z");
+      date = new Date(date.toString() + "Z");
       const dateInEmptyDates = emptyDates.find(
          ele => ele.name == format(date, "dd MMMM yyyy")
       );

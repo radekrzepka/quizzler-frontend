@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
 
-async function handleRequest(
+async function handleRequest<T>(
    request: Request,
    { params }: { params: { url: Array<string> } },
-   method: string,
+   method: string
 ) {
    const bodyBuffer = await request.arrayBuffer();
    const endpointUrl = params.url.join("/");
@@ -16,32 +16,33 @@ async function handleRequest(
          headers: request.headers,
          method,
          body: bodyBuffer.byteLength > 0 ? bodyBuffer : null,
-      },
+      }
    );
 
    try {
-      const data = await res.json();
-      return NextResponse.json(
-         { data, status: res.status },
-         { status: res.status },
-      );
+      const data = (await res.json()) as T;
+      return NextResponse.json({ data, status: res.status });
    } catch {
-      return NextResponse.json({ status: res.status }, { status: res.status });
+      return NextResponse.json({ status: res.status });
    }
 }
 
-export const POST = (request: Request, params: { params: { url: Array<string> } }) =>
-   handleRequest(request, params, "POST");
+export const POST = (
+   request: Request,
+   params: { params: { url: Array<string> } }
+) => handleRequest(request, params, "POST");
 
-export const GET = (request: Request, params: { params: { url: Array<string> } }) =>
-   handleRequest(request, params, "GET");
+export const GET = (
+   request: Request,
+   params: { params: { url: Array<string> } }
+) => handleRequest(request, params, "GET");
 
 export const PATCH = (
    request: Request,
-   params: { params: { url: Array<string> } },
+   params: { params: { url: Array<string> } }
 ) => handleRequest(request, params, "PATCH");
 
 export const DELETE = (
    request: Request,
-   params: { params: { url: Array<string> } },
+   params: { params: { url: Array<string> } }
 ) => handleRequest(request, params, "DELETE");

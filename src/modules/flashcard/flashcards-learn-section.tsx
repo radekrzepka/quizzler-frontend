@@ -1,6 +1,6 @@
 "use client";
 
-import { Flashcard } from "@/types/flashcard";
+import type { Flashcard } from "@/types/flashcard";
 import FlashcardLearnCard from "./flashcard-learn-card";
 import { useState } from "react";
 import Link from "next/link";
