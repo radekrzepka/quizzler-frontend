@@ -22,11 +22,7 @@ interface ChangeDataFormProps {
 }
 
 interface ApiResponse {
-   data:
-      | {
-           message: string;
-        }
-      | string;
+   data: string;
    status: number;
 }
 
@@ -55,23 +51,30 @@ const ChangeDataForm = ({ profile }: ChangeDataFormProps) => {
          const { email, firstName, lastName, username, currentPassword } = data;
 
          const JWT = getCookie("JWT") as string;
-         const res = await fetch(`/api/user/update`, {
-            headers: {
-               Accept: "application/json",
-               "Content-Type": "application/json",
-               Authorization: JWT,
-            },
-            method: "PATCH",
-            body: JSON.stringify({
-               email,
-               username,
-               currentPassword,
-               firstName,
-               lastName,
-            }),
-         });
-
-         return res.json();
+         const res = await fetch(
+            `${process.env.NEXT_PUBLIC_API_URL}/user/update`,
+            {
+               headers: {
+                  Accept: "application/json",
+                  "Content-Type": "application/json",
+                  Authorization: JWT,
+               },
+               method: "PATCH",
+               body: JSON.stringify({
+                  email,
+                  username,
+                  currentPassword,
+                  firstName,
+                  lastName,
+               }),
+            }
+         );
+         const responseData = (await res.json()) as string;
+         const apiResponse: ApiResponse = {
+            status: res.status,
+            data: responseData,
+         };
+         return apiResponse;
       },
 
       onSettled: async (res: ApiResponse | undefined) => {
@@ -82,20 +85,13 @@ const ChangeDataForm = ({ profile }: ChangeDataFormProps) => {
             toast.success("Data has been changed");
             await queryClient.invalidateQueries({ queryKey: ["profileData"] });
             setDisabled(true);
-         } else {
-            toast.error(res.data as string);
          }
-
          setButtonLoading(false);
-
-         if (typeof res.data !== "string") {
-            if (res?.data.message.startsWith("Email")) {
-               toast.error("Email already taken");
-            }
-
-            if (res?.data.message.startsWith("Username")) {
-               toast.error("Username already taken");
-            }
+         if (res?.data.startsWith("Email")) {
+            toast.error("Email already taken");
+         }
+         if (res?.data.startsWith("Username")) {
+            toast.error("Username already taken");
          }
       },
    });

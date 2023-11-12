@@ -96,8 +96,8 @@ const FlashcardForm = ({
 
          const apiEndpoint =
             selectedMode === "Add"
-               ? "/api/flashcard/add"
-               : "/api/flashcard/update";
+               ? `${process.env.NEXT_PUBLIC_API_URL}/flashcard/add`
+               : `${process.env.NEXT_PUBLIC_API_URL}/flashcard/update`;
          const method = selectedMode === "Add" ? "POST" : "PATCH";
 
          const res = await fetch(apiEndpoint, {
@@ -109,9 +109,9 @@ const FlashcardForm = ({
             body: formData,
          });
 
-         return res.json();
+         return res.status;
       },
-      onSettled: ({ status }) => {
+      onSettled: status => {
          if (status === 201) {
             selectedMode === "Add"
                ? toast.success("Flashcard added successfully")

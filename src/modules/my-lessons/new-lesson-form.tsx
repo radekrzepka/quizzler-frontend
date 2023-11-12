@@ -49,16 +49,23 @@ const NewLessonForm = () => {
       mutationFn: async (formData: FormData) => {
          const JWT = getCookie("JWT") as string;
 
-         const res = await fetch("/api/lesson/add", {
-            headers: {
-               Authorization: JWT,
-               Accept: "text/json",
-            },
-            method: "POST",
-            body: formData,
-         });
-
-         return res.json();
+         const res = await fetch(
+            `${process.env.NEXT_PUBLIC_API_URL}/lesson/add`,
+            {
+               headers: {
+                  Authorization: JWT,
+                  Accept: "text/json",
+               },
+               method: "POST",
+               body: formData,
+            }
+         );
+         const responseData = (await res.json()) as string;
+         const apiResponse: ApiResponse = {
+            status: res.status,
+            data: responseData,
+         };
+         return apiResponse;
       },
       onSettled: (res: ApiResponse | undefined) => {
          if (!res) return;

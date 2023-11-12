@@ -38,20 +38,27 @@ const ChangePasswordForm = () => {
       mutationFn: async ({ newPassword, oldPassword }: ChangePasswordForm) => {
          const JWT = getCookie("JWT") as string;
 
-         const res = await fetch(`/api/user/update`, {
-            headers: {
-               Accept: "application/json",
-               "Content-Type": "application/json",
-               Authorization: JWT,
-            },
-            method: "PATCH",
-            body: JSON.stringify({
-               password: newPassword,
-               currentPassword: oldPassword,
-            }),
-         });
-
-         return res.json();
+         const res = await fetch(
+            `${process.env.NEXT_PUBLIC_API_URL}/user/update`,
+            {
+               headers: {
+                  Accept: "application/json",
+                  "Content-Type": "application/json",
+                  Authorization: JWT,
+               },
+               method: "PATCH",
+               body: JSON.stringify({
+                  password: newPassword,
+                  currentPassword: oldPassword,
+               }),
+            }
+         );
+         const responseData = (await res.json()) as string;
+         const apiResponse: ApiResponse = {
+            status: res.status,
+            message: responseData,
+         };
+         return apiResponse;
       },
 
       onSettled: (res: ApiResponse | undefined) => {

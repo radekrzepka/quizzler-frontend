@@ -32,25 +32,32 @@ const SignUpForm = () => {
       mutationFn: async (data: SignUpForm) => {
          const { email, username, password, firstName, lastName } = data;
 
-         const res = await fetch(`/api/user/register`, {
-            headers: {
-               Accept: "application/json",
-               "Content-Type": "application/json",
-            },
-            method: "POST",
-            body: JSON.stringify({
-               email,
-               username,
-               password,
-               firstName,
-               lastName,
-            }),
-         });
-
-         return res.json();
+         const res = await fetch(
+            `${process.env.NEXT_PUBLIC_API_URL}/user/register`,
+            {
+               headers: {
+                  Accept: "application/json",
+                  "Content-Type": "application/json",
+               },
+               method: "POST",
+               body: JSON.stringify({
+                  email,
+                  username,
+                  password,
+                  firstName,
+                  lastName,
+               }),
+            }
+         );
+         const responseData = (await res.json()) as string;
+         const apiResponse: ApiResponse = {
+            status: res.status,
+            data: responseData,
+         };
+         return apiResponse;
       },
 
-      onSettled: (res: ApiResponse | undefined) => {
+      onSettled: res => {
          if (res?.status === 201) {
             router.push("/auth/sign-in");
             toast.success("Created account, you can log in.");

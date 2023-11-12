@@ -3,7 +3,7 @@ import type { Flashcard } from "@/types/flashcard";
 import { useMutation } from "@tanstack/react-query";
 import classNames from "classnames";
 import { getCookie } from "cookies-next";
-import type { Dispatch, SetStateAction} from "react";
+import type { Dispatch, SetStateAction } from "react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
@@ -47,17 +47,17 @@ const FlashcardListRow = ({
          const JWT = getCookie("JWT") as string;
 
          return fetch(
-            `/api/flashcard/delete?flashcardId=${flashcard.flashcardId}`,
+            `${process.env.NEXT_PUBLIC_API_URL}/flashcard/delete?flashcardId=${flashcard.flashcardId}`,
             {
                headers: {
                   Authorization: JWT,
                   Accept: "text/json",
                },
                method: "DELETE",
-            },
+            }
          );
       },
-      onSettled: (res) => {
+      onSettled: res => {
          if (res?.status === 200) {
             toast.success("Flashcard deleted successfully");
             refetchLesson();
@@ -89,7 +89,7 @@ const FlashcardListRow = ({
             `relative flex h-40 w-40 flex-col justify-center rounded-md bg-accent px-2 pt-1 text-center text-background shadow-lg`,
             flashcardToEdit?.flashcardId === flashcard.flashcardId &&
                selectedMode === "Edit" &&
-               "!bg-gray-400",
+               "!bg-gray-400"
          )}
       >
          <div className="absolute left-1/2 top-1 -translate-x-1/2 transform rounded-full bg-blue-500 shadow-lg">

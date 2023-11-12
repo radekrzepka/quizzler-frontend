@@ -10,24 +10,17 @@ import FlashcardList from "../flashcard/flashcard-list";
 import EditLessonForm from "./edit-lesson-form";
 import EditLessonSkeleton from "./edit-lesson-skeleton";
 
-interface ApiResponse {
-   data: Lesson;
-}
-
 const getLesson = async (id: string) => {
    const JWT = getCookie("JWT") as string;
 
-   const res = await fetch(`/api/lesson/${id}`, {
+   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/lesson/${id}`, {
       headers: { Authorization: JWT },
    });
 
    if (!res.ok) {
       throw new Error("Failed to fetch data");
    }
-
-   const { data } = (await res.json()) as ApiResponse;
-
-   return data;
+   return (await res.json()) as Lesson;
 };
 
 interface EditLessonProps {

@@ -24,7 +24,6 @@ import {
 interface EditLessonFormProps {
    lesson: Lesson;
 }
-
 const formatTags = (tags: Array<string>) =>
    tags.map(tag => ({ label: tag, value: tag }));
 
@@ -66,18 +65,20 @@ const EditLessonForm = ({ lesson }: EditLessonFormProps) => {
       mutationFn: async (formData: FormData) => {
          const JWT = getCookie("JWT") as string;
 
-         const res = await fetch("/api/lesson/update", {
-            headers: {
-               Authorization: JWT,
-               Accept: "text/json",
-            },
-            method: "PATCH",
-            body: formData,
-         });
-
-         return res.json();
+         const res = await fetch(
+            `${process.env.NEXT_PUBLIC_API_URL}/lesson/update`,
+            {
+               headers: {
+                  Authorization: JWT,
+                  Accept: "text/json",
+               },
+               method: "PATCH",
+               body: formData,
+            }
+         );
+         return res.status;
       },
-      onSettled: ({ status }) => {
+      onSettled: status => {
          if (status === 200) {
             toast.success("Lesson updated successfully");
          } else if (status === 400)
