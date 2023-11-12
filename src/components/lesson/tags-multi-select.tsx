@@ -12,10 +12,6 @@ interface TagsMultiSelectProps<T extends FieldValues> {
    defaultTags?: Array<{ label: string; value: string }>;
 }
 
-interface ApiResponse {
-   data: Array<string>;
-}
-
 const getTagsByQuery = async (query: string) => {
    const JWT = getCookie("JWT") as string;
 
@@ -29,7 +25,7 @@ const getTagsByQuery = async (query: string) => {
       method: "GET",
    });
 
-   const { data } = (await res.json()) as ApiResponse;
+   const data = (await res.json()) as Array<string>;
 
    if (data.length > 0) {
       const mappedTags = data.map((tag: string) => ({

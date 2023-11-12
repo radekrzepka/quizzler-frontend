@@ -3,8 +3,8 @@ const nextConfig = {
    images: {
       remotePatterns: [
          {
-            protocol: "http",
-            hostname: "104.250.180.67",
+            protocol: "https",
+            hostname: "api.quizzler.tech",
          },
       ],
    },

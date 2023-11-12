@@ -14,20 +14,14 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 
-interface ApiResponse {
-   data: UserInfo;
-}
-
 const getProfileData = async (): Promise<UserInfo> => {
    const JWT = getCookie("JWT") as string;
 
-   const res = await fetch("/api/user/profile", {
+   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/profile`, {
       headers: { Authorization: JWT },
    });
 
-   const { data } = (await res.json()) as ApiResponse;
-
-   return data;
+   return (await res.json()) as UserInfo;
 };
 
 const DashboardNavigation = () => {

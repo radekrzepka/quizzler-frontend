@@ -13,10 +13,9 @@ import toast from "react-hot-toast";
 import { signInFormSchema, type SignInForm } from "./sign-in-form-schema";
 
 interface ApiResponse {
-   data: string;
    status: number;
+   data: string;
 }
-
 const SignInForm = () => {
    const {
       register,
@@ -33,22 +32,29 @@ const SignInForm = () => {
       mutationFn: async (data: SignInForm) => {
          const { email, password } = data;
 
-         const res = await fetch(`/api/user/login`, {
-            headers: {
-               Accept: "application/json",
-               "Content-Type": "application/json",
-            },
-            method: "POST",
-            body: JSON.stringify({
-               email,
-               password,
-            }),
-         });
-
-         return res.json();
+         const res = await fetch(
+            `${process.env.NEXT_PUBLIC_API_URL}/user/login`,
+            {
+               headers: {
+                  Accept: "application/json",
+                  "Content-Type": "application/json",
+               },
+               method: "POST",
+               body: JSON.stringify({
+                  email,
+                  password,
+               }),
+            }
+         );
+         const responseData = (await res.json()) as string;
+         const apiResponse: ApiResponse = {
+            status: res.status,
+            data: responseData,
+         };
+         return apiResponse;
       },
 
-      onSettled: (res: ApiResponse | undefined) => {
+      onSettled: res => {
          if (res?.status === 200) {
             router.push("/dashboard");
             router.refresh();

@@ -28,20 +28,22 @@ const FlashcardLearnCard = ({
          const { flashcardId, wasCorrect } = logData;
          const JWT = getCookie("JWT") as string;
 
-         const res = await fetch(`/api/flashcard/log`, {
-            headers: {
-               Authorization: JWT,
-               Accept: "application/json",
-               "Content-Type": "application/json",
-            },
-            method: "POST",
-            body: JSON.stringify({
-               flashcardId,
-               wasCorrect,
-            }),
-         });
-
-         return res.json();
+         const res = await fetch(
+            `${process.env.NEXT_PUBLIC_API_URL}/flashcard/log`,
+            {
+               headers: {
+                  Authorization: JWT,
+                  Accept: "application/json",
+                  "Content-Type": "application/json",
+               },
+               method: "POST",
+               body: JSON.stringify({
+                  flashcardId,
+                  wasCorrect,
+               }),
+            }
+         );
+         return (await res.json()) as string;
       },
    });
 
@@ -56,7 +58,7 @@ const FlashcardLearnCard = ({
          scale: 1,
          opacity: 1,
          onRest: () => setFlipped(false),
-      }),
+      })
    );
 
    const changeFlashcard = (flashcardId: number, wasCorrect: boolean) => {
@@ -87,7 +89,7 @@ const FlashcardLearnCard = ({
             <animated.div
                className="absolute flex h-full w-full select-none justify-center rounded-lg bg-primary shadow-md"
                style={{
-                  opacity: opacity.to((o) => 1 - o),
+                  opacity: opacity.to(o => 1 - o),
                   transform,
                   zIndex: flipped ? 0 : 1,
                   pointerEvents: flipped ? "none" : "all",
@@ -113,7 +115,7 @@ const FlashcardLearnCard = ({
                className="absolute flex h-full w-full select-none flex-col items-center justify-between rounded-lg bg-secondary shadow-md"
                style={{
                   opacity,
-                  transform: transform.to((t) => `${t} rotateY(180deg)`),
+                  transform: transform.to(t => `${t} rotateY(180deg)`),
                   zIndex: flipped ? 1 : 0,
                   pointerEvents: flipped ? "all" : "none",
                }}

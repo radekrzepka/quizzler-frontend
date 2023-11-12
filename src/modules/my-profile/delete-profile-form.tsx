@@ -9,10 +9,6 @@ import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 
-interface ApiResponse {
-   status: number;
-}
-
 const DeleteProfileForm = () => {
    const [isOpenModal, setIsOpenModal] = useState(false);
    const [buttonLoading, setButtonLoading] = useState(false);
@@ -27,20 +23,22 @@ const DeleteProfileForm = () => {
       mutationFn: async (password: string) => {
          const JWT = getCookie("JWT") as string;
 
-         const res = await fetch(`/api/user/delete?userPassword=${password}`, {
-            headers: {
-               Accept: "application/json",
-               "Content-Type": "application/json",
-               Authorization: JWT,
-            },
-            method: "DELETE",
-         });
-
-         return res.json();
+         const res = await fetch(
+            `${process.env.NEXT_PUBLIC_API_URL}/user/delete?userPassword=${password}`,
+            {
+               headers: {
+                  Accept: "application/json",
+                  "Content-Type": "application/json",
+                  Authorization: JWT,
+               },
+               method: "DELETE",
+            }
+         );
+         return res.status;
       },
 
-      onSettled: (res: ApiResponse | undefined) => {
-         if (res?.status === 200) {
+      onSettled: status => {
+         if (status === 200) {
             deleteCookie("JWT");
             toast.success("Account has been deleted");
             router.push("/");

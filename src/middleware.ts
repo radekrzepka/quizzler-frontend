@@ -11,7 +11,7 @@ export async function middleware(request: NextRequest) {
       return;
    }
 
-   const res = await fetch(`${process.env.URL}/api/user/check`, {
+   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/check`, {
       headers: {
          Accept: "application/json",
          "Content-Type": "application/json",

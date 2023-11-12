@@ -16,10 +16,6 @@ interface ChangeAvatarProps {
    setIsOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-interface ApiResponse {
-   status: number;
-}
-
 const ChangeAvatar = ({ profile, isOpen, setIsOpen }: ChangeAvatarProps) => {
    const [selectedAvatar, setSelectedAvatar] = useState(profile.avatar);
 
@@ -31,23 +27,25 @@ const ChangeAvatar = ({ profile, isOpen, setIsOpen }: ChangeAvatarProps) => {
       mutationFn: async () => {
          const JWT = getCookie("JWT") as string;
 
-         const res = await fetch(`/api/user/updateAvatar`, {
-            headers: {
-               Accept: "application/json",
-               "Content-Type": "application/json",
-               Authorization: JWT,
-            },
-            method: "PATCH",
-            body: JSON.stringify({
-               avatar: selectedAvatar,
-            }),
-         });
-
-         return res.json();
+         const res = await fetch(
+            `${process.env.NEXT_PUBLIC_API_URL}/user/updateAvatar`,
+            {
+               headers: {
+                  Accept: "application/json",
+                  "Content-Type": "application/json",
+                  Authorization: JWT,
+               },
+               method: "PATCH",
+               body: JSON.stringify({
+                  avatar: selectedAvatar,
+               }),
+            }
+         );
+         return res.status;
       },
 
-      onSettled: async (res: ApiResponse | undefined) => {
-         if (res?.status === 200) {
+      onSettled: async status => {
+         if (status === 200) {
             router.refresh();
             toast.success("Avatar has been changed");
             await queryClient.invalidateQueries({ queryKey: ["profileData"] });

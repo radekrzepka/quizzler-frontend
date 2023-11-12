@@ -44,13 +44,16 @@ const LessonCard = ({ lesson }: LessonCardProps) => {
       mutationFn: () => {
          const JWT = getCookie("JWT") as string;
 
-         return fetch(`/api/lesson/delete?lessonId=${lesson.lessonId}`, {
-            headers: {
-               Authorization: JWT,
-               Accept: "text/json",
-            },
-            method: "DELETE",
-         });
+         return fetch(
+            `${process.env.NEXT_PUBLIC_API_URL}/lesson/delete?lessonId=${lesson.lessonId}`,
+            {
+               headers: {
+                  Authorization: JWT,
+                  Accept: "text/json",
+               },
+               method: "DELETE",
+            }
+         );
       },
       onSettled: res => {
          if (res?.status === 200) {
