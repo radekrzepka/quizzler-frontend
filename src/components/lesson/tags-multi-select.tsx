@@ -17,7 +17,7 @@ const getTagsByQuery = async (query: string) => {
 
    if (query === "") return [];
 
-   const res = await fetch(`/api/tag/${query}`, {
+   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/tag/${query}`, {
       headers: {
          Authorization: JWT,
          Accept: "text/json",
