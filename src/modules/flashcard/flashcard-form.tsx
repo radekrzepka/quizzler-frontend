@@ -250,57 +250,60 @@ const FlashcardForm = ({
                            errors={errors}
                         />
                      </div>
-                  </div>
-                  <div className="grid gap-4 md:grid-cols-2">
-                     <div>
-                        <p>Add question image: </p>
-                        <div
-                           className="relative h-[300px] cursor-pointer rounded-xl bg-gray-700"
-                           onClick={() =>
-                              questionImageInputRef?.current?.click()
-                           }
-                        >
-                           <ImageContainer
-                              name="questionImage"
-                              selectedImage={selectedQuestionImage}
-                              setSelectedImage={setSelectedQuestionImage}
-                              setValue={setValue}
-                              fullRounded
-                              onDelete={() => handleDelete("question")}
-                           />
-                           <ImageInput
-                              setValue={setValue}
-                              name="questionImage"
-                              register={register}
-                              setSelectedImage={setSelectedQuestionImage}
-                              imageInputRef={questionImageInputRef}
-                           />
+                     <div className="grid gap-4 md:grid-cols-2">
+                        <div>
+                           <p>Add question image: </p>
+                           <div
+                              className="relative h-[350px] cursor-pointer rounded-xl bg-gray-700"
+                              onClick={() =>
+                                 questionImageInputRef?.current?.click()
+                              }
+                           >
+                              <ImageContainer
+                                 name="questionImage"
+                                 selectedImage={selectedQuestionImage}
+                                 setSelectedImage={setSelectedQuestionImage}
+                                 setValue={setValue}
+                                 fullRounded
+                                 onDelete={() => handleDelete("question")}
+                              />
+                              <ImageInput
+                                 setValue={setValue}
+                                 name="questionImage"
+                                 register={register}
+                                 setSelectedImage={setSelectedQuestionImage}
+                                 imageInputRef={questionImageInputRef}
+                              />
+                           </div>
+                        </div>
+                        <div>
+                           <p>Add answer image: </p>
+                           <div
+                              className="relative h-[350px] cursor-pointer rounded-xl bg-gray-700"
+                              onClick={() =>
+                                 answerImageInputRef?.current?.click()
+                              }
+                           >
+                              <ImageContainer
+                                 name="answerImage"
+                                 selectedImage={selectedAnswerImage}
+                                 setSelectedImage={setSelectedAnswerImage}
+                                 setValue={setValue}
+                                 fullRounded
+                                 onDelete={() => handleDelete("answer")}
+                              />
+                              <ImageInput
+                                 setValue={setValue}
+                                 name="answerImage"
+                                 register={register}
+                                 setSelectedImage={setSelectedAnswerImage}
+                                 imageInputRef={answerImageInputRef}
+                              />
+                           </div>
                         </div>
                      </div>
-                     <div>
-                        <p>Add answer image: </p>
-                        <div
-                           className="relative h-[300px] cursor-pointer rounded-xl bg-gray-700"
-                           onClick={() => answerImageInputRef?.current?.click()}
-                        >
-                           <ImageContainer
-                              name="answerImage"
-                              selectedImage={selectedAnswerImage}
-                              setSelectedImage={setSelectedAnswerImage}
-                              setValue={setValue}
-                              fullRounded
-                              onDelete={() => handleDelete("answer")}
-                           />
-                           <ImageInput
-                              setValue={setValue}
-                              name="answerImage"
-                              register={register}
-                              setSelectedImage={setSelectedAnswerImage}
-                              imageInputRef={answerImageInputRef}
-                           />
-                        </div>
-                     </div>
                   </div>
+
                   <Button
                      variant="primary"
                      type="submit"

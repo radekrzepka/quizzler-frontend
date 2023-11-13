@@ -87,7 +87,7 @@ const SignInForm = () => {
          <h3 className="text-center font-bold">
             Don&apos;t have an account ?{" "}
             <Link className="underline" href="/auth/sign-up">
-               Sign up
+               Create an account
             </Link>
          </h3>
          <div className="mb-3 grid grid-cols-1 gap-2 md:grid-cols-1">

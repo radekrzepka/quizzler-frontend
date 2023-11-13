@@ -83,11 +83,11 @@ const FlashcardLearnCard = ({
          style={{ ...changeFlashcardAnimation }}
       >
          <div
-            className="relative m-auto h-[60vh] w-full cursor-pointer text-background sm:w-3/4 lg:w-1/4 2xl:w-1/4"
+            className="relative m-auto h-[60vh] w-full cursor-pointer break-all text-background sm:w-3/4 lg:w-1/2 2xl:w-1/4"
             onClick={() => setFlipped(!flipped)}
          >
             <animated.div
-               className="absolute flex h-full w-full select-none justify-center rounded-lg bg-primary shadow-md"
+               className="absolute flex h-full w-full select-none justify-center rounded-lg bg-primary px-1 shadow-md"
                style={{
                   opacity: opacity.to(o => 1 - o),
                   transform,
@@ -95,24 +95,25 @@ const FlashcardLearnCard = ({
                   pointerEvents: flipped ? "none" : "all",
                }}
             >
-               <div className="flex w-3/4 flex-col justify-between gap-2 text-center text-background">
+               <div className="flex w-full flex-col justify-between gap-2 text-center text-background">
                   <p className="text-4xl font-bold">Question: </p>
-                  <p className="text-lg">{flashcard.questionText}</p>
-
-                  {flashcard.questionImageName && (
-                     <Image
-                        className="mx-auto my-4 max-h-[40vh] w-full object-contain"
-                        src={`${process.env.NEXT_PUBLIC_IMG_URL}${flashcard.questionImageName}`}
-                        alt="Image for question of flashcard"
-                        layout="responsive"
-                        width={500}
-                        height={200}
-                     />
-                  )}
+                  <p className="text-xl">{flashcard.questionText}</p>
+                  <div>
+                     {flashcard.questionImageName && (
+                        <Image
+                           className="mx-auto my-4 max-h-[40vh] w-full object-contain"
+                           src={`${process.env.NEXT_PUBLIC_IMG_URL}${flashcard.questionImageName}`}
+                           alt="Image for question of flashcard"
+                           width={500}
+                           height={200}
+                           // placeholder="blur"
+                        />
+                     )}
+                  </div>
                </div>
             </animated.div>
             <animated.div
-               className="absolute flex h-full w-full select-none flex-col items-center justify-between rounded-lg bg-secondary shadow-md"
+               className="absolute flex h-full w-full select-none flex-col items-center justify-between rounded-lg bg-secondary px-1 shadow-md"
                style={{
                   opacity,
                   transform: transform.to(t => `${t} rotateY(180deg)`),
@@ -122,14 +123,13 @@ const FlashcardLearnCard = ({
             >
                <div className="flex h-full w-full flex-col justify-between gap-2 text-center text-text">
                   <p className="text-4xl font-bold">Answer: </p>
-                  <p className="text-lg">{flashcard.answerText}</p>
+                  <p className="text-xl">{flashcard.answerText}</p>
 
                   {flashcard.answerImageName && (
                      <Image
-                        className="mx-auto my-0 max-h-[60vh] max-w-full rounded-t-xl"
+                        className="mx-auto my-0 max-h-[40vh] max-w-full rounded-t-xl object-contain"
                         src={`${process.env.NEXT_PUBLIC_IMG_URL}${flashcard.answerImageName}`}
                         alt="Image for answer of flashcard"
-                        layout="responsive"
                         width={500}
                         height={200}
                      />
