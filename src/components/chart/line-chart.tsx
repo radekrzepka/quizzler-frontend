@@ -1,8 +1,7 @@
 "use client";
 
 import type { ChartRecord } from "@/types/chart-data";
-import type {
-   TooltipProps} from "recharts";
+import type { TooltipProps } from "recharts";
 import {
    CartesianGrid,
    Line,

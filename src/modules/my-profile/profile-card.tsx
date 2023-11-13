@@ -34,13 +34,13 @@ const generateEmptyDates = () => {
    const dates: Array<ChartRecord> = [];
    const startDate = new Date(subMonths(today, 11));
    let procDate = startDate;
-   while (!isEqual(procDate, today)) {
+   do {
+      procDate = addDays(procDate, 1);
       dates.push({
          name: format(procDate, "dd MMMM yyyy"),
          value: 0,
       });
-      procDate = addDays(procDate, 1);
-   }
+   } while (!isEqual(procDate, today));
    return dates;
 };
 
@@ -125,7 +125,6 @@ const ProfileCard = ({
 }: ProfileCardProps) => {
    const emptyDatesCreated = generateEmptyDates();
    const emptyDatesLearned = generateEmptyDates();
-
    const createdFlashcards = useMemo(() => {
       return datesChartFormat(createdDates, emptyDatesCreated);
    }, [emptyDatesCreated, createdDates]);
@@ -138,10 +137,10 @@ const ProfileCard = ({
    }, [emptyDatesLearned, learnedDates]);
 
    const [createdStartDate, setCreatedStartDate] = useState(
-      new Date(parseISO(profile.dateRegistered))
+      subDays(new Date(), 7)
    );
    const [learnedStartDate, setLearnedStartDate] = useState(
-      new Date(parseISO(profile.dateRegistered))
+      subDays(new Date(), 7)
    );
    const selectedCreatedFlashcards = useMemo(() => {
       return reduceData(
