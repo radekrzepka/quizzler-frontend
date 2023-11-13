@@ -72,7 +72,6 @@ const LessonCard = ({ lesson }: LessonCardProps) => {
                title="Are you sure you want to delete your lesson ?"
             >
                <Button
-                  type="button"
                   variant="white"
                   className="mb-2 w-full"
                   onClick={() => {
@@ -82,8 +81,6 @@ const LessonCard = ({ lesson }: LessonCardProps) => {
                   Go back to my lessons page
                </Button>
                <Button
-                  type="button"
-                  variant="primary"
                   className="w-full"
                   onClick={() => {
                      deleteLessonMutation();

@@ -21,25 +21,24 @@ const HomeNavigation = () => {
                <li className="w-full md:w-auto">
                   <Link href="/auth/sign-in">
                      <Button
-                        label="Sign In"
-                        type="button"
                         onClick={() => setSignInButtonLoading(true)}
-                        variant="primary"
                         isLoading={signInButtonLoading}
                         className="w-full"
-                     />
+                     >
+                        Sign In
+                     </Button>
                   </Link>
                </li>
                <li className="w-full md:w-auto">
                   <Link href="/auth/sign-up">
                      <Button
-                        label="Sign Up"
-                        type="button"
                         onClick={() => setSignUpButtonLoading(true)}
                         variant="white"
                         isLoading={signUpButtonLoading}
                         className="w-full"
-                     />
+                     >
+                        Sign up
+                     </Button>
                   </Link>
                </li>
             </div>

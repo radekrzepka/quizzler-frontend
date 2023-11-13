@@ -305,7 +305,6 @@ const FlashcardForm = ({
                   </div>
 
                   <Button
-                     variant="primary"
                      type="submit"
                      className="w-full"
                      isLoading={buttonLoading}

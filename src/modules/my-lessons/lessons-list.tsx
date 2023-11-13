@@ -28,8 +28,8 @@ const LessonsList = ({ lessons }: LessonsListProps) => {
       );
 
    return (
-      <div className="flex flex-wrap justify-center gap-4 xl:justify-normal">
-         {sortedLessons.map((lesson) => (
+      <div className="flex flex-wrap justify-center gap-4 xl:justify-end">
+         {sortedLessons.map(lesson => (
             <LessonCard lesson={lesson} key={lesson.lessonId} />
          ))}
       </div>

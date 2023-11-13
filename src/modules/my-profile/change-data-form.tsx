@@ -174,12 +174,12 @@ const ChangeDataForm = ({ profile }: ChangeDataFormProps) => {
             </div>
             <Button
                type="submit"
-               variant="primary"
-               label="Change your data"
                className="w-full self-center md:w-3/4"
                disabled={disabled}
                isLoading={buttonLoading}
-            />
+            >
+               Change your data
+            </Button>
          </div>
       </form>
    );

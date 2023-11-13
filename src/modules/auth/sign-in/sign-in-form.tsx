@@ -111,18 +111,15 @@ const SignInForm = () => {
          <div className="flex flex-col justify-between whitespace-nowrap sm:flex-row sm:gap-3">
             <Button
                type="submit"
-               label="Sign in"
-               variant="primary"
                className="mb-3 w-full md:mb-0"
                isLoading={buttonLoading}
-            />
+            >
+               Sign in
+            </Button>
             <Link href="/" className="w-full">
-               <Button
-                  type="button"
-                  label="Go back"
-                  variant="black"
-                  className="w-full"
-               />
+               <Button type="button" variant="black" className="w-full">
+                  Go back
+               </Button>
             </Link>
          </div>
       </form>

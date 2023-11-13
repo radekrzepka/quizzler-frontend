@@ -87,7 +87,6 @@ const ChangeAvatar = ({ profile, isOpen, setIsOpen }: ChangeAvatarProps) => {
             <Button
                type="button"
                variant="primary"
-               label="Set default"
                className="mt-6 w-full"
                onClick={() => {
                   setButtonLoading(true);
@@ -95,7 +94,9 @@ const ChangeAvatar = ({ profile, isOpen, setIsOpen }: ChangeAvatarProps) => {
                   changeAvatarMutation();
                }}
                isLoading={buttonLoading}
-            />
+            >
+               Set default
+            </Button>
          </div>
       </Dialog>
    );

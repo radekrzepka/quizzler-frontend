@@ -3,21 +3,19 @@ import type { ReactNode } from "react";
 import BeatLoader from "react-spinners/BeatLoader";
 
 interface ButtonProps {
-   type: "button" | "submit";
+   children: ReactNode;
+   type?: "button" | "submit";
    onClick?: () => void;
-   label?: string;
-   variant: "primary" | "white" | "accent" | "black";
+   variant?: "primary" | "white" | "accent" | "black";
    className?: string;
    isLoading?: boolean;
-   children?: ReactNode;
    disabled?: boolean;
 }
 
 const Button = ({
-   type,
-   label,
+   type = "button",
    onClick,
-   variant,
+   variant = "primary",
    className,
    isLoading = false,
    children,
@@ -36,7 +34,7 @@ const Button = ({
             variant === "black" &&
                "bg-background text-white hover:bg-[#2e2e2e]",
             "rounded-lg px-12 py-2 text-background",
-            className,
+            className
          )}
       >
          {isLoading ? (
@@ -49,7 +47,7 @@ const Button = ({
                />
             </span>
          ) : (
-            label || children
+            children
          )}
       </button>
    );

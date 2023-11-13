@@ -100,7 +100,6 @@ const DashboardNavigation = () => {
 
                   <Button
                      isLoading={signOutClicked}
-                     label="Sign out"
                      variant="accent"
                      type="button"
                      className="w-full lg:w-auto"
@@ -110,7 +109,9 @@ const DashboardNavigation = () => {
                         setSignOutClicked(true);
                         toast.success("Logged out");
                      }}
-                  />
+                  >
+                     Sign out
+                  </Button>
                </div>
             </>
          )}

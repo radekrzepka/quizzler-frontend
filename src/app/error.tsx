@@ -12,12 +12,7 @@ export default function Error({ reset }: { reset: () => void }) {
                   persists, contact support.
                </p>
 
-               <Button
-                  type="button"
-                  variant="primary"
-                  label="Try again"
-                  onClick={reset}
-               />
+               <Button onClick={reset}>Try again</Button>
             </div>
          </div>
       </div>

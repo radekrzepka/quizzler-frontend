@@ -178,7 +178,7 @@ const NewLessonForm = () => {
                <TagsMultiSelect name="tags" control={control} />
             </div>
 
-            <Button variant="primary" type="submit" isLoading={buttonLoading}>
+            <Button type="submit" isLoading={buttonLoading}>
                Add new lesson
             </Button>
          </div>
