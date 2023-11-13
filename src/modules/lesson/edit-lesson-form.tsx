@@ -165,10 +165,10 @@ const EditLessonForm = ({ lesson }: EditLessonFormProps) => {
          <h2 className="text-center text-3xl font-bold">Lesson details</h2>
          <form
             onSubmit={handleSubmit(onSubmit)}
-            className="items-center justify-center rounded-xl bg-text text-background"
+            className="rounded-xl bg-text text-background"
          >
             <div
-               className="relative h-[200px] w-full cursor-pointer rounded-xl bg-gray-700"
+               className="relative h-[250px] w-full cursor-pointer rounded-xl bg-gray-700 md:mx-auto md:w-3/4 lg:w-3/5"
                onClick={() => imageInputRef?.current?.click()}
             >
                <ImageContainer

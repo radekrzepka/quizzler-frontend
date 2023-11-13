@@ -92,7 +92,7 @@ const SignUpForm = () => {
          <h3 className="text-center font-bold">
             Already have an account?{" "}
             <Link className="underline" href="/auth/sign-in">
-               Sign in
+               Log in
             </Link>
          </h3>
          <div className="mb-3 grid grid-cols-1 gap-2 md:grid-cols-1">

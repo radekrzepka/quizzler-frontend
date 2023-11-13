@@ -32,33 +32,45 @@ const ImageContainer = <T extends FieldValues>({
    return (
       <>
          {selectedImage && (
-            <div className="absolute inset-0">
-               <Image
-                  src={
-                     isImageFromServer
-                        ? process.env.NEXT_PUBLIC_IMG_URL + selectedImage
-                        : selectedImage
-                  }
-                  alt={`Selected ${name}`}
-                  fill={true}
+            <div
+               className={classNames(
+                  "absolute inset-0 bg-gray-700",
+                  fullRounded ? "rounded-xl" : "rounded-t-xl"
+               )}
+            >
+               <div
                   className={classNames(
-                     "h-full w-full object-cover",
+                     "relative h-full w-full",
                      fullRounded ? "rounded-xl" : "rounded-t-xl"
                   )}
-               />
-               <Image
-                  className="absolute right-0 top-0"
-                  src="/icons/delete-icon.svg"
-                  width={32}
-                  height={32}
-                  alt="Delete image icon"
-                  onClick={event => {
-                     event.stopPropagation();
-                     setValue(name, "" as unknown as PathValue<T, Path<T>>);
-                     setSelectedImage(null);
-                     onDelete?.();
-                  }}
-               />
+               >
+                  <Image
+                     src={
+                        isImageFromServer
+                           ? process.env.NEXT_PUBLIC_IMG_URL + selectedImage
+                           : selectedImage
+                     }
+                     alt={`Selected ${name}`}
+                     fill={true}
+                     className={classNames(
+                        "object-contain",
+                        fullRounded ? "rounded-xl" : "rounded-t-xl"
+                     )}
+                  />
+                  <Image
+                     className="absolute right-0 top-0"
+                     src="/icons/delete-icon.svg"
+                     width={32}
+                     height={32}
+                     alt="Delete image icon"
+                     onClick={event => {
+                        event.stopPropagation();
+                        setValue(name, "" as unknown as PathValue<T, Path<T>>);
+                        setSelectedImage(null);
+                        onDelete?.();
+                     }}
+                  />
+               </div>
             </div>
          )}
          {!selectedImage && (
