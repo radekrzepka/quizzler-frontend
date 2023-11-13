@@ -3,25 +3,12 @@
 import type { Flashcard } from "@/types/flashcard";
 import type { Lesson } from "@/types/lesson";
 import { useQuery } from "@tanstack/react-query";
-import { getCookie } from "cookies-next";
 import { useState } from "react";
 import FlashcardForm from "../flashcard/flashcard-form";
 import FlashcardList from "../flashcard/flashcard-list";
 import EditLessonForm from "./edit-lesson-form";
 import EditLessonSkeleton from "./edit-lesson-skeleton";
-
-const getLesson = async (id: string) => {
-   const JWT = getCookie("JWT") as string;
-
-   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/lesson/${id}`, {
-      headers: { Authorization: JWT },
-   });
-
-   if (!res.ok) {
-      throw new Error("Failed to fetch data");
-   }
-   return (await res.json()) as Lesson;
-};
+import { getLesson } from "@/utils/api-utils/get-lesson";
 
 interface EditLessonProps {
    lessonId: string;
