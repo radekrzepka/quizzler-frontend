@@ -1,6 +1,8 @@
 import FlashcardsLearnSection from "@/modules/flashcard/flashcards-learn-section";
 import type { Lesson } from "@/types/lesson";
 import getJWT from "@/utils/get-server-jwt";
+import { getUser } from "@/utils/api-utils/get-user";
+import { notFound } from "next/navigation";
 
 const getLesson = async (id: string): Promise<Lesson> => {
    const JWT = getJWT();
@@ -21,6 +23,11 @@ const getLesson = async (id: string): Promise<Lesson> => {
 
 const LessonPage = async ({ params }: { params: { id: string } }) => {
    const lesson = await getLesson(params.id);
+   const user = await getUser();
+
+   const isUserOwner = lesson.owner.userId === user.userId;
+
+   if (!lesson.isPublic && !isUserOwner) notFound();
 
    return (
       <FlashcardsLearnSection
