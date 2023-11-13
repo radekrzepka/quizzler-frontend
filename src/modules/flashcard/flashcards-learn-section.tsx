@@ -18,21 +18,21 @@ const FlashcardsLearnSection = ({
    const [flashcardsToLearn, setFlashcardsToLearn] = useState(flashcards);
 
    const deleteLearned = (flashcardId: number) => {
-      setFlashcardsToLearn((prevFlashcards) => {
+      setFlashcardsToLearn(prevFlashcards => {
          return prevFlashcards.filter(
-            (flashcard) => flashcard.flashcardId != flashcardId,
+            flashcard => flashcard.flashcardId != flashcardId
          );
       });
    };
 
    const moveUnlearned = (flashcardId: number) => {
-      setFlashcardsToLearn((prevFlashcards) => {
+      setFlashcardsToLearn(prevFlashcards => {
          const unlearnedFlashcard = prevFlashcards.find(
-            (flashcard) => flashcard.flashcardId == flashcardId,
+            flashcard => flashcard.flashcardId == flashcardId
          ) as Flashcard;
          return [
             ...prevFlashcards.filter(
-               (flashcard) => flashcard.flashcardId != flashcardId,
+               flashcard => flashcard.flashcardId != flashcardId
             ),
             unlearnedFlashcard,
          ];
@@ -45,16 +45,14 @@ const FlashcardsLearnSection = ({
       if (flashcards.length === 0)
          return (
             <div className="grid w-full place-items-center">
-               <div className="flex h-fit w-1/2 flex-col items-center gap-2 rounded bg-text p-6 text-background shadow-lg">
+               <div className="flex h-fit w-full flex-col items-center gap-2 rounded bg-text p-6 text-background shadow-lg md:w-3/4 xl:w-1/2">
                   <h2 className="text-3xl font-semibold">Get Started!</h2>
                   <p className="mt-2 text-base">
                      You haven&apos;t added any flashcard yet. Please go to edit
                      page first to your first flashcard.
                   </p>
                   <Link href={`/dashboard/lesson/${lessonId}/edit`}>
-                     <Button type="button" variant="primary">
-                        Go to edit page
-                     </Button>
+                     <Button>Go to edit page</Button>
                   </Link>
                </div>
             </div>
@@ -62,15 +60,13 @@ const FlashcardsLearnSection = ({
 
       return (
          <div className="grid w-full place-items-center">
-            <div className="flex h-fit w-1/2 flex-col items-center gap-2 rounded bg-text p-6 text-background shadow-lg">
+            <div className="flex h-fit w-full flex-col items-center gap-2 rounded bg-text p-6 text-background shadow-lg md:w-3/4 xl:w-1/2">
                <h2 className="text-3xl font-semibold">Congratulations !</h2>
                <p className="mt-2 text-base">
                   You have repeated all the flashcards prepared for you.
                </p>
                <Link href={`/dashboard/lesson/${lessonId}/edit`}>
-                  <Button type="button" variant="primary">
-                     Add some new one
-                  </Button>
+                  <Button>Add some new one</Button>
                </Link>
             </div>
          </div>
@@ -83,9 +79,7 @@ const FlashcardsLearnSection = ({
                Flashcards to review: {remainingFlashCards}
             </p>
             <Link href={`/dashboard/lesson/${lessonId}/edit`}>
-               <Button type="button" variant="primary">
-                  Create new flashcards
-               </Button>
+               <Button>Create new flashcards</Button>
             </Link>
          </div>
          <FlashcardLearnCard

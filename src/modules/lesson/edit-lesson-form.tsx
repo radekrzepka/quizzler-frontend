@@ -238,11 +238,7 @@ const EditLessonForm = ({ lesson }: EditLessonFormProps) => {
                   />
                </div>
 
-               <Button
-                  variant="primary"
-                  type="submit"
-                  isLoading={buttonLoading}
-               >
+               <Button type="submit" isLoading={buttonLoading}>
                   Update lesson details
                </Button>
             </div>

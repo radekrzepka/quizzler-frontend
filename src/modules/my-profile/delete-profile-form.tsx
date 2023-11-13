@@ -72,11 +72,7 @@ const DeleteProfileForm = () => {
                   name="password"
                   errors={errors}
                />
-               <Button
-                  variant="primary"
-                  type="submit"
-                  isLoading={buttonLoading}
-               >
+               <Button type="submit" isLoading={buttonLoading}>
                   Delete my account
                </Button>
             </form>
@@ -88,13 +84,9 @@ const DeleteProfileForm = () => {
             platform. Make sure you definitely want to do this - your account
             cannot be restored.
          </p>
-         <Button
-            onClick={() => setIsOpenModal(true)}
-            variant="primary"
-            type="button"
-            label="Delete your account"
-            className="mb-2"
-         />
+         <Button onClick={() => setIsOpenModal(true)} className="mb-2">
+            Delete your account
+         </Button>
       </div>
    );
 };

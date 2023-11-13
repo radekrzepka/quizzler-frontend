@@ -132,12 +132,12 @@ const ChangePasswordForm = () => {
             </div>
             <Button
                type="submit"
-               variant="primary"
-               label="Change your password"
                className="w-full self-center md:w-3/4"
                disabled={disabled}
                isLoading={buttonLoading}
-            />
+            >
+               Change your password
+            </Button>
          </div>
       </form>
    );
