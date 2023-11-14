@@ -16,6 +16,7 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import type { NewFlashcardForm } from "./flashcard-form-schema";
 import { newFlashcardFormSchema } from "./flashcard-form-schema";
+import { useRouter } from "next/navigation";
 
 interface FlashcardFormProps {
    lessonId: number;
@@ -59,6 +60,7 @@ const FlashcardForm = ({
    const answerImageInputRef = useRef<HTMLInputElement | null>(null);
    const [deleteQuestionImage, setDeleteQuestionImage] = useState(false);
    const [deleteAnswerImage, setDeleteAnswerImage] = useState(false);
+   const router = useRouter();
    useEffect(() => {
       if (flashcardToEdit) {
          const {
@@ -117,6 +119,7 @@ const FlashcardForm = ({
                ? toast.success("Flashcard added successfully")
                : toast.success("Flashcard updated successfully");
             onFlashcardAdded();
+            router.refresh();
             reset();
          } else {
             selectedMode === "Add"

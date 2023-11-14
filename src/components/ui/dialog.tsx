@@ -3,19 +3,21 @@ import type { Dispatch, ReactNode, SetStateAction } from "react";
 import { Fragment } from "react";
 
 interface DialogProps {
-   title: string;
+   title?: string;
    children: ReactNode;
-   isOpen: boolean;
-   setIsOpen: Dispatch<SetStateAction<boolean>>;
+   isOpen?: boolean;
+   setIsOpen?: Dispatch<SetStateAction<boolean>>;
 }
 
-const Dialog = ({ title, children, isOpen, setIsOpen }: DialogProps) => {
+const Dialog = ({ title, children, isOpen = true, setIsOpen }: DialogProps) => {
    return (
       <Transition appear show={isOpen} as={Fragment}>
          <HeadlessUiDialog
             as="div"
             className="relative z-10"
-            onClose={() => setIsOpen(false)}
+            onClose={() => {
+               setIsOpen && setIsOpen(false);
+            }}
          >
             <Transition.Child
                as={Fragment}
