@@ -1,6 +1,7 @@
 import Button from "@/components/ui/button";
 import Dialog from "@/components/ui/dialog";
 import LabelInput from "@/components/ui/label-input";
+import { BASE_PATH } from "@/utils/urls";
 import { useMutation } from "@tanstack/react-query";
 import { deleteCookie, getCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
@@ -41,7 +42,7 @@ const DeleteProfileForm = () => {
          if (status === 200) {
             deleteCookie("JWT");
             toast.success("Account has been deleted");
-            router.push("/");
+            router.push(BASE_PATH);
          } else {
             setButtonLoading(false);
             toast.error("Please provide correct password");

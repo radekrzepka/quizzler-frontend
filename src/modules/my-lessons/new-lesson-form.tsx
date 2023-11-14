@@ -17,6 +17,8 @@ import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { NewLessonForm, newLessonFormSchema } from "./new-lesson-form-schema";
+import { EDIT_LESSON } from "@/utils/urls";
+import useUserInfo from "@/hooks/use-user-info";
 
 interface ApiResponse {
    data: string;
@@ -30,6 +32,7 @@ const NewLessonForm = () => {
       setValue,
       control,
       formState: { errors },
+      watch,
    } = useForm<NewLessonForm>({
       resolver: zodResolver(newLessonFormSchema),
       defaultValues: {
@@ -44,6 +47,7 @@ const NewLessonForm = () => {
       string | null | undefined
    >(null);
    const imageInputRef = useRef<HTMLInputElement | null>(null);
+   const { data: userInfo } = useUserInfo();
 
    const { mutate } = useMutation({
       mutationFn: async (formData: FormData) => {
@@ -68,14 +72,17 @@ const NewLessonForm = () => {
          return apiResponse;
       },
       onSettled: (res: ApiResponse | undefined) => {
-         if (!res) return;
-
-         if (res.status === 201) {
-            const lessonId = res.data.split(" ")[2];
-            router.push(`/dashboard/lesson/${lessonId}/edit`);
+         if (res?.status === 201) {
+            const lessonName = watch("title");
+            router.push(
+               EDIT_LESSON(
+                  lessonName,
+                  userInfo?.userId ? userInfo.userId.toString() : ""
+               )
+            );
             router.refresh();
             toast.success("Lesson added successfully");
-         } else if (res.status === 400) {
+         } else if (res?.status === 400) {
             toast.error("Lesson with this name already exists");
          }
          setButtonLoading(false);

@@ -6,6 +6,7 @@ import Link from "next/link";
 import Button from "@/components/ui/button";
 import type { Lesson } from "@/types/lesson";
 import type { Flashcard } from "@/types/flashcard";
+import { EDIT_LESSON } from "@/utils/urls";
 
 interface FlashcardsLearnSectionProps {
    lesson: Lesson;
@@ -51,7 +52,10 @@ const FlashcardsLearnSection = ({ lesson }: FlashcardsLearnSectionProps) => {
                      page first to your first flashcard.
                   </p>
                   <Link
-                     href={`/dashboard/lesson/${lesson.title}/${lesson.owner.userId}/edit`}
+                     href={EDIT_LESSON(
+                        lesson.title,
+                        lesson.owner.userId.toString()
+                     )}
                   >
                      <Button>Go to edit page</Button>
                   </Link>
@@ -67,7 +71,10 @@ const FlashcardsLearnSection = ({ lesson }: FlashcardsLearnSectionProps) => {
                   You have repeated all the flashcards prepared for you.
                </p>
                <Link
-                  href={`/dashboard/lesson/${lesson.title}/${lesson.owner.userId}/edit`}
+                  href={EDIT_LESSON(
+                     lesson.title,
+                     lesson.owner.userId.toString()
+                  )}
                >
                   <Button>Add some new one</Button>
                </Link>
@@ -82,7 +89,7 @@ const FlashcardsLearnSection = ({ lesson }: FlashcardsLearnSectionProps) => {
                Flashcards to review: {remainingFlashCards}
             </p>
             <Link
-               href={`/dashboard/lesson/${lesson.title}/${lesson.owner.userId}/edit`}
+               href={EDIT_LESSON(lesson.title, lesson.owner.userId.toString())}
             >
                <Button>Create new flashcards</Button>
             </Link>

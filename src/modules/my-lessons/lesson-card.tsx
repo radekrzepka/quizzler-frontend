@@ -5,6 +5,7 @@ import Dialog from "@/components/ui/dialog";
 import DropdownMenu from "@/components/ui/dropdown-menu";
 import useUserInfo from "@/hooks/use-user-info";
 import type { Lesson } from "@/types/lesson";
+import { EDIT_LESSON, LESSON } from "@/utils/urls";
 import { useMutation } from "@tanstack/react-query";
 import { getCookie } from "cookies-next";
 import { formatDistanceToNow } from "date-fns";
@@ -32,7 +33,10 @@ const LessonCard = ({ lesson }: LessonCardProps) => {
          label: "Edit",
          onClickFunction: () => {
             router.push(
-               `/dashboard/lesson/${lesson.title}/${userInfo?.userId}/edit`
+               EDIT_LESSON(
+                  lesson.title,
+                  (userInfo?.userId as number).toString()
+               )
             );
          },
       },
@@ -193,7 +197,10 @@ const LessonCard = ({ lesson }: LessonCardProps) => {
 
             <Link
                className="mx-auto flex justify-center py-3"
-               href={`/dashboard/lesson/${lesson.title}/${userInfo?.userId}`}
+               href={LESSON(
+                  lesson.title,
+                  userInfo?.userId ? userInfo.userId.toString() : ""
+               )}
             >
                <Button variant="accent" type="button">
                   Study now

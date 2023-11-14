@@ -20,6 +20,8 @@ import {
    EditLessonForm,
    editLessonFormSchema,
 } from "./edit-lesson-form-schema";
+import { LESSON, MY_LESSONS } from "@/utils/urls";
+import useUserInfo from "@/hooks/use-user-info";
 
 interface EditLessonFormProps {
    lesson: Lesson;
@@ -56,6 +58,8 @@ const EditLessonForm = ({ lesson }: EditLessonFormProps) => {
       string | null | undefined
    >(null);
    const imageInputRef = useRef<HTMLInputElement | null>(null);
+
+   const { data: userInfo } = useUserInfo();
 
    useEffect(() => {
       if (lesson.imageName) setSelectedImage(lesson.imageName);
@@ -135,7 +139,7 @@ const EditLessonForm = ({ lesson }: EditLessonFormProps) => {
             <button
                className="z-20 flex flex-row items-center gap-1"
                onClick={() => {
-                  router.push("/dashboard/my-lessons");
+                  router.push(MY_LESSONS);
                }}
             >
                <Image
@@ -149,7 +153,12 @@ const EditLessonForm = ({ lesson }: EditLessonFormProps) => {
             <button
                className="z-20 flex flex-row items-center gap-1"
                onClick={() => {
-                  router.push(`/dashboard/lesson/${lesson.lessonId}`);
+                  router.push(
+                     LESSON(
+                        lesson.title,
+                        (userInfo?.userId as number).toString()
+                     )
+                  );
                }}
             >
                <span>Go to learning page</span>

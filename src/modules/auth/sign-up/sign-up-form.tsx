@@ -10,6 +10,7 @@ import { useState } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { signUpFormSchema, type SignUpForm } from "./sign-up-form-schema";
+import { BASE_PATH, LOGIN } from "@/utils/urls";
 
 interface ApiResponse {
    status: number;
@@ -59,7 +60,7 @@ const SignUpForm = () => {
 
       onSettled: res => {
          if (res?.status === 201) {
-            router.push("/auth/sign-in");
+            router.push(LOGIN);
             toast.success("Created account, you can log in.");
          } else if (res?.status !== 409)
             toast.error(
@@ -91,7 +92,7 @@ const SignUpForm = () => {
          <h2 className="text-center text-4xl font-bold">Create an account</h2>
          <h3 className="text-center font-bold">
             Already have an account?{" "}
-            <Link className="underline" href="/auth/sign-in">
+            <Link className="underline" href={LOGIN}>
                Log in
             </Link>
          </h3>
@@ -159,7 +160,7 @@ const SignUpForm = () => {
             >
                Sign up
             </Button>
-            <Link href="/" className="w-full">
+            <Link href={BASE_PATH} className="w-full">
                <Button variant="black" className="w-full">
                   Go back
                </Button>

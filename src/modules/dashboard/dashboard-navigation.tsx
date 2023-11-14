@@ -14,7 +14,13 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { Bars3Icon } from "@heroicons/react/20/solid";
-import useWindowWidth from "@/hooks/use-window-width";
+import {
+   BASE_PATH,
+   DASHBOARD,
+   MY_LESSONS,
+   MY_PROFILE,
+   SEARCH,
+} from "@/utils/urls";
 
 const getProfileData = async (): Promise<UserInfo> => {
    const JWT = getCookie("JWT") as string;
@@ -28,8 +34,9 @@ const getProfileData = async (): Promise<UserInfo> => {
 
 const DashboardNavigation = () => {
    const [signOutClicked, setSignOutClicked] = useState(false);
-   const [showOptions, setShowOptions] = useState(false);
-   const windowWidth = useWindowWidth();
+   const [showOptions, setShowOptions] = useState(
+      () => window.innerWidth > 1024
+   );
    const router = useRouter();
 
    const {
@@ -44,7 +51,7 @@ const DashboardNavigation = () => {
    return (
       <nav className="shadow-shadow my-6 flex w-full flex-col items-center justify-between gap-4 rounded-lg border-[1px] border-borderContainer bg-background p-2 text-text shadow-containerShadow lg:flex-row">
          <div className="flex w-full items-center justify-between lg:w-auto">
-            <Link href={"/dashboard"}>
+            <Link href={DASHBOARD}>
                <LogoText variant="light">Quizzler</LogoText>
             </Link>
             <button
@@ -55,17 +62,14 @@ const DashboardNavigation = () => {
             </button>
          </div>
 
-         {(showOptions || (windowWidth as number) >= 1024) && (
+         {showOptions && (
             <>
                <ul className="flex w-full flex-col gap-1 text-center md:flex-row lg:justify-center xl:gap-6">
                   <DashboardNavigationLink
-                     path="/dashboard/my-lessons"
+                     path={MY_LESSONS}
                      label="My lessons"
                   />
-                  <DashboardNavigationLink
-                     path="/dashboard/search"
-                     label="Search"
-                  />
+                  <DashboardNavigationLink path={SEARCH} label="Search" />
                </ul>
                <div className="grid w-full flex-shrink-0 place-items-end lg:w-auto lg:grid-cols-[auto_auto] lg:gap-6">
                   {isLoading || isError || !profileData ? (
@@ -75,7 +79,7 @@ const DashboardNavigation = () => {
                      </div>
                   ) : (
                      <Link
-                        href="/dashboard/my-profile"
+                        href={MY_PROFILE}
                         className="mb-6 flex w-full items-center justify-center gap-3 lg:mb-0"
                      >
                         {profileData.avatar === null ? (
@@ -105,7 +109,7 @@ const DashboardNavigation = () => {
                      type="button"
                      className="w-full lg:w-auto"
                      onClick={() => {
-                        router.push("/");
+                        router.push(BASE_PATH);
                         deleteCookie("JWT");
                         setSignOutClicked(true);
                         toast.success("Logged out");
