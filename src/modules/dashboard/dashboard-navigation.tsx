@@ -11,7 +11,7 @@ import { deleteCookie, getCookie } from "cookies-next";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { Bars3Icon } from "@heroicons/react/20/solid";
 import {
@@ -34,9 +34,7 @@ const getProfileData = async (): Promise<UserInfo> => {
 
 const DashboardNavigation = () => {
    const [signOutClicked, setSignOutClicked] = useState(false);
-   const [showOptions, setShowOptions] = useState(
-      () => window.innerWidth > 1024
-   );
+   const [showOptions, setShowOptions] = useState<boolean>(true);
    const router = useRouter();
 
    const {
@@ -47,6 +45,10 @@ const DashboardNavigation = () => {
       queryFn: getProfileData,
       queryKey: ["profileData"],
    });
+
+   useEffect(() => {
+      setShowOptions(window ? window.innerWidth > 1024 : true);
+   }, []);
 
    return (
       <nav className="shadow-shadow my-6 flex w-full flex-col items-center justify-between gap-4 rounded-lg border-[1px] border-borderContainer bg-background p-2 text-text shadow-containerShadow lg:flex-row">
