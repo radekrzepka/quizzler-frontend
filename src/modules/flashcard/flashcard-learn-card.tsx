@@ -83,7 +83,7 @@ const FlashcardLearnCard = ({
          style={{ ...changeFlashcardAnimation }}
       >
          <div
-            className="relative m-auto h-[60vh] w-full cursor-pointer break-all text-background sm:w-3/4 lg:w-1/2 2xl:w-1/4"
+            className="relative m-auto h-[60vh] w-11/12 cursor-pointer break-all text-background sm:w-3/4 lg:w-1/2 2xl:w-1/4"
             onClick={() => setFlipped(!flipped)}
          >
             <animated.div

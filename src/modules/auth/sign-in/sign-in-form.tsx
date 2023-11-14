@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { setCookie } from "cookies-next";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -28,6 +28,7 @@ const SignInForm = () => {
 
    const router = useRouter();
    const [buttonLoading, setButtonLoading] = useState(false);
+   const searchParams = useSearchParams();
 
    const { mutate: loginUserMutation } = useMutation({
       mutationFn: async (data: SignInForm) => {
@@ -57,8 +58,8 @@ const SignInForm = () => {
 
       onSettled: res => {
          if (res?.status === 200) {
-            router.push(DASHBOARD);
-            router.refresh();
+            const next = searchParams.get("next");
+            router.push(`${next || DASHBOARD}`);
             setCookie("JWT", `Bearer ${res.data}`);
             toast.success("Logged in");
          } else if (res?.status === 409) {

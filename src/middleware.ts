@@ -1,17 +1,10 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
-import { DASHBOARD } from "./utils/urls";
+import { DASHBOARD, LOGIN, RESTRICTED_PATHS } from "./utils/urls";
 
-export async function middleware(request: NextRequest) {
+const isUserLogIn = async (request: NextRequest) => {
    const JWT = request.cookies.get("JWT")?.value;
-
-   if (!JWT) {
-      if (request.nextUrl.pathname.includes(DASHBOARD)) {
-         return NextResponse.redirect(process.env.URL + "/");
-      }
-      return;
-   }
-
+   if (!JWT) return false;
    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/check`, {
       headers: {
          Accept: "application/json",
@@ -20,18 +13,21 @@ export async function middleware(request: NextRequest) {
       },
       method: "GET",
    });
-
    const jwtStatus = res.status;
+   return jwtStatus === 200;
+};
 
-   if (jwtStatus === 200 && !request.nextUrl.pathname.includes(DASHBOARD)) {
-      return NextResponse.redirect(process.env.URL + DASHBOARD);
+export async function middleware(request: NextRequest) {
+   const userLogIn = await isUserLogIn(request);
+   const requestPath = request.nextUrl.pathname;
+
+   if (!userLogIn && RESTRICTED_PATHS.includes(requestPath)) {
+      return NextResponse.redirect(
+         `${process.env.URL}${LOGIN}?next=${requestPath}`
+      );
    }
 
-   if (jwtStatus === 401 && request.nextUrl.pathname.includes(DASHBOARD)) {
-      return NextResponse.redirect(process.env.URL + "/");
+   if (userLogIn && (requestPath === "/" || requestPath.includes("/auth"))) {
+      return NextResponse.redirect(`${process.env.URL}${DASHBOARD}`);
    }
 }
-
-export const config = {
-   matcher: ["/", "/auth/:path*", "/dashboard/:path*"],
-};

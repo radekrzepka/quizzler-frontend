@@ -106,7 +106,6 @@ const LessonCard = ({ lesson }: LessonCardProps) => {
                      alt={`Image of ${lesson.title} lesson`}
                      width={500}
                      height={200}
-                     layout="intrinsic"
                   />
                )}
             </div>
