@@ -1,8 +1,6 @@
 import type { UserInfo } from "@/types/user-info";
-import getJWT from "@/utils/get-server-jwt";
 
-export const getUser = async (): Promise<UserInfo> => {
-   const JWT = getJWT();
+export const getUser = async (JWT?: string): Promise<UserInfo> => {
    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/profile`, {
       headers: {
          Authorization: JWT as string,

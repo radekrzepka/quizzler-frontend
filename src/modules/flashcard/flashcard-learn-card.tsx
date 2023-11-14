@@ -102,7 +102,7 @@ const FlashcardLearnCard = ({
                      {flashcard.questionImageName && (
                         <Image
                            className="mx-auto my-4 max-h-[40vh] w-full object-contain"
-                           src={`${process.env.NEXT_PUBLIC_IMG_URL}${flashcard.questionImageName}`}
+                           src={`${process.env.NEXT_PUBLIC_IMG_URL}/${flashcard.questionImageName}`}
                            alt="Image for question of flashcard"
                            width={500}
                            height={200}
@@ -128,7 +128,7 @@ const FlashcardLearnCard = ({
                   {flashcard.answerImageName && (
                      <Image
                         className="mx-auto my-0 max-h-[40vh] max-w-full rounded-t-xl object-contain"
-                        src={`${process.env.NEXT_PUBLIC_IMG_URL}${flashcard.answerImageName}`}
+                        src={`${process.env.NEXT_PUBLIC_IMG_URL}/${flashcard.answerImageName}`}
                         alt="Image for answer of flashcard"
                         width={500}
                         height={200}

@@ -1,12 +1,16 @@
 import type { Lesson } from "@/types/lesson";
-import { getCookie } from "cookies-next";
 
-export const getLesson = async (id: string) => {
-   const JWT = getCookie("JWT") as string;
-
-   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/lesson/${id}`, {
-      headers: { Authorization: JWT },
-   });
+export const getLesson = async (
+   userId: string,
+   lessonName: string,
+   JWT?: string
+) => {
+   const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/lesson/byUser/${userId}/${lessonName}`,
+      {
+         headers: { Authorization: JWT as string },
+      }
+   );
 
    if (!res.ok) {
       throw new Error("Failed to fetch data");

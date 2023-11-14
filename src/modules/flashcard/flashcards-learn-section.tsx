@@ -1,21 +1,20 @@
 "use client";
 
-import type { Flashcard } from "@/types/flashcard";
 import FlashcardLearnCard from "./flashcard-learn-card";
 import { useState } from "react";
 import Link from "next/link";
 import Button from "@/components/ui/button";
+import type { Lesson } from "@/types/lesson";
+import type { Flashcard } from "@/types/flashcard";
 
 interface FlashcardsLearnSectionProps {
-   flashcards: Array<Flashcard>;
-   lessonId: string;
+   lesson: Lesson;
 }
 
-const FlashcardsLearnSection = ({
-   flashcards,
-   lessonId,
-}: FlashcardsLearnSectionProps) => {
-   const [flashcardsToLearn, setFlashcardsToLearn] = useState(flashcards);
+const FlashcardsLearnSection = ({ lesson }: FlashcardsLearnSectionProps) => {
+   const [flashcardsToLearn, setFlashcardsToLearn] = useState(
+      lesson.flashcards
+   );
 
    const deleteLearned = (flashcardId: number) => {
       setFlashcardsToLearn(prevFlashcards => {
@@ -42,7 +41,7 @@ const FlashcardsLearnSection = ({
    const remainingFlashCards = flashcardsToLearn.length;
 
    if (remainingFlashCards === 0) {
-      if (flashcards.length === 0)
+      if (lesson.flashcards.length === 0)
          return (
             <div className="grid w-full place-items-center">
                <div className="flex h-fit w-full flex-col items-center gap-2 rounded bg-text p-6 text-background shadow-lg md:w-3/4 xl:w-1/2">
@@ -51,7 +50,9 @@ const FlashcardsLearnSection = ({
                      You haven&apos;t added any flashcard yet. Please go to edit
                      page first to your first flashcard.
                   </p>
-                  <Link href={`/dashboard/lesson/${lessonId}/edit`}>
+                  <Link
+                     href={`/dashboard/lesson/${lesson.title}/${lesson.owner.userId}/edit`}
+                  >
                      <Button>Go to edit page</Button>
                   </Link>
                </div>
@@ -65,7 +66,9 @@ const FlashcardsLearnSection = ({
                <p className="mt-2 text-base">
                   You have repeated all the flashcards prepared for you.
                </p>
-               <Link href={`/dashboard/lesson/${lessonId}/edit`}>
+               <Link
+                  href={`/dashboard/lesson/${lesson.title}/${lesson.owner.userId}/edit`}
+               >
                   <Button>Add some new one</Button>
                </Link>
             </div>
@@ -78,7 +81,9 @@ const FlashcardsLearnSection = ({
             <p className="text-2xl font-bold">
                Flashcards to review: {remainingFlashCards}
             </p>
-            <Link href={`/dashboard/lesson/${lessonId}/edit`}>
+            <Link
+               href={`/dashboard/lesson/${lesson.title}/${lesson.owner.userId}/edit`}
+            >
                <Button>Create new flashcards</Button>
             </Link>
          </div>

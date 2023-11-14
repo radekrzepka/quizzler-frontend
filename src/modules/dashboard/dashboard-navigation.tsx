@@ -100,6 +100,7 @@ const DashboardNavigation = () => {
 
                   <Button
                      isLoading={signOutClicked}
+                     disabled={signOutClicked}
                      variant="accent"
                      type="button"
                      className="w-full lg:w-auto"
