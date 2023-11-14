@@ -11,6 +11,7 @@ import { useState } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import toast from "react-hot-toast";
 import { signInFormSchema, type SignInForm } from "./sign-in-form-schema";
+import { BASE_PATH, DASHBOARD, REGISTER } from "@/utils/urls";
 
 interface ApiResponse {
    status: number;
@@ -56,7 +57,7 @@ const SignInForm = () => {
 
       onSettled: res => {
          if (res?.status === 200) {
-            router.push("/dashboard");
+            router.push(DASHBOARD);
             router.refresh();
             setCookie("JWT", `Bearer ${res.data}`);
             toast.success("Logged in");
@@ -86,7 +87,7 @@ const SignInForm = () => {
          <h2 className="text-center text-4xl font-bold">Log in</h2>
          <h3 className="text-center font-bold">
             Don&apos;t have an account ?{" "}
-            <Link className="underline" href="/auth/sign-up">
+            <Link className="underline" href={REGISTER}>
                Create an account
             </Link>
          </h3>
@@ -116,7 +117,7 @@ const SignInForm = () => {
             >
                Sign in
             </Button>
-            <Link href="/" className="w-full">
+            <Link href={BASE_PATH} className="w-full">
                <Button type="button" variant="black" className="w-full">
                   Go back
                </Button>

@@ -2,6 +2,7 @@
 
 import Button from "@/components/ui/button";
 import LogoText from "@/components/ui/logo-text";
+import { BASE_PATH, LOGIN, REGISTER } from "@/utils/urls";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -13,13 +14,13 @@ const HomeNavigation = () => {
       <header>
          <ul className="shadow-shadow flex flex-col items-center gap-2 rounded-xl border-[1px] border-borderContainer p-3 shadow-containerShadow md:flex-row md:justify-between">
             <li>
-               <Link href="/">
+               <Link href={BASE_PATH}>
                   <LogoText>Quizzler</LogoText>
                </Link>
             </li>
             <div className="flex w-full flex-col items-center justify-center gap-4 md:flex-row md:justify-end">
                <li className="w-full md:w-auto">
-                  <Link href="/auth/sign-in">
+                  <Link href={LOGIN}>
                      <Button
                         onClick={() => setSignInButtonLoading(true)}
                         isLoading={signInButtonLoading}
@@ -30,7 +31,7 @@ const HomeNavigation = () => {
                   </Link>
                </li>
                <li className="w-full md:w-auto">
-                  <Link href="/auth/sign-up">
+                  <Link href={REGISTER}>
                      <Button
                         onClick={() => setSignUpButtonLoading(true)}
                         variant="white"
