@@ -3,6 +3,7 @@
 import Button from "@/components/ui/button";
 import Dialog from "@/components/ui/dialog";
 import DropdownMenu from "@/components/ui/dropdown-menu";
+import useUserInfo from "@/hooks/use-user-info";
 import type { Lesson } from "@/types/lesson";
 import { useMutation } from "@tanstack/react-query";
 import { getCookie } from "cookies-next";
@@ -24,12 +25,15 @@ const LessonCard = ({ lesson }: LessonCardProps) => {
    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
    const dateCreated = lesson.dateCreated + "Z";
    const localDate = utcToZonedTime(new Date(dateCreated), timeZone);
+   const { data: userInfo } = useUserInfo();
 
    const menuOptions = [
       {
          label: "Edit",
          onClickFunction: () => {
-            router.push(`/dashboard/lesson/${lesson.lessonId}/edit`);
+            router.push(
+               `/dashboard/lesson/${lesson.title}/${userInfo?.userId}/edit`
+            );
          },
       },
       {
@@ -94,7 +98,7 @@ const LessonCard = ({ lesson }: LessonCardProps) => {
                {lesson.imageName && (
                   <Image
                      className="h-[200px] rounded-t-xl"
-                     src={process.env.NEXT_PUBLIC_IMG_URL + lesson.imageName}
+                     src={`${process.env.NEXT_PUBLIC_IMG_URL}/${lesson.imageName}`}
                      alt={`Image of ${lesson.title} lesson`}
                      width={500}
                      height={200}
@@ -189,9 +193,9 @@ const LessonCard = ({ lesson }: LessonCardProps) => {
 
             <Link
                className="mx-auto flex justify-center py-3"
-               href={`/dashboard/lesson/${lesson.lessonId}`}
+               href={`/dashboard/lesson/${lesson.title}/${userInfo?.userId}`}
             >
-               <Button variant="accent" type="button" className=" shadow-md">
+               <Button variant="accent" type="button">
                   Study now
                </Button>
             </Link>

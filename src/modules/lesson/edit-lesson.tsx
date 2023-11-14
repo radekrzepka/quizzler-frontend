@@ -9,24 +9,27 @@ import FlashcardList from "../flashcard/flashcard-list";
 import EditLessonForm from "./edit-lesson-form";
 import EditLessonSkeleton from "./edit-lesson-skeleton";
 import { getLesson } from "@/utils/api-utils/get-lesson";
+import { getCookie } from "cookies-next";
 
 interface EditLessonProps {
-   lessonId: string;
+   lesson: Lesson;
+   userId: string;
 }
 
-const EditLesson = ({ lessonId }: EditLessonProps) => {
+const EditLesson = ({ lesson: lessonData, userId }: EditLessonProps) => {
    const [flashcardToEdit, setFlashcardToEdit] = useState<Flashcard | null>(
       null
    );
    const [selectedMode, setSelectedMode] = useState<"Add" | "Edit">("Add");
+   const JWT = getCookie("JWT");
    const {
       data: lesson,
       refetch: refetchLesson,
       isLoading,
       isError,
    } = useQuery<Lesson>({
-      queryKey: ["lesson", lessonId],
-      queryFn: () => getLesson(lessonId),
+      queryKey: ["lesson", lessonData.lessonId],
+      queryFn: () => getLesson(userId, lessonData.title, JWT as string),
    });
 
    if (isLoading || isError || !lesson) return <EditLessonSkeleton />;
