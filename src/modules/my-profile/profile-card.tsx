@@ -189,36 +189,25 @@ const ProfileCard = ({
             onClick={() => setIsOpen(true)}
          >
             {profile.avatar === null ? (
-               <>
-                  <div className="mt-2 grid h-16 w-16 place-items-center rounded-full bg-background text-4xl font-bold text-primary">
-                     {generateAbbreviation(profile)}
-                  </div>
-                  <Image
-                     width={15}
-                     height={15}
-                     className="absolute right-[-4px] top-[2px]"
-                     alt="Change avatar pen icon"
-                     src="/icons/pen-icon.svg"
-                  />
-               </>
+               <div className="my-2 grid h-16 w-16 place-items-center rounded-full bg-background text-4xl font-bold text-primary">
+                  {generateAbbreviation(profile)}
+               </div>
             ) : (
-               <>
-                  <Image
-                     width={64}
-                     height={64}
-                     src={`/images/avatars/avatar_${profile.avatar}.png`}
-                     alt={`Avatar of ${profile.username}`}
-                     className="mt-2"
-                  />
-                  <Image
-                     width={15}
-                     height={15}
-                     className="absolute right-[-4px] top-[2px]"
-                     alt="Change avatar pen icon"
-                     src="/icons/pen-icon.svg"
-                  />
-               </>
+               <Image
+                  width={64}
+                  height={64}
+                  src={`/images/avatars/avatar_${profile.avatar}.png`}
+                  alt={`Avatar of ${profile.username}`}
+                  className="my-2"
+               />
             )}
+            <Image
+               width={15}
+               height={15}
+               className="absolute right-[-1px] top-[2px] z-10"
+               alt="Change avatar pen icon"
+               src="/icons/pen-icon.svg"
+            />
          </button>
 
          <p

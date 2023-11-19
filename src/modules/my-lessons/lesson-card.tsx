@@ -101,7 +101,7 @@ const LessonCard = ({ lesson }: LessonCardProps) => {
             <div className="flex h-[200px] w-full rounded-t-xl bg-gray-700">
                {lesson.imageName && (
                   <Image
-                     className="h-[200px] rounded-t-xl"
+                     className="h-[200px] rounded-t-xl object-contain"
                      src={`${process.env.NEXT_PUBLIC_IMG_URL}/${lesson.imageName}`}
                      alt={`Image of ${lesson.title} lesson`}
                      width={500}

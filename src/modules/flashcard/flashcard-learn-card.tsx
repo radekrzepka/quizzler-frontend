@@ -19,6 +19,7 @@ const FlashcardLearnCard = ({
    moveUnlearned,
 }: FlashcardLearnCardProps) => {
    const [flipped, setFlipped] = useState(false);
+   const [isChanging, setIsChanging] = useState(false);
 
    const { mutate: flashcardLogMutation } = useMutation({
       mutationFn: async (logData: {
@@ -71,6 +72,7 @@ const FlashcardLearnCard = ({
             } else {
                moveUnlearned(flashcardId);
             }
+            setIsChanging(false);
             setFlipped(false);
             setChangeFlashcardAnimation({ scale: 1, opacity: 1 });
          },
@@ -79,12 +81,16 @@ const FlashcardLearnCard = ({
 
    return (
       <animated.div
-         className="grid w-full place-items-center"
+         className="grid min-h-[80vh] w-full overflow-hidden"
          style={{ ...changeFlashcardAnimation }}
       >
          <div
-            className="relative m-auto h-[60vh] w-11/12 cursor-pointer break-all text-background sm:w-3/4 lg:w-1/2 2xl:w-1/4"
-            onClick={() => setFlipped(!flipped)}
+            className="relative m-auto h-[65vh] w-11/12 cursor-pointer break-all text-background sm:w-3/4 lg:w-1/2 2xl:w-1/4"
+            onClick={() => {
+               if (!isChanging) {
+                  setFlipped(!flipped);
+               }
+            }}
          >
             <animated.div
                className="absolute flex h-full w-full select-none justify-center rounded-lg bg-primary px-1 shadow-md"
@@ -106,7 +112,6 @@ const FlashcardLearnCard = ({
                            alt="Image for question of flashcard"
                            width={500}
                            height={200}
-                           // placeholder="blur"
                         />
                      )}
                   </div>

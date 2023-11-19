@@ -118,7 +118,7 @@ const NewLessonForm = () => {
    return (
       <form
          onSubmit={handleSubmit(onSubmit)}
-         className="h-fit rounded-xl bg-text  text-background"
+         className="h-fit rounded-xl bg-text text-background"
       >
          <div
             className="relative h-[200px] w-full cursor-pointer rounded-t-xl bg-gray-700"

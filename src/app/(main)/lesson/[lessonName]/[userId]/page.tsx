@@ -11,12 +11,16 @@ const LessonPage = async ({
 }) => {
    try {
       const JWT = getJWT();
-      const user = await getUser(JWT);
       const lesson = await getLesson(userId, lessonName, JWT);
 
+      if (lesson.isPublic) {
+         return <FlashcardsLearnSection lesson={lesson} />;
+      }
+
+      const user = await getUser(JWT);
       const isUserOwner = lesson.owner.userId === user.userId;
 
-      if (!lesson.isPublic && !isUserOwner) notFound();
+      if (!isUserOwner) notFound();
 
       return <FlashcardsLearnSection lesson={lesson} />;
    } catch {

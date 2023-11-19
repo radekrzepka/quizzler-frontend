@@ -1,6 +1,6 @@
 import z from "zod";
 
-const MAX_FILE_SIZE = 500000;
+const MAX_FILE_SIZE = 5_000_000;
 const ACCEPTED_IMAGE_TYPES = [
    "image/jpeg",
    "image/jpg",
@@ -20,9 +20,9 @@ const imageSchema = z
          );
       },
       {
-         message: `Image must be one of the following types: ${ACCEPTED_IMAGE_TYPES.join(
-            ", "
-         )} and not exceed ${MAX_FILE_SIZE / 100000}MB`,
+         message: `Image must be one of the following types: ${ACCEPTED_IMAGE_TYPES.map(
+            type => `.${type.split("/")[1]}`
+         ).join(", ")} and not exceed ${MAX_FILE_SIZE / 1000000}MB`,
       }
    );
 

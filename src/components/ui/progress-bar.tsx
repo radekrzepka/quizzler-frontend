@@ -8,7 +8,7 @@ interface ProgressBarProps {
 }
 
 const ProgressBar = ({ min, max, className }: ProgressBarProps) => {
-   const progress = Math.round((min / max) * 100);
+   const progress = max !== 0 ? Math.round((min / max) * 100) : 0;
    const animation = useSpring({ width: `${progress}%` });
 
    return (

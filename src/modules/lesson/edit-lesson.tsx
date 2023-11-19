@@ -27,7 +27,7 @@ const EditLesson = ({ lesson: lessonData, userId }: EditLessonProps) => {
       refetch: refetchLesson,
       isLoading,
       isError,
-   } = useQuery<Lesson>({
+   } = useQuery({
       queryKey: ["lesson", lessonData.lessonId],
       queryFn: () => getLesson(userId, lessonData.title, JWT as string),
    });

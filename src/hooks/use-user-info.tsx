@@ -8,6 +8,7 @@ const useUserInfo = () => {
    return useQuery({
       queryKey: ["user"],
       queryFn: () => getUser(JWT),
+      retry: 0,
    });
 };
 
