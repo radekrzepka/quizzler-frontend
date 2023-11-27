@@ -81,7 +81,7 @@ const FlashcardLearnCard = ({
 
    return (
       <animated.div
-         className="grid min-h-[80vh] w-full place-items-start overflow-hidden"
+         className="-mt-24 grid min-h-[80vh] w-full place-items-start overflow-hidden pt-24"
          style={{ ...changeFlashcardAnimation }}
       >
          <div
@@ -97,7 +97,6 @@ const FlashcardLearnCard = ({
                style={{
                   opacity: opacity.to(o => 1 - o),
                   transform,
-                  zIndex: 2,
                   pointerEvents: flipped ? "none" : "all",
                   backfaceVisibility: "hidden",
                }}
