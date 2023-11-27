@@ -3,7 +3,7 @@
 import Button from "@/components/ui/button";
 import Dialog from "@/components/ui/dialog";
 import DropdownMenu from "@/components/ui/dropdown-menu";
-import useUserInfo from "@/hooks/use-user-info";
+import useUserInfo from "@/hooks/api-hooks/use-user-info";
 import type { Lesson } from "@/types/lesson";
 import { EDIT_LESSON, LESSON } from "@/utils/urls";
 import { useMutation } from "@tanstack/react-query";

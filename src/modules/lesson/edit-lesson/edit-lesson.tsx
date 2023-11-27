@@ -4,8 +4,8 @@ import type { Flashcard } from "@/types/flashcard";
 import type { Lesson } from "@/types/lesson";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
-import FlashcardForm from "../flashcard/flashcard-form";
-import FlashcardList from "../flashcard/flashcard-list";
+import FlashcardForm from "../../flashcard/form/flashcard-form";
+import FlashcardList from "../../flashcard/lesson-list/flashcard-list";
 import EditLessonForm from "./edit-lesson-form";
 import EditLessonSkeleton from "./edit-lesson-skeleton";
 import { getLesson } from "@/utils/api-utils/get-lesson";
@@ -28,7 +28,7 @@ const EditLesson = ({ lesson: lessonData, userId }: EditLessonProps) => {
       isLoading,
       isError,
    } = useQuery({
-      queryKey: ["lesson", lessonData.lessonId],
+      queryKey: ["lesson", userId, lessonData.title],
       queryFn: () => getLesson(userId, lessonData.title, JWT as string),
    });
 
@@ -36,10 +36,10 @@ const EditLesson = ({ lesson: lessonData, userId }: EditLessonProps) => {
 
    return (
       <div className="grid gap-4 xl:grid-cols-2">
-         <EditLessonForm lesson={lesson} />
+         <EditLessonForm lesson={lesson} refetchLesson={refetchLesson} />
          <FlashcardForm
             lessonId={lesson.lessonId}
-            onFlashcardAdded={refetchLesson}
+            refetchLesson={refetchLesson}
             selectedMode={selectedMode}
             setSelectedMode={setSelectedMode}
             flashcardToEdit={flashcardToEdit}

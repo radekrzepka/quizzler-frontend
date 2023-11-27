@@ -1,5 +1,5 @@
 import LessonsList from "@/modules/my-lessons/lessons-list";
-import NewLessonForm from "@/modules/my-lessons/new-lesson-form";
+import NewLessonForm from "@/modules/lesson/new-lesson/new-lesson-form";
 import type { Lesson } from "@/types/lesson";
 import getJWT from "@/utils/get-server-jwt";
 

@@ -1,7 +1,7 @@
 "use client";
 
-import LessonCardSkeleton from "@/components/my-lessons/lesson-card-skeleton";
-import NewLessonFormSkeleton from "@/components/my-lessons/new-lesson-form-skeleton";
+import LessonCardSkeleton from "@/components/lesson/lesson-card-skeleton";
+import NewLessonFormSkeleton from "@/components/lesson/new-lesson-form-skeleton";
 
 export default function Loading() {
    return (

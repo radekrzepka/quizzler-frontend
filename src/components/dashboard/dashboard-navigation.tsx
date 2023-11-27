@@ -10,7 +10,7 @@ import { deleteCookie, getCookie } from "cookies-next";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { Bars3Icon } from "@heroicons/react/20/solid";
 import {

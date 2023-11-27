@@ -18,7 +18,7 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { NewLessonForm, newLessonFormSchema } from "./new-lesson-form-schema";
 import { EDIT_LESSON } from "@/utils/urls";
-import useUserInfo from "@/hooks/use-user-info";
+import useUserInfo from "@/hooks/api-hooks/use-user-info";
 
 interface ApiResponse {
    data: string;

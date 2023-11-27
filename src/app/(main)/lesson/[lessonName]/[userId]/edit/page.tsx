@@ -1,4 +1,4 @@
-import EditLesson from "@/modules/lesson/edit-lesson";
+import EditLesson from "@/modules/lesson/edit-lesson/edit-lesson";
 import { getLesson } from "@/utils/api-utils/get-lesson";
 import { getUser } from "@/utils/api-utils/get-user";
 import { notFound } from "next/navigation";

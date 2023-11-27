@@ -1,4 +1,4 @@
-import DashboardNavigation from "@/modules/dashboard/dashboard-navigation";
+import DashboardNavigation from "@/components/dashboard/dashboard-navigation";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
    return (

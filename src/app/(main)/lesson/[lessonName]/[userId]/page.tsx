@@ -1,4 +1,4 @@
-import FlashcardsLearnSection from "@/modules/flashcard/flashcards-learn-section";
+import FlashcardsLearnSection from "@/modules/flashcard/learn/flashcards-learn-section";
 import { getLesson } from "@/utils/api-utils/get-lesson";
 import { getUser } from "@/utils/api-utils/get-user";
 import getJWT from "@/utils/get-server-jwt";

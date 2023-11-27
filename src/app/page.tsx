@@ -1,5 +1,5 @@
-import HomeMain from "@/modules/home-page/home-main";
-import HomeNavigation from "@/modules/home-page/home-navigation";
+import HomeMain from "@/components/home-page/home-main";
+import HomeNavigation from "@/components/home-page/home-navigation";
 
 const Home = () => {
    return (

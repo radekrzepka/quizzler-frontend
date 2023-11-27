@@ -9,7 +9,7 @@ import type { Flashcard } from "@/types/flashcard";
 import { EDIT_LESSON, MY_LESSONS } from "@/utils/urls";
 import ProgressBar from "@/components/ui/progress-bar";
 import Dialog from "@/components/ui/dialog";
-import useUserInfo from "@/hooks/use-user-info";
+import useUserInfo from "@/hooks/api-hooks/use-user-info";
 import Skeleton from "@/components/ui/skeleton";
 
 interface FlashcardsLearnSectionProps {
@@ -55,39 +55,35 @@ const FlashcardsLearnSection = ({ lesson }: FlashcardsLearnSectionProps) => {
 
    return (
       <>
-         {showDialog && (
-            <Dialog setIsOpen={setShowDialog} isOpen={showDialog}>
-               {lesson.flashcards.length === 0 ? (
-                  <div className="flex h-fit w-full flex-col items-center gap-2 rounded pt-0 text-background">
-                     <h2 className="text-3xl font-semibold">Get Started!</h2>
-                     <p className="mt-2 text-center text-base">
-                        You haven&apos;t added any flashcard yet. Please go to
-                        edit page to add your first flashcard.
-                     </p>
-                     <Link
-                        href={EDIT_LESSON(
-                           lesson.title,
-                           lesson.owner.userId.toString()
-                        )}
-                     >
-                        <Button>Go to edit page</Button>
-                     </Link>
-                  </div>
-               ) : (
-                  <div className="flex h-fit w-full flex-col items-center gap-2 rounded text-background">
-                     <h2 className="text-3xl font-semibold">
-                        Congratulations !
-                     </h2>
-                     <p className="mt-2 text-base">
-                        You have repeated all the flashcards prepared for you.
-                     </p>
-                     <Link href={MY_LESSONS}>
-                        <Button>Go ty my lessons</Button>
-                     </Link>
-                  </div>
-               )}
-            </Dialog>
-         )}
+         <Dialog setIsOpen={setShowDialog} isOpen={showDialog}>
+            {lesson.flashcards.length === 0 ? (
+               <div className="flex h-fit w-full flex-col items-center gap-2 rounded pt-0 text-background">
+                  <h2 className="text-3xl font-semibold">Get Started!</h2>
+                  <p className="mt-2 text-center text-base">
+                     You haven&apos;t added any flashcard yet. Please go to edit
+                     page to add your first flashcard.
+                  </p>
+                  <Link
+                     href={EDIT_LESSON(
+                        lesson.title,
+                        lesson.owner.userId.toString()
+                     )}
+                  >
+                     <Button>Go to edit page</Button>
+                  </Link>
+               </div>
+            ) : (
+               <div className="flex h-fit w-full flex-col items-center gap-2 rounded text-background">
+                  <h2 className="text-3xl font-semibold">Congratulations !</h2>
+                  <p className="mt-2 text-base">
+                     You have repeated all the flashcards prepared for you.
+                  </p>
+                  <Link href={MY_LESSONS}>
+                     <Button>Go ty my lessons</Button>
+                  </Link>
+               </div>
+            )}
+         </Dialog>
 
          <div className="mb-2 flex flex-col items-center justify-between gap-2 md:flex-row">
             <p className="text-2xl font-bold">

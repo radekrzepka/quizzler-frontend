@@ -12,7 +12,7 @@ import { useMutation } from "@tanstack/react-query";
 import { getCookie } from "cookies-next";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -21,15 +21,16 @@ import {
    editLessonFormSchema,
 } from "./edit-lesson-form-schema";
 import { LESSON, MY_LESSONS } from "@/utils/urls";
-import useUserInfo from "@/hooks/use-user-info";
+import useUserInfo from "@/hooks/api-hooks/use-user-info";
 
 interface EditLessonFormProps {
    lesson: Lesson;
+   refetchLesson: () => void;
 }
 const formatTags = (tags: Array<string>) =>
    tags.map(tag => ({ label: tag, value: tag }));
 
-const EditLessonForm = ({ lesson }: EditLessonFormProps) => {
+const EditLessonForm = ({ lesson, refetchLesson }: EditLessonFormProps) => {
    const router = useRouter();
    const [deleteLessonImage, setDeleteLessonImage] = useState(false);
    const {
@@ -56,14 +57,10 @@ const EditLessonForm = ({ lesson }: EditLessonFormProps) => {
    const [buttonLoading, setButtonLoading] = useState(false);
    const [selectedImage, setSelectedImage] = useState<
       string | null | undefined
-   >(null);
+   >(lesson.imageName);
    const imageInputRef = useRef<HTMLInputElement | null>(null);
 
    const { data: userInfo } = useUserInfo();
-
-   useEffect(() => {
-      if (lesson.imageName) setSelectedImage(lesson.imageName);
-   }, [lesson.imageName]);
 
    const { mutate } = useMutation({
       mutationFn: async (formData: FormData) => {
@@ -85,6 +82,7 @@ const EditLessonForm = ({ lesson }: EditLessonFormProps) => {
       onSettled: status => {
          if (status === 200) {
             toast.success("Lesson updated successfully");
+            refetchLesson();
          } else if (status === 400)
             toast.error("Lesson with this name already exist");
          else toast.error("Error with updating your lesson");
