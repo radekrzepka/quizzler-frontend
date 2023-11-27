@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+   html {
+      -webkit-tap-highlight-color: transparent;
+   }
+}
+
 .recharts-surface {
    left: -16px;
    position: relative;

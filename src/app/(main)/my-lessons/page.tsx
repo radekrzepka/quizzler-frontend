@@ -24,7 +24,7 @@ const MyLessons = async () => {
    const lessons = await getUserLessons();
 
    return (
-      <div className="ml-0 grid gap-4 xl:grid-cols-[1fr_4fr]">
+      <div className="ml-0 gap-4 lg:grid lg:grid-cols-[1fr_4fr]">
          <NewLessonForm />
          <LessonsList lessons={lessons} />
       </div>

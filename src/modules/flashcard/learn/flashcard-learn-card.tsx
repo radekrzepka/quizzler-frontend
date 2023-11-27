@@ -50,8 +50,8 @@ const FlashcardLearnCard = ({
 
    const { transform, opacity } = useSpring({
       opacity: flipped ? 1 : 0,
-      transform: `perspective(1000px) rotateY(${flipped ? 180 : 0}deg)`,
-      config: { mass: 5, tension: 500, friction: 80 },
+      transform: `perspective(1200px) rotateY(${flipped ? 180 : 0}deg)`,
+      config: { mass: 5, tension: 500, friction: 80, duration: 300 },
    });
 
    const [changeFlashcardAnimation, setChangeFlashcardAnimation] = useSpring(
@@ -81,11 +81,11 @@ const FlashcardLearnCard = ({
 
    return (
       <animated.div
-         className="grid min-h-[80vh] w-full overflow-hidden"
+         className="grid min-h-[80vh] w-full place-items-start overflow-hidden"
          style={{ ...changeFlashcardAnimation }}
       >
          <div
-            className="relative m-auto h-[65vh] w-11/12 cursor-pointer break-all text-background sm:w-3/4 lg:w-1/2 2xl:w-1/4"
+            className="relative mx-auto h-[65vh] w-11/12 cursor-pointer break-all text-background sm:w-3/4 lg:w-1/2 2xl:w-1/4"
             onClick={() => {
                if (!isChanging) {
                   setFlipped(!flipped);
@@ -97,24 +97,24 @@ const FlashcardLearnCard = ({
                style={{
                   opacity: opacity.to(o => 1 - o),
                   transform,
-                  zIndex: flipped ? 0 : 1,
+                  zIndex: 2,
                   pointerEvents: flipped ? "none" : "all",
+                  backfaceVisibility: "hidden",
                }}
             >
                <div className="flex w-full flex-col justify-between gap-2 text-center text-background">
-                  <p className="text-4xl font-bold">Question: </p>
+                  <p className="text-4xl font-bold">Question</p>
                   <p className="text-xl">{flashcard.questionText}</p>
-                  <div>
-                     {flashcard.questionImageName && (
-                        <Image
-                           className="mx-auto my-4 max-h-[40vh] w-full object-contain"
-                           src={`${process.env.NEXT_PUBLIC_IMG_URL}/${flashcard.questionImageName}`}
-                           alt="Image for question of flashcard"
-                           width={500}
-                           height={200}
-                        />
-                     )}
-                  </div>
+                  {flashcard.questionImageName && (
+                     <Image
+                        className="mx-auto my-4 max-h-[40vh] w-full object-contain"
+                        src={`${process.env.NEXT_PUBLIC_IMG_URL}/${flashcard.questionImageName}`}
+                        alt="Image for question of flashcard"
+                        width={500}
+                        height={200}
+                     />
+                  )}
+                  <div className="h-12 w-full" />
                </div>
             </animated.div>
             <animated.div
@@ -122,17 +122,18 @@ const FlashcardLearnCard = ({
                style={{
                   opacity,
                   transform: transform.to(t => `${t} rotateY(180deg)`),
-                  zIndex: flipped ? 1 : 0,
+                  zIndex: 2,
                   pointerEvents: flipped ? "all" : "none",
+                  backfaceVisibility: "hidden",
                }}
             >
                <div className="flex h-full w-full flex-col justify-between gap-2 text-center text-text">
-                  <p className="text-4xl font-bold">Answer: </p>
+                  <p className="text-4xl font-bold">Answer</p>
                   <p className="text-xl">{flashcard.answerText}</p>
 
                   {flashcard.answerImageName && (
                      <Image
-                        className="mx-auto my-0 max-h-[40vh] max-w-full rounded-t-xl object-contain"
+                        className="mx-auto my-0 max-h-[40vh] max-w-full object-contain"
                         src={`${process.env.NEXT_PUBLIC_IMG_URL}/${flashcard.answerImageName}`}
                         alt="Image for answer of flashcard"
                         width={500}

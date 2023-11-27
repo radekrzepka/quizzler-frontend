@@ -8,7 +8,8 @@ interface ProgressBarProps {
 }
 
 const ProgressBar = ({ min, max, className }: ProgressBarProps) => {
-   const progress = max !== 0 ? Math.round((min / max) * 100) : 0;
+   const progress = max !== 0 ? (min / max) * 100 : 0;
+   const roundedProgress = Math.round(progress);
    const animation = useSpring({ width: `${progress}%` });
 
    return (
@@ -18,7 +19,7 @@ const ProgressBar = ({ min, max, className }: ProgressBarProps) => {
             className
          )}
       >
-         <p className="text-2xl font-bold">{progress} %</p>
+         <p className="text-2xl font-bold">{roundedProgress} %</p>
          <div className="h-4 rounded-3xl bg-text">
             <animated.div
                style={animation}
