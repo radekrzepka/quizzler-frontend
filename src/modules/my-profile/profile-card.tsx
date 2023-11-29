@@ -13,12 +13,11 @@ import {
    compareAsc,
 } from "date-fns";
 import type { ChartRecord } from "@/types/chart-data";
-import Image from "next/image";
 import { useMemo, useState } from "react";
 import type { LogData } from "@/types/log-data";
 import classNames from "classnames";
-import { generateAbbreviation } from "@/utils/generate-abbreviation";
 import ChangeAvatar from "./change-avatar";
+import Avatar from "@/components/ui/avatar";
 
 interface ProfileCardProps {
    profile: UserInfo;
@@ -171,6 +170,9 @@ const ProfileCard = ({
    }, [learnedStartDate, learnedFlashcards]);
 
    const [isOpen, setIsOpen] = useState(false);
+
+   console.log(profile);
+
    return (
       <div className="flex flex-col items-center rounded-xl bg-text text-background">
          <ChangeAvatar
@@ -184,31 +186,14 @@ const ProfileCard = ({
                {profile.firstName} {profile?.lastName}
             </h2>
          )}
-         <button
+         <Avatar
             className="relative inline-block"
+            profile={profile}
             onClick={() => setIsOpen(true)}
-         >
-            {profile.avatar === null ? (
-               <div className="my-2 grid h-16 w-16 place-items-center rounded-full bg-background text-4xl font-bold text-primary">
-                  {generateAbbreviation(profile)}
-               </div>
-            ) : (
-               <Image
-                  width={64}
-                  height={64}
-                  src={`/images/avatars/avatar_${profile.avatar}.png`}
-                  alt={`Avatar of ${profile.username}`}
-                  className="my-2"
-               />
-            )}
-            <Image
-               width={15}
-               height={15}
-               className="absolute right-[-1px] top-[2px] z-10"
-               alt="Change avatar pen icon"
-               src="/icons/pen-icon.svg"
-            />
-         </button>
+            as="button"
+            editable
+            size="large"
+         />
 
          <p
             className={classNames(
