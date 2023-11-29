@@ -4,10 +4,8 @@ import DashboardNavigationLink from "@/components/dashboard/dashboard-navigation
 import Button from "@/components/ui/button";
 import LogoText from "@/components/ui/logo-text";
 import Skeleton from "@/components/ui/skeleton";
-import { generateAbbreviation } from "@/utils/generate-abbreviation";
 import { useQuery } from "@tanstack/react-query";
 import { deleteCookie, getCookie } from "cookies-next";
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
@@ -19,10 +17,12 @@ import {
    LOGIN,
    MY_LESSONS,
    MY_PROFILE,
+   REGISTER,
    SEARCH,
 } from "@/utils/urls";
 import { getUser } from "@/utils/api-utils/get-user";
 import classNames from "classnames";
+import Avatar from "../ui/avatar";
 
 const DashboardNavigation = () => {
    const [signOutClicked, setSignOutClicked] = useState(false);
@@ -91,32 +91,32 @@ const DashboardNavigation = () => {
                      href={MY_PROFILE}
                      className="mb-6 flex w-full items-center justify-center gap-3 lg:mb-0"
                   >
-                     {profile?.avatar === null ? (
-                        <div className="grid h-11 w-11 place-items-center rounded-full border text-3xl font-bold text-primary">
-                           {generateAbbreviation(profile)}
-                        </div>
-                     ) : (
-                        <Image
-                           width={44}
-                           height={44}
-                           src={`/images/avatars/avatar_${profile?.avatar}.png`}
-                           alt={`Avatar of ${profile?.username}`}
-                        />
-                     )}
+                     {profile && <Avatar profile={profile} />}
                      <p className="whitespace-nowrap text-xl">
                         Welcome, {profile?.firstName || profile?.username}!
                      </p>
                   </Link>
                ) : (
-                  <Button
-                     variant="accent"
-                     className="w-full lg:w-auto"
-                     onClick={() => {
-                        router.push(`${LOGIN}?next=${pathname}`);
-                     }}
-                  >
-                     Sign in
-                  </Button>
+                  <>
+                     <Button
+                        variant="accent"
+                        className="w-full lg:w-auto"
+                        onClick={() => {
+                           router.push(`${LOGIN}?next=${pathname}`);
+                        }}
+                     >
+                        Sign in
+                     </Button>
+                     <Button
+                        variant="white"
+                        className="w-full lg:w-auto"
+                        onClick={() => {
+                           router.push(REGISTER);
+                        }}
+                     >
+                        Sign up
+                     </Button>
+                  </>
                )}
                {!isError && !isLoading && (
                   <Button
