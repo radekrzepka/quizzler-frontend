@@ -18,11 +18,11 @@ import {
    MY_LESSONS,
    MY_PROFILE,
    REGISTER,
-   SEARCH,
 } from "@/utils/urls";
 import { getUser } from "@/utils/api-utils/get-user";
 import classNames from "classnames";
 import Avatar from "../ui/avatar";
+import SerachPanel from "@/modules/serach/panel/search-panel";
 
 const DashboardNavigation = () => {
    const [signOutClicked, setSignOutClicked] = useState(false);
@@ -44,13 +44,13 @@ const DashboardNavigation = () => {
    });
 
    return (
-      <nav className="shadow-shadow my-4 flex w-full flex-col items-center justify-between gap-4 rounded-lg border-[1px] border-borderContainer bg-background p-2 text-text shadow-containerShadow lg:flex-row">
-         <div className="flex w-full items-center justify-between lg:w-auto">
+      <nav className="shadow-shadow my-4 flex w-full flex-col items-center justify-between gap-4 rounded-lg border-[1px] border-borderContainer bg-background p-2 text-text shadow-containerShadow xl:flex-row">
+         <div className="flex w-full items-center justify-between xl:w-auto">
             <Link href={DASHBOARD}>
                <LogoText variant="light">Quizzler</LogoText>
             </Link>
             <button
-               className="block lg:hidden"
+               className="block xl:hidden"
                onClick={() => setShowOptions(prevOption => !prevOption)}
             >
                <Bars3Icon className="h-12 w-12 text-text" />
@@ -60,22 +60,23 @@ const DashboardNavigation = () => {
          <>
             <ul
                className={classNames(
-                  "flex w-full flex-col gap-1 text-center md:flex-row lg:justify-center xl:gap-6",
-                  showOptions ? "flex" : "hidden lg:flex"
+                  "flex w-full flex-col items-center gap-1 text-center xl:flex-row xl:gap-6",
+                  showOptions ? "flex" : "hidden xl:flex"
                )}
             >
+               <DashboardNavigationLink path={DASHBOARD} label="Dashboard" />
                <DashboardNavigationLink path={MY_LESSONS} label="My lessons" />
-               <DashboardNavigationLink path={SEARCH} label="Search" />
+               <SerachPanel />
             </ul>
             <div
                className={classNames(
-                  "grid w-full flex-shrink-0 place-items-center lg:w-auto lg:gap-6",
-                  isLoading ? "lg:grid-cols-auto" : "lg:grid-cols-[auto_auto]",
-                  showOptions ? "grid" : "hidden lg:grid"
+                  "grid w-full flex-shrink-0 place-items-center xl:w-auto xl:gap-6",
+                  isLoading ? "lg:grid-cols-auto" : "xl:grid-cols-[auto_auto]",
+                  showOptions ? "grid" : "hidden xl:grid"
                )}
             >
                {isLoading ? (
-                  <div className="mb-6 flex w-full items-center gap-3 place-self-end lg:mb-0">
+                  <div className="mb-6 flex w-full items-center gap-3 place-self-end xl:mb-0">
                      <div className="flex items-center gap-3">
                         <Skeleton circle height="44px" width="44px" />
                         <Skeleton height="20px" width="180px" />
@@ -89,7 +90,7 @@ const DashboardNavigation = () => {
                ) : !isError ? (
                   <Link
                      href={MY_PROFILE}
-                     className="mb-6 flex w-full items-center justify-center gap-3 lg:mb-0"
+                     className="mb-6 flex w-full items-center justify-center gap-3 xl:mb-0"
                   >
                      {profile && <Avatar profile={profile} />}
                      <p className="whitespace-nowrap text-xl">
@@ -100,7 +101,7 @@ const DashboardNavigation = () => {
                   <>
                      <Button
                         variant="accent"
-                        className="w-full lg:w-auto"
+                        className="mb-4 w-full sm:w-3/4 xl:mb-0 xl:w-auto"
                         onClick={() => {
                            router.push(`${LOGIN}?next=${pathname}`);
                         }}
@@ -109,7 +110,7 @@ const DashboardNavigation = () => {
                      </Button>
                      <Button
                         variant="white"
-                        className="w-full lg:w-auto"
+                        className="w-full sm:w-3/4 xl:w-auto"
                         onClick={() => {
                            router.push(REGISTER);
                         }}
@@ -123,7 +124,7 @@ const DashboardNavigation = () => {
                      isLoading={signOutClicked}
                      disabled={signOutClicked}
                      variant="accent"
-                     className="w-full lg:w-auto"
+                     className="w-full sm:w-3/4 xl:w-auto"
                      onClick={() => {
                         router.push(BASE_PATH);
                         deleteCookie("JWT");

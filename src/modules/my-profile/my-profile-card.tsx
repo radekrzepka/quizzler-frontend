@@ -19,7 +19,7 @@ import classNames from "classnames";
 import ChangeAvatar from "./change-avatar";
 import Avatar from "@/components/ui/avatar";
 
-interface ProfileCardProps {
+interface MyProfileCardProps {
    profile: UserInfo;
    createdDates: Array<Date>;
    learnedDates: Array<LogData>;
@@ -117,11 +117,11 @@ const reduceData = (data: Array<ChartRecord>) => {
    return result;
 };
 
-const ProfileCard = ({
+const MyProfileCard = ({
    profile,
    createdDates,
    learnedDates,
-}: ProfileCardProps) => {
+}: MyProfileCardProps) => {
    const emptyDatesCreated = generateEmptyDates();
    const emptyDatesLearned = generateEmptyDates();
    const createdFlashcards = useMemo(() => {
@@ -232,4 +232,4 @@ const ProfileCard = ({
    );
 };
 
-export default ProfileCard;
+export default MyProfileCard;

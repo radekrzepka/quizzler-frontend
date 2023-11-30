@@ -1,64 +1,42 @@
-import type { Lesson } from "@/types/lesson";
-import type { UserInfo } from "@/types/user-info";
-import { useQuery } from "@tanstack/react-query";
-import { useSearchParams } from "next/navigation";
+import type { ApiResponse } from "@/app/(main)/search/page";
 import LessonSerachCard from "./lesson-serach-card";
+import UserSerachCard from "./user-serach-card";
 
-interface ApiResponse {
-   users: Array<UserInfo>;
-   lessons: Array<Lesson>;
+interface SerachResultsProps {
+   results: ApiResponse;
+   query: string;
 }
 
-const RECOMMENDED_LESSONS_NUMBER = 5;
-
-const getSearchResults = async (query: string | null) => {
-   const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}${
-      query
-         ? `/search/${query}`
-         : `/search/topLessons/${RECOMMENDED_LESSONS_NUMBER}`
-   }`;
-
-   const res = await fetch(apiUrl);
-
-   return query
-      ? ((await res.json()) as ApiResponse)
-      : ((await res.json()) as Array<Lesson>);
-};
-
-const SerachResults = () => {
-   const serachParams = useSearchParams();
-   const query = serachParams.get("query");
-
-   const { data, isPending, isError } = useQuery({
-      queryKey: ["search", query],
-      queryFn: () => getSearchResults(query),
-   });
-
-   console.log(data, isPending, isError);
-
-   if (isPending || isError) return null;
-
-   if (Array.isArray(data))
-      return (
-         <div>
-            <h2 className="text-3xl font-bold">Recommended lessons: </h2>
-            <div className="flex flex-col gap-1">
-               {data.map(lesson => (
-                  <LessonSerachCard key={lesson.lessonId} lesson={lesson} />
-               ))}
-            </div>
-         </div>
-      );
+const SerachResults = ({ results, query }: SerachResultsProps) => {
+   const { lessons, users } = results;
 
    return (
       <div>
          <div>
-            <h2 className="">Lessons: </h2>
-            <div className="flex flex-col gap-1">
-               {data.lessons.map(lesson => (
-                  <LessonSerachCard key={lesson.lessonId} lesson={lesson} />
-               ))}
-            </div>
+            <h2 className="mb-6 text-4xl">Results for &quot;{query}&quot; </h2>
+            {lessons.length !== 0 && (
+               <>
+                  <h2 className="text-2xl">Lessons:</h2>
+                  <div className="mb-6 grid gap-2 md:grid-cols-2 xl:grid-cols-3">
+                     {lessons.map(lesson => (
+                        <LessonSerachCard
+                           key={lesson.lessonId}
+                           lesson={lesson}
+                        />
+                     ))}
+                  </div>
+               </>
+            )}
+            {users.length !== 0 && (
+               <>
+                  <h2 className="text-2xl">Users:</h2>
+                  <div className="grid gap-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                     {users.map(user => (
+                        <UserSerachCard key={user.userId} user={user} />
+                     ))}
+                  </div>
+               </>
+            )}
          </div>
       </div>
    );

@@ -4,10 +4,12 @@ const REGISTER = "/auth/sign-up";
 const LOGIN = "/auth/sign-in";
 
 const DASHBOARD = "/dashboard";
-const MY_PROFILE = "/my-profile";
-const MY_LESSONS = "/my-lessons";
 const SEARCH = "/search";
 
+const MY_PROFILE = "/my-profile";
+const PROFILE = (username: string) => `/profile/${username}`;
+
+const MY_LESSONS = "/my-lessons";
 const LESSON = (lessonName: string, userId: string) =>
    `/lesson/${lessonName}/${userId}`;
 const EDIT_LESSON = (lessonName: string, userId: string) =>
@@ -21,6 +23,7 @@ export {
    LOGIN,
    DASHBOARD,
    MY_PROFILE,
+   PROFILE,
    MY_LESSONS,
    SEARCH,
    LESSON,

@@ -1,5 +1,5 @@
 import type { UserInfo } from "@/types/user-info";
-import ProfileCard from "@/modules/my-profile/profile-card";
+import MyProfileCard from "@/modules/my-profile/my-profile-card";
 import ProfileChangeForms from "@/modules/my-profile/profile-change-forms";
 import type { LogData } from "@/types/log-data";
 import getJWT from "@/utils/get-server-jwt";
@@ -40,7 +40,7 @@ const MyProfile = async () => {
    const [createdData, learnedData] = await getStatsData();
    return (
       <div className="ml-0 grid gap-10 lg:grid-cols-[3fr_2fr]">
-         <ProfileCard
+         <MyProfileCard
             profile={profileData}
             createdDates={createdData}
             learnedDates={learnedData}

@@ -15,14 +15,12 @@ const DashboardNavigationLink = ({
    const isSelected = currentPath === path;
 
    return (
-      <li className="grid w-full place-items-center lg:w-auto">
+      <li className="grid min-w-max place-items-center">
          <Link
             href={path}
             className={classNames(
-               "w-full cursor-pointer rounded p-1 text-center text-xl md:px-8",
-               isSelected
-                  ? "bg-accent text-background"
-                  : "bg-background text-text",
+               "cursor-pointer p-1 text-center text-xl ",
+               isSelected ? "border-b-2 border-text" : "bg-background text-text"
             )}
          >
             {label}

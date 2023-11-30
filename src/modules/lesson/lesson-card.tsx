@@ -3,6 +3,7 @@
 import Button from "@/components/ui/button";
 import Dialog from "@/components/ui/dialog";
 import DropdownMenu from "@/components/ui/dropdown-menu";
+import Tag from "@/components/ui/tag";
 import useUserInfo from "@/hooks/api-hooks/use-user-info";
 import type { Lesson } from "@/types/lesson";
 import { EDIT_LESSON, LESSON } from "@/utils/urls";
@@ -132,12 +133,7 @@ const LessonCard = ({ lesson }: LessonCardProps) => {
                {lesson.tags?.length !== 0 && lesson.tags && (
                   <div className="flex flex-wrap justify-center gap-1">
                      {lesson.tags.map(tag => (
-                        <div
-                           className="h-min rounded-xl border border-gray-700 px-3 text-sm text-gray-700"
-                           key={tag}
-                        >
-                           {tag}
-                        </div>
+                        <Tag key={tag}>{tag}</Tag>
                      ))}
                   </div>
                )}
