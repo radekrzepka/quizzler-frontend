@@ -17,14 +17,16 @@ const UserSerachCard = ({ user }: UserSerachCardProps) => {
 
    return (
       <Link
-         href={PROFILE("Narixoo")}
+         href={PROFILE(user.username)}
          className="flex flex-col justify-between rounded-xl bg-text p-2 text-background transition duration-300 ease-in-out hover:bg-opacity-90 hover:shadow-lg sm:flex-row"
       >
          <div>
             <div className="mb-2 flex items-center gap-2">
                <Avatar profile={user} />
                <div>
-                  <h2 className="text-xl font-bold leading-none">Narixoo</h2>
+                  <h2 className="text-xl font-bold leading-none">
+                     {user.username}
+                  </h2>
                   {user.firstName && user.lastName && (
                      <p className="text-base leading-none">
                         {user.firstName} {user.lastName}

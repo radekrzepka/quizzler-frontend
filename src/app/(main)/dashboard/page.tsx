@@ -1,3 +1,5 @@
+"use client";
+
 const Dashboard = () => {
    return (
       <div className="text-6xl text-primary">
