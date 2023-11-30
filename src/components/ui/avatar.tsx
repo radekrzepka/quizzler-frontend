@@ -31,10 +31,10 @@ const Avatar = ({
          {profile.avatar === null ? (
             <div
                className={classNames(
-                  "my-2 grid place-items-center rounded-full bg-background text-4xl font-bold text-primary",
-                  size === "small" && "h-8 w-8",
-                  size === "medium" && "h-11 w-11",
-                  size === "large" && "h-16 w-16"
+                  "grid place-items-center rounded-full bg-background font-bold text-primary",
+                  size === "small" && "h-8 w-8 text-2xl",
+                  size === "medium" && "h-11 w-11 text-3xl",
+                  size === "large" && "h-16 w-16 text-3xl"
                )}
             >
                {generateAbbreviation(profile)}

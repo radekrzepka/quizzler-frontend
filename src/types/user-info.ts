@@ -6,4 +6,5 @@ export interface UserInfo {
    lastName?: string;
    dateRegistered: string;
    avatar: number | null;
+   lessonCount: number;
 }
