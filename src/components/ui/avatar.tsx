@@ -26,6 +26,8 @@ const Avatar = ({
    className,
    onClick,
 }: AvatarProps) => {
+   console.log(profile);
+
    return (
       <As className={className} onClick={onClick}>
          {profile.avatar === null ? (

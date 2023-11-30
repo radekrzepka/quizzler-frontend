@@ -4,7 +4,7 @@ const REGISTER = "/auth/sign-up";
 const LOGIN = "/auth/sign-in";
 
 const DASHBOARD = "/dashboard";
-const SEARCH = "/search";
+const SEARCH = (query: string) => `/search?query=${query}`;
 
 const MY_PROFILE = "/my-profile";
 const PROFILE = (username: string) => `/profile/${username}`;

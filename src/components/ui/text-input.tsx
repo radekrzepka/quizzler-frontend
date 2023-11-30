@@ -5,8 +5,8 @@ interface TextInputProps<T extends FieldValues> {
    type: "text" | "password" | "email";
    placeholder?: string;
    id: string;
-   register?: UseFormRegister<T>;
-   name?: Path<T>;
+   register: UseFormRegister<T>;
+   name: Path<T>;
    className?: string;
    disabled?: boolean;
    onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -24,7 +24,7 @@ const TextInput = <T extends FieldValues>({
 }: TextInputProps<T>) => {
    return (
       <input
-         {...(name && register ? register(name) : {})}
+         {...register(name)}
          type={type}
          placeholder={placeholder}
          id={id}

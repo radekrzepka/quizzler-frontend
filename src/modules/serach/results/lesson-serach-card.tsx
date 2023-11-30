@@ -9,23 +9,11 @@ interface LessonSerachCardProps {
    lesson: Lesson;
 }
 
-const TEST_TAGS = [
-   "ben",
-   "test",
-   "essa",
-   "o mamale",
-   "test",
-   "essa",
-   "o mamale",
-];
-
 const LessonSerachCard = ({ lesson }: LessonSerachCardProps) => {
-   console.log(lesson);
-
    return (
       <Link
          href={LESSON(lesson.title, lesson.owner.userId.toString())}
-         className="flex flex-col justify-between rounded-xl bg-text p-2 text-background transition duration-300 ease-in-out hover:bg-opacity-90 hover:shadow-lg sm:flex-row"
+         className="flex flex-col justify-between rounded-xl bg-text p-[6px] text-background transition duration-300 ease-in-out hover:bg-opacity-90 hover:shadow-lg sm:grid sm:grid-cols-[4fr_1fr]"
       >
          <div>
             <div className="mb-2 flex items-center gap-2">
@@ -39,14 +27,14 @@ const LessonSerachCard = ({ lesson }: LessonSerachCardProps) => {
                   width={64}
                   height={128}
                />
-               <div>
+               <div className="w-full">
                   <h2 className="text-left text-xl font-bold leading-none text-background">
                      {lesson.title}
                   </h2>
                   <p className="text-left text-sm leading-none text-background">
-                     {lesson.description}
+                     {lesson.description || "No description provided"}
                   </p>
-                  <div className="flex flex-wrap gap-2">
+                  <div className="mt-1 flex flex-wrap gap-2">
                      <Tag className="font-bold">
                         {lesson.flashcardCount} flashcard
                         {lesson.flashcardCount !== 1 && "s"}
@@ -62,10 +50,10 @@ const LessonSerachCard = ({ lesson }: LessonSerachCardProps) => {
             </div>
          </div>
 
-         <div className="flex flex-row items-center justify-between sm:flex-col">
+         <div className="flex flex-row items-center justify-between sm:flex-col sm:items-end">
             <div className="flex items-center justify-end gap-1">
                <Avatar profile={lesson.owner} size="small" />
-               <p>Narixoo</p>
+               <p>{lesson.owner.username}</p>
             </div>
          </div>
       </Link>
