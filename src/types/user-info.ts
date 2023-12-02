@@ -7,4 +7,5 @@ export interface UserInfo {
    dateRegistered: string;
    avatar: number | null;
    lessonCount: number;
+   lastSeen: Date;
 }

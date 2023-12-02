@@ -1,9 +1,9 @@
 import type { UserInfo } from "@/types/user-info";
 
-export const getUser = async (JWT?: string): Promise<UserInfo> => {
-   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/profile`, {
-      headers: JWT ? { Authorization: JWT } : {},
-   });
+export const getUser = async (username: string): Promise<UserInfo> => {
+   const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/user/${username}/profile`
+   );
 
    if (!res.ok) {
       throw new Error("User not log in");

@@ -22,6 +22,7 @@ const SerachResults = ({ results, query }: SerachResultsProps) => {
                         <LessonSerachCard
                            key={lesson.lessonId}
                            lesson={lesson}
+                           query={query}
                         />
                      ))}
                   </div>
@@ -32,7 +33,11 @@ const SerachResults = ({ results, query }: SerachResultsProps) => {
                   <h2 className="text-2xl">Users:</h2>
                   <div className="grid gap-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                      {users.map(user => (
-                        <UserSerachCard key={user.userId} user={user} />
+                        <UserSerachCard
+                           key={user.userId}
+                           user={user}
+                           query={query}
+                        />
                      ))}
                   </div>
                </>

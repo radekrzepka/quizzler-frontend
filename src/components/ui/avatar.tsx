@@ -26,15 +26,13 @@ const Avatar = ({
    className,
    onClick,
 }: AvatarProps) => {
-   console.log(profile);
-
    return (
       <As className={className} onClick={onClick}>
          {profile.avatar === null ? (
             <div
                className={classNames(
                   "grid place-items-center rounded-full bg-background font-bold text-primary",
-                  size === "small" && "h-8 w-8 text-2xl",
+                  size === "small" && "h-8 w-8 text-xl",
                   size === "medium" && "h-11 w-11 text-3xl",
                   size === "large" && "h-16 w-16 text-3xl"
                )}

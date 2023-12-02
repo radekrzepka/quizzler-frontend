@@ -19,7 +19,7 @@ import {
    MY_PROFILE,
    REGISTER,
 } from "@/utils/urls";
-import { getUser } from "@/utils/api-utils/get-user";
+import { getCurrentUser } from "@/utils/api-utils/get-current-user";
 import classNames from "classnames";
 import Avatar from "../ui/avatar";
 import SerachPanel from "@/modules/serach/panel/search-panel";
@@ -38,7 +38,7 @@ const DashboardNavigation = () => {
       isLoading,
       isError,
    } = useQuery({
-      queryFn: () => getUser(JWT),
+      queryFn: () => getCurrentUser(JWT),
       queryKey: ["profileData"],
       retry: 0,
    });

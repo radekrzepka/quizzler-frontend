@@ -9,7 +9,6 @@ interface TextInputProps<T extends FieldValues> {
    name: Path<T>;
    className?: string;
    disabled?: boolean;
-   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const TextInput = <T extends FieldValues>({
@@ -20,7 +19,6 @@ const TextInput = <T extends FieldValues>({
    name,
    className,
    disabled = false,
-   onChange,
 }: TextInputProps<T>) => {
    return (
       <input
@@ -33,7 +31,6 @@ const TextInput = <T extends FieldValues>({
             className
          )}
          disabled={disabled}
-         onChange={onChange}
       />
    );
 };

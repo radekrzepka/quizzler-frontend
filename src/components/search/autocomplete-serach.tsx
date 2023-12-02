@@ -17,7 +17,6 @@ interface Option {
 }
 
 const promiseOptions = async (query: string) => {
-   console.log(query);
    if (query === "") return [];
    const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/search/autocomplete/${query}`
@@ -79,6 +78,7 @@ const AutocompleteSerach = () => {
             : provided.backgroundColor,
          color: "black",
          cursor: "pointer",
+         zIndex: 999,
       }),
       placeholder: provided => ({
          ...provided,

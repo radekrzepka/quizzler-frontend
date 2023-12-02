@@ -18,7 +18,7 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { NewLessonForm, newLessonFormSchema } from "./new-lesson-form-schema";
 import { EDIT_LESSON } from "@/utils/urls";
-import useUserInfo from "@/hooks/api-hooks/use-user-info";
+import useCurrentUserInfo from "@/hooks/api-hooks/use-current-user-info";
 
 interface ApiResponse {
    data: string;
@@ -47,7 +47,7 @@ const NewLessonForm = () => {
       string | null | undefined
    >(null);
    const imageInputRef = useRef<HTMLInputElement | null>(null);
-   const { data: userInfo } = useUserInfo();
+   const { data: userInfo } = useCurrentUserInfo();
 
    const { mutate } = useMutation({
       mutationFn: async (formData: FormData) => {
