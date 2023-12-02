@@ -1,6 +1,7 @@
 import Avatar from "@/components/ui/avatar";
 import Tag from "@/components/ui/tag";
 import type { UserInfo } from "@/types/user-info";
+import BoldMatch from "@/utils/bold-match";
 import { PROFILE } from "@/utils/urls";
 import { formatDistanceToNow } from "date-fns";
 import { utcToZonedTime } from "date-fns-tz";
@@ -8,11 +9,12 @@ import Link from "next/link";
 
 interface UserSerachCardProps {
    user: UserInfo;
+   query: string;
 }
 
-const UserSerachCard = ({ user }: UserSerachCardProps) => {
+const UserSerachCard = ({ user, query }: UserSerachCardProps) => {
    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-   const lastSeenDate = "2023-11-30 16:21:02.643921" + "Z";
+   const lastSeenDate = new Date(user.lastSeen.toString() + "Z");
    const localDate = utcToZonedTime(new Date(lastSeenDate), timeZone);
 
    return (
@@ -24,19 +26,22 @@ const UserSerachCard = ({ user }: UserSerachCardProps) => {
             <div className="mb-2 flex items-center gap-2">
                <Avatar profile={user} />
                <div>
-                  <h2 className="text-xl font-bold leading-none">
-                     {user.username}
+                  <h2 className="text-2xl leading-none">
+                     <BoldMatch text={user.username} query={query} />
                   </h2>
                   {user.firstName && user.lastName && (
                      <p className="text-base leading-none">
-                        {user.firstName} {user.lastName}
+                        <BoldMatch
+                           text={`${user.firstName} ${user.lastName}`}
+                           query={query}
+                        />
                      </p>
                   )}
                   <p className="text-sm leading-none text-gray-600">
                      Last seen: {formatDistanceToNow(localDate)} ago
                   </p>
 
-                  <Tag className="font-bold">
+                  <Tag className="mt-1 font-bold">
                      {user.lessonCount} created lesson
                      {user.lessonCount !== 1 && "s"}
                   </Tag>

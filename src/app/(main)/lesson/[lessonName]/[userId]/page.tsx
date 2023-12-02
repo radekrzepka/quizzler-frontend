@@ -1,6 +1,6 @@
 import FlashcardsLearnSection from "@/modules/flashcard/learn/flashcards-learn-section";
 import { getLesson } from "@/utils/api-utils/get-lesson";
-import { getUser } from "@/utils/api-utils/get-user";
+import { getCurrentUser } from "@/utils/api-utils/get-current-user";
 import getJWT from "@/utils/get-server-jwt";
 import { notFound } from "next/navigation";
 
@@ -17,7 +17,7 @@ const LessonPage = async ({
          return <FlashcardsLearnSection lesson={lesson} />;
       }
 
-      const user = await getUser(JWT);
+      const user = await getCurrentUser(JWT);
       const isUserOwner = lesson.owner.userId === user.userId;
 
       if (!isUserOwner) notFound();

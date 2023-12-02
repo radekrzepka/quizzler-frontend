@@ -4,7 +4,7 @@ import Button from "@/components/ui/button";
 import Dialog from "@/components/ui/dialog";
 import DropdownMenu from "@/components/ui/dropdown-menu";
 import Tag from "@/components/ui/tag";
-import useUserInfo from "@/hooks/api-hooks/use-user-info";
+import useCurrentUserInfo from "@/hooks/api-hooks/use-current-user-info";
 import type { Lesson } from "@/types/lesson";
 import { EDIT_LESSON, LESSON } from "@/utils/urls";
 import { useMutation } from "@tanstack/react-query";
@@ -27,7 +27,10 @@ const LessonCard = ({ lesson }: LessonCardProps) => {
    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
    const dateCreated = lesson.dateCreated + "Z";
    const localDate = utcToZonedTime(new Date(dateCreated), timeZone);
-   const { data: userInfo } = useUserInfo();
+   const { data: userInfo } = useCurrentUserInfo();
+
+   const isOwner =
+      userInfo && lesson.owner && userInfo.userId === lesson.owner.userId;
 
    const menuOptions = [
       {
@@ -72,6 +75,7 @@ const LessonCard = ({ lesson }: LessonCardProps) => {
          }
       },
    });
+
    return (
       <div className="flex max-h-[500px] w-full flex-col justify-between rounded-xl bg-text text-background lg:w-auto">
          <div>
@@ -114,12 +118,14 @@ const LessonCard = ({ lesson }: LessonCardProps) => {
                <h2 className="truncate p-2 text-3xl font-bold">
                   {lesson.title}
                </h2>
-               <DropdownMenu
-                  options={menuOptions}
-                  smallIcon
-                  iconColor="black"
-                  className="!absolute right-0"
-               />
+               {isOwner && (
+                  <DropdownMenu
+                     options={menuOptions}
+                     smallIcon
+                     iconColor="black"
+                     className="!absolute right-0"
+                  />
+               )}
             </div>
          </div>
          <div className="my-1 flex w-full flex-col">
@@ -142,7 +148,7 @@ const LessonCard = ({ lesson }: LessonCardProps) => {
                )}
             </div>
 
-            <div className="m-2 grid gap-2">
+            <div className="m-2 grid gap-1">
                <div className="flex w-full items-center gap-1 truncate">
                   <Image
                      src="/icons/description.png"
@@ -192,10 +198,7 @@ const LessonCard = ({ lesson }: LessonCardProps) => {
 
             <Link
                className="mx-auto flex justify-center py-3"
-               href={LESSON(
-                  lesson.title,
-                  userInfo?.userId ? userInfo.userId.toString() : ""
-               )}
+               href={LESSON(lesson.title, lesson.owner.userId.toString())}
             >
                <Button variant="accent" type="button">
                   Study now

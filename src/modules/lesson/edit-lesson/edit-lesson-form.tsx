@@ -10,8 +10,6 @@ import type { Lesson } from "@/types/lesson";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { getCookie } from "cookies-next";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
@@ -20,8 +18,6 @@ import {
    EditLessonForm,
    editLessonFormSchema,
 } from "./edit-lesson-form-schema";
-import { LESSON, MY_LESSONS } from "@/utils/urls";
-import useUserInfo from "@/hooks/api-hooks/use-user-info";
 
 interface EditLessonFormProps {
    lesson: Lesson;
@@ -31,7 +27,6 @@ const formatTags = (tags: Array<string>) =>
    tags.map(tag => ({ label: tag, value: tag }));
 
 const EditLessonForm = ({ lesson, refetchLesson }: EditLessonFormProps) => {
-   const router = useRouter();
    const [deleteLessonImage, setDeleteLessonImage] = useState(false);
    const {
       register,
@@ -59,8 +54,6 @@ const EditLessonForm = ({ lesson, refetchLesson }: EditLessonFormProps) => {
       string | null | undefined
    >(lesson.imageName);
    const imageInputRef = useRef<HTMLInputElement | null>(null);
-
-   const { data: userInfo } = useUserInfo();
 
    const { mutate } = useMutation({
       mutationFn: async (formData: FormData) => {
@@ -133,42 +126,6 @@ const EditLessonForm = ({ lesson, refetchLesson }: EditLessonFormProps) => {
 
    return (
       <div className="flex flex-col rounded-xl bg-text p-4 pb-0 text-background">
-         <div className="flex w-full flex-col items-center justify-between sm:flex-row">
-            <button
-               className="z-20 flex flex-row items-center gap-1"
-               onClick={() => {
-                  router.push(MY_LESSONS);
-               }}
-            >
-               <Image
-                  width={20}
-                  height={20}
-                  src="/icons/back-icon.svg"
-                  alt={`Go back to list icon`}
-               />
-               <span>Go back to my lessons</span>
-            </button>
-            <button
-               className="z-20 flex flex-row items-center gap-1"
-               onClick={() => {
-                  router.push(
-                     LESSON(
-                        lesson.title,
-                        (userInfo?.userId as number).toString()
-                     )
-                  );
-               }}
-            >
-               <span>Go to learning page</span>
-               <Image
-                  width={20}
-                  height={20}
-                  src="/icons/back-icon.svg"
-                  alt={`Go back to list icon`}
-                  className="rotate-180"
-               />
-            </button>
-         </div>
          <h2 className="text-center text-3xl font-bold">Lesson details</h2>
          <form
             onSubmit={handleSubmit(onSubmit)}

@@ -171,8 +171,6 @@ const MyProfileCard = ({
 
    const [isOpen, setIsOpen] = useState(false);
 
-   console.log(profile);
-
    return (
       <div className="flex flex-col items-center rounded-xl bg-text text-background">
          <ChangeAvatar

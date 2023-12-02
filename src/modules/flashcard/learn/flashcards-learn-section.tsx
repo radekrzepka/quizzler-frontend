@@ -9,7 +9,7 @@ import type { Flashcard } from "@/types/flashcard";
 import { EDIT_LESSON, MY_LESSONS } from "@/utils/urls";
 import ProgressBar from "@/components/ui/progress-bar";
 import Dialog from "@/components/ui/dialog";
-import useUserInfo from "@/hooks/api-hooks/use-user-info";
+import useCurrentUserInfo from "@/hooks/api-hooks/use-current-user-info";
 import Skeleton from "@/components/ui/skeleton";
 
 interface FlashcardsLearnSectionProps {
@@ -21,7 +21,7 @@ const FlashcardsLearnSection = ({ lesson }: FlashcardsLearnSectionProps) => {
    const [flashcardsToLearn, setFlashcardsToLearn] = useState(
       lesson.flashcards
    );
-   const { data: userInfo, isLoading } = useUserInfo();
+   const { data: userInfo, isLoading } = useCurrentUserInfo();
 
    const showCreateFlashcardsButton = userInfo?.userId === lesson.owner.userId;
 
