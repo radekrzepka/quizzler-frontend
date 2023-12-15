@@ -5,7 +5,6 @@ import FlashcardListRow from "./flashcard-list-row";
 
 interface FlashcardListProps {
    flashcards: Array<Flashcard>;
-   refetchLesson: () => void;
    setFlashcardToEdit: Dispatch<SetStateAction<Flashcard | null>>;
    setSelectedMode: Dispatch<SetStateAction<"Add" | "Edit">>;
    flashcardToEdit: Flashcard | null;
@@ -14,7 +13,6 @@ interface FlashcardListProps {
 
 const FlashcardList = ({
    flashcards,
-   refetchLesson,
    setFlashcardToEdit,
    setSelectedMode,
    flashcardToEdit,
@@ -48,7 +46,6 @@ const FlashcardList = ({
                <FlashcardListRow
                   key={flashcard.flashcardId}
                   flashcard={flashcard}
-                  refetchLesson={refetchLesson}
                   setFlashcardToEdit={setFlashcardToEdit}
                   setSelectedMode={setSelectedMode}
                   selectedMode={selectedMode}

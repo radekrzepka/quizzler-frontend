@@ -2,6 +2,7 @@
 
 import Button from "@/components/ui/button";
 import LogoText from "@/components/ui/logo-text";
+import SerachPanel from "@/modules/serach/panel/search-panel";
 import { BASE_PATH, LOGIN, REGISTER } from "@/utils/urls";
 import Link from "next/link";
 import { useState } from "react";
@@ -19,6 +20,7 @@ const HomeNavigation = () => {
                </Link>
             </li>
             <div className="flex w-full flex-col items-center justify-center gap-4 md:flex-row md:justify-end">
+               <SerachPanel className="mx-3 w-full md:my-0 md:w-auto" />
                <li className="w-full md:w-auto">
                   <Link href={LOGIN}>
                      <Button

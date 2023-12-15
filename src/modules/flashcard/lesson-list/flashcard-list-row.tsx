@@ -3,13 +3,13 @@ import type { Flashcard } from "@/types/flashcard";
 import { useMutation } from "@tanstack/react-query";
 import classNames from "classnames";
 import { getCookie } from "cookies-next";
+import { useRouter } from "next/navigation";
 import type { Dispatch, SetStateAction } from "react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
 interface FlashcardListRowProps {
    flashcard: Flashcard;
-   refetchLesson: () => void;
    setFlashcardToEdit: Dispatch<SetStateAction<Flashcard | null>>;
    setSelectedMode: Dispatch<SetStateAction<"Add" | "Edit">>;
    flashcardToEdit: Flashcard | null;
@@ -32,13 +32,13 @@ const getRandomNumber = (min: number, max: number) =>
 
 const FlashcardListRow = ({
    flashcard,
-   refetchLesson,
    setFlashcardToEdit,
    setSelectedMode,
    selectedMode,
    flashcardToEdit,
 }: FlashcardListRowProps) => {
    const [rotationDegree] = useState(getRandomNumber(-10, 10).toString());
+   const router = useRouter();
 
    const { mutate: deleteFlashcardMutation } = useMutation({
       mutationFn: () => {
@@ -60,7 +60,7 @@ const FlashcardListRow = ({
       onSettled: res => {
          if (res?.status === 200) {
             toast.success("Flashcard deleted successfully");
-            refetchLesson();
+            router.refresh();
          }
       },
    });

@@ -31,7 +31,7 @@ const Avatar = ({
          {profile.avatar === null ? (
             <div
                className={classNames(
-                  "grid place-items-center rounded-full bg-background font-bold text-primary",
+                  "grid place-items-center rounded-full bg-background font-bold uppercase text-primary",
                   size === "small" && "h-8 w-8 text-xl",
                   size === "medium" && "h-11 w-11 text-3xl",
                   size === "large" && "h-16 w-16 text-3xl"

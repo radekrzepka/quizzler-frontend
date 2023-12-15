@@ -94,9 +94,9 @@ const AutocompleteSerach = () => {
       }),
       control: provided => ({
          ...provided,
-         cursor: "text", // Style for cursor as text input cursor
+         cursor: "text",
          "&:hover": {
-            cursor: "text", // Style for cursor on hover
+            cursor: "text",
          },
       }),
    };

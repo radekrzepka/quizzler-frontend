@@ -18,15 +18,15 @@ import {
    EditLessonForm,
    editLessonFormSchema,
 } from "./edit-lesson-form-schema";
+import { useRouter } from "next/navigation";
 
 interface EditLessonFormProps {
    lesson: Lesson;
-   refetchLesson: () => void;
 }
 const formatTags = (tags: Array<string>) =>
    tags.map(tag => ({ label: tag, value: tag }));
 
-const EditLessonForm = ({ lesson, refetchLesson }: EditLessonFormProps) => {
+const EditLessonForm = ({ lesson }: EditLessonFormProps) => {
    const [deleteLessonImage, setDeleteLessonImage] = useState(false);
    const {
       register,
@@ -54,6 +54,7 @@ const EditLessonForm = ({ lesson, refetchLesson }: EditLessonFormProps) => {
       string | null | undefined
    >(lesson.imageName);
    const imageInputRef = useRef<HTMLInputElement | null>(null);
+   const router = useRouter();
 
    const { mutate } = useMutation({
       mutationFn: async (formData: FormData) => {
@@ -75,7 +76,7 @@ const EditLessonForm = ({ lesson, refetchLesson }: EditLessonFormProps) => {
       onSettled: status => {
          if (status === 200) {
             toast.success("Lesson updated successfully");
-            refetchLesson();
+            router.refresh();
          } else if (status === 400)
             toast.error("Lesson with this name already exist");
          else toast.error("Error with updating your lesson");
