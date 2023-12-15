@@ -1,7 +1,13 @@
 import AutocompleteSerach from "@/components/search/autocomplete-serach";
-const SerachPanel = () => {
+import classNames from "classnames";
+
+interface SerachPanelProps {
+   className?: string;
+}
+
+const SerachPanel = ({ className }: SerachPanelProps) => {
    return (
-      <div className="mt-2 w-full flex-grow sm:w-3/4 xl:mt-0 xl:w-auto">
+      <div className={classNames("mt-2 w-full flex-grow", className)}>
          <AutocompleteSerach />
       </div>
    );

@@ -14,6 +14,10 @@ module.exports = {
             accent: "#c6de17",
             borderContainer: "#1c1e24",
          },
+         backgroundImage: {
+            "liked-heart": "url('/icons/filled-heart.png')",
+            "unliked-heart": "url('/icons/empty-heart.png')",
+         },
       },
    },
 };

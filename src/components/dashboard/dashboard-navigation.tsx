@@ -66,7 +66,7 @@ const DashboardNavigation = () => {
             >
                <DashboardNavigationLink path={DASHBOARD} label="Dashboard" />
                <DashboardNavigationLink path={MY_LESSONS} label="My lessons" />
-               <SerachPanel />
+               <SerachPanel className="sm:w-3/4 xl:mt-0 xl:w-auto" />
             </ul>
             <div
                className={classNames(

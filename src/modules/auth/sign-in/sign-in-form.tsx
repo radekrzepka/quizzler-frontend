@@ -58,10 +58,12 @@ const SignInForm = () => {
 
       onSettled: res => {
          if (res?.status === 200) {
-            const next = searchParams.get("next");
-            router.push(`${next || DASHBOARD}`);
             setCookie("JWT", `Bearer ${res.data}`);
             toast.success("Logged in");
+
+            const next = searchParams.get("next");
+            if (next) return router.push(next);
+            else return router.push(DASHBOARD);
          } else if (res?.status === 409) {
             toast.error("There is no account set up with the given email");
          } else if (res?.status === 401) {

@@ -8,7 +8,6 @@ const useDebounce = <T,>(value: T, delay = 500): T => {
          setDebouncedValue(value);
       }, delay);
 
-
       return () => {
          clearTimeout(handler);
       };

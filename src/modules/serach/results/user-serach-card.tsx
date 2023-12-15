@@ -1,7 +1,6 @@
 import Avatar from "@/components/ui/avatar";
 import Tag from "@/components/ui/tag";
 import type { UserInfo } from "@/types/user-info";
-import BoldMatch from "@/utils/bold-match";
 import { PROFILE } from "@/utils/urls";
 import { formatDistanceToNow } from "date-fns";
 import { utcToZonedTime } from "date-fns-tz";
@@ -9,10 +8,9 @@ import Link from "next/link";
 
 interface UserSerachCardProps {
    user: UserInfo;
-   query: string;
 }
 
-const UserSerachCard = ({ user, query }: UserSerachCardProps) => {
+const UserSerachCard = ({ user }: UserSerachCardProps) => {
    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
    const lastSeenDate = new Date(user.lastSeen.toString() + "Z");
    const localDate = utcToZonedTime(new Date(lastSeenDate), timeZone);
@@ -26,15 +24,10 @@ const UserSerachCard = ({ user, query }: UserSerachCardProps) => {
             <div className="mb-2 flex items-center gap-2">
                <Avatar profile={user} />
                <div>
-                  <h2 className="text-2xl leading-none">
-                     <BoldMatch text={user.username} query={query} />
-                  </h2>
+                  <h2 className="text-2xl leading-none">{user.username}</h2>
                   {user.firstName && user.lastName && (
                      <p className="text-base leading-none">
-                        <BoldMatch
-                           text={`${user.firstName} ${user.lastName}`}
-                           query={query}
-                        />
+                        {`${user.firstName} ${user.lastName}`}
                      </p>
                   )}
                   <p className="text-sm leading-none text-gray-600">

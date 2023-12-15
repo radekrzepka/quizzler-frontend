@@ -20,7 +20,6 @@ import { useRouter } from "next/navigation";
 
 interface FlashcardFormProps {
    lessonId: number;
-   refetchLesson: () => void;
    selectedMode: "Add" | "Edit";
    setSelectedMode: Dispatch<SetStateAction<"Add" | "Edit">>;
    flashcardToEdit: Flashcard | null;
@@ -29,7 +28,6 @@ interface FlashcardFormProps {
 
 const FlashcardForm = ({
    lessonId,
-   refetchLesson,
    selectedMode,
    setSelectedMode,
    flashcardToEdit,
@@ -69,7 +67,7 @@ const FlashcardForm = ({
             questionImageName,
             answerImageName,
          } = flashcardToEdit;
-         
+
          const fieldsToUpdate = {
             question: questionText,
             answer: answerText,
@@ -119,7 +117,6 @@ const FlashcardForm = ({
             selectedMode === "Add"
                ? toast.success("Flashcard added successfully")
                : toast.success("Flashcard updated successfully");
-            refetchLesson();
             router.refresh();
             reset();
          } else {

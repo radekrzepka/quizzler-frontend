@@ -1,23 +1,61 @@
+"use client";
+
 import Avatar from "@/components/ui/avatar";
 import Tag from "@/components/ui/tag";
 import type { Lesson } from "@/types/lesson";
 import { LESSON } from "@/utils/urls";
+import { useMutation } from "@tanstack/react-query";
+import { getCookie } from "cookies-next";
 import Image from "next/image";
-import Link from "next/link";
-import BoldMatch from "@/utils/bold-match";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import toast from "react-hot-toast";
 
 interface LessonSerachCardProps {
    lesson: Lesson;
-   query: string;
 }
 
-const LessonSerachCard = ({ lesson, query }: LessonSerachCardProps) => {
+const TEST_INIT_LIKED_STATE = true;
+
+const LessonSerachCard = ({ lesson }: LessonSerachCardProps) => {
+   const [isLiked, setIsLiked] = useState(TEST_INIT_LIKED_STATE);
+   const router = useRouter();
+
+   const mutation = useMutation({
+      mutationFn: async () => {
+         const JWT = getCookie("JWT") as string;
+
+         const response = await fetch(
+            `${process.env.NEXT_PUBLIC_API_URL}/lesson/toggleLike?LessonId=${lesson.lessonId}`,
+            {
+               headers: {
+                  Authorization: JWT,
+                  Accept: "text/json",
+               },
+               method: "POST",
+            }
+         );
+
+         if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+         }
+
+         return response;
+      },
+      onError: () => {
+         toast.error(`Error during ${isLiked ? "liking" : "disliking"} lesson`);
+         setIsLiked(prevLiked => !prevLiked);
+      },
+   });
+
    return (
-      <Link
-         href={LESSON(lesson.title, lesson.owner.userId.toString())}
-         className="flex flex-col justify-between rounded-xl bg-text p-[6px] text-background transition duration-300 ease-in-out hover:bg-opacity-90 hover:shadow-lg sm:grid sm:grid-cols-[4fr_1fr]"
-      >
-         <div className="mb-2 flex items-center gap-2">
+      <div className="flex cursor-pointer flex-col justify-between rounded-xl bg-text px-[6px] py-3 text-background transition duration-300 ease-in-out hover:bg-opacity-90 hover:shadow-lg sm:grid sm:grid-cols-[4fr_1fr]">
+         <div
+            onClick={() =>
+               router.push(LESSON(lesson.title, lesson.owner.userId.toString()))
+            }
+            className="mb-2 flex items-center gap-2"
+         >
             <Image
                src={
                   lesson.imageName
@@ -29,14 +67,24 @@ const LessonSerachCard = ({ lesson, query }: LessonSerachCardProps) => {
                height={128}
             />
             <div className="w-full">
-               <h2 className="text-left text-2xl leading-none text-background">
-                  <BoldMatch text={lesson.title} query={query} />
-               </h2>
+               <div className="flex items-center gap-1">
+                  <h2 className="text-left text-2xl leading-none text-background">
+                     {lesson.title}
+                  </h2>
+                  <button
+                     onClick={async event => {
+                        event.stopPropagation();
+                        setIsLiked(prevLiked => !prevLiked);
+                        await mutation.mutateAsync();
+                     }}
+                     className={`relative h-6 w-6 bg-center bg-no-repeat transition-all duration-300 ease-in-out ${
+                        isLiked ? "bg-liked-heart" : "bg-unliked-heart"
+                     }`}
+                  ></button>
+               </div>
+
                <p className="break-all text-left text-sm leading-none text-background">
-                  <BoldMatch
-                     text={lesson.description || "No description provided"}
-                     query={query}
-                  />
+                  {lesson.description || "No description provided"}
                </p>
                <div className="mt-1 flex flex-wrap gap-2">
                   <Tag className="font-bold">
@@ -44,11 +92,7 @@ const LessonSerachCard = ({ lesson, query }: LessonSerachCardProps) => {
                      {lesson.flashcardCount !== 1 && "s"}
                   </Tag>
                   {lesson.tags &&
-                     lesson.tags.map(tag => (
-                        <Tag key={tag}>
-                           <BoldMatch text={tag} query={query} />
-                        </Tag>
-                     ))}
+                     lesson.tags.map(tag => <Tag key={tag}>{tag}</Tag>)}
                </div>
             </div>
          </div>
@@ -56,12 +100,10 @@ const LessonSerachCard = ({ lesson, query }: LessonSerachCardProps) => {
          <div className="flex flex-row items-center justify-between sm:flex-col sm:items-end">
             <div className="flex items-center justify-end gap-1">
                <Avatar profile={lesson.owner} size="small" />
-               <p>
-                  <BoldMatch query={query} text={lesson.owner.username} />
-               </p>
+               <p>{lesson.owner.username}</p>
             </div>
          </div>
-      </Link>
+      </div>
    );
 };
 

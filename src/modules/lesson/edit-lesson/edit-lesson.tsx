@@ -16,30 +16,17 @@ interface EditLessonProps {
    userId: string;
 }
 
-const EditLesson = ({ lesson: lessonData, userId }: EditLessonProps) => {
+const EditLesson = ({ lesson, userId }: EditLessonProps) => {
    const [flashcardToEdit, setFlashcardToEdit] = useState<Flashcard | null>(
       null
    );
    const [selectedMode, setSelectedMode] = useState<"Add" | "Edit">("Add");
-   const JWT = getCookie("JWT");
-   const {
-      data: lesson,
-      refetch: refetchLesson,
-      isLoading,
-      isError,
-   } = useQuery({
-      queryKey: ["lesson", userId, lessonData.title],
-      queryFn: () => getLesson(userId, lessonData.title, JWT as string),
-   });
-
-   if (isLoading || isError || !lesson) return <EditLessonSkeleton />;
 
    return (
       <div className="grid gap-4 xl:grid-cols-2">
-         <EditLessonForm lesson={lesson} refetchLesson={refetchLesson} />
+         <EditLessonForm lesson={lesson} />
          <FlashcardForm
             lessonId={lesson.lessonId}
-            refetchLesson={refetchLesson}
             selectedMode={selectedMode}
             setSelectedMode={setSelectedMode}
             flashcardToEdit={flashcardToEdit}
@@ -51,7 +38,6 @@ const EditLesson = ({ lesson: lessonData, userId }: EditLessonProps) => {
             setFlashcardToEdit={setFlashcardToEdit}
             setSelectedMode={setSelectedMode}
             flashcards={lesson.flashcards}
-            refetchLesson={refetchLesson}
             flashcardToEdit={flashcardToEdit}
          />
       </div>
