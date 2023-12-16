@@ -3,10 +3,11 @@
 import Avatar from "@/components/ui/avatar";
 import Tag from "@/components/ui/tag";
 import type { Lesson } from "@/types/lesson";
-import { LESSON } from "@/utils/urls";
+import { LESSON, PROFILE } from "@/utils/urls";
 import { useMutation } from "@tanstack/react-query";
 import { getCookie } from "cookies-next";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -68,6 +69,7 @@ const LessonSerachCard = ({ lesson }: LessonSerachCardProps) => {
                alt={`Icon for lesson ${lesson.title}`}
                width={64}
                height={128}
+               className="h-12 w-12"
             />
             <div className="w-full">
                <div className="flex items-center gap-1">
@@ -94,10 +96,13 @@ const LessonSerachCard = ({ lesson }: LessonSerachCardProps) => {
          </div>
 
          <div className="mt-2 flex flex-row items-center justify-between sm:mt-0 sm:flex-col-reverse sm:items-end">
-            <div className="flex items-center justify-end gap-1">
+            <Link
+               href={PROFILE(lesson.owner.username)}
+               className="flex items-center justify-end gap-1"
+            >
                <Avatar profile={lesson.owner} size="small" />
-               <p>{lesson.owner.username}</p>
-            </div>
+               <p className="underline">{lesson.owner.username}</p>
+            </Link>
             <button
                onClick={async event => {
                   event.stopPropagation();
