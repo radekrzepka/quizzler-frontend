@@ -12,4 +12,6 @@ export interface Lesson {
    flashcards: Array<Flashcard>;
    tags?: Array<string>;
    flashcardCount: number;
+   likesCount: number;
+   isLiked: boolean;
 }

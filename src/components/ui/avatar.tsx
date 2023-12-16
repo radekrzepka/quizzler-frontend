@@ -45,7 +45,7 @@ const Avatar = ({
                height={sizes[size]}
                src={`/images/avatars/avatar_${profile.avatar}.png`}
                alt={`Avatar of ${profile.username}`}
-               className="my-2"
+               className=""
             />
          )}
          {editable && (

@@ -14,7 +14,7 @@ const EditLessonPage = async ({
       const user = await getCurrentUser(JWT);
       const lesson = await getLesson(userId, lessonName, JWT);
 
-      const isUserOwner = lesson.owner.userId === user.userId;
+      const isUserOwner = lesson.owner.userId === user?.userId;
 
       if (!lesson.isPublic || !isUserOwner) notFound();
 
