@@ -3,15 +3,7 @@
 import type { UserInfo } from "@/types/user-info";
 import LineChart from "@/components/chart/line-chart";
 import ChartDateFilters from "@/components/chart/chart-date-filters";
-import {
-   subDays,
-   format,
-   parseISO,
-   subMonths,
-   isEqual,
-   addDays,
-   compareAsc,
-} from "date-fns";
+import { subDays, format, parseISO, addDays, compareAsc } from "date-fns";
 import type { ChartRecord } from "@/types/chart-data";
 import { useMemo, useState } from "react";
 import type { LogData } from "@/types/log-data";
@@ -27,20 +19,19 @@ interface MyProfileCardProps {
 
 const DAY_VIEW_NUMBER = 28;
 const MONTH_VIEW_NUMBER = 90;
+const YEAR_VIEW_NUMBER = 365;
 
 const generateEmptyDates = () => {
-   const today = new Date();
-   const dates: Array<ChartRecord> = [];
-   const startDate = new Date(subMonths(today, 11));
-   let procDate = startDate;
-   do {
-      procDate = addDays(procDate, 1);
-      dates.push({
-         name: format(procDate, "dd MMMM yyyy"),
+   const result: Array<ChartRecord> = [];
+   let date = subDays(new Date(), YEAR_VIEW_NUMBER);
+   for (let i = 0; i < YEAR_VIEW_NUMBER; i++) {
+      result.push({
+         name: format(date, "dd MMMM yyyy"),
          value: 0,
       });
-   } while (!isEqual(procDate, today));
-   return dates;
+      date = addDays(date, 1);
+   }
+   return result;
 };
 
 const datesChartFormat = (
@@ -122,8 +113,9 @@ const MyProfileCard = ({
    createdDates,
    learnedDates,
 }: MyProfileCardProps) => {
-   const emptyDatesCreated = generateEmptyDates();
-   const emptyDatesLearned = generateEmptyDates();
+   const emptyDatesCreated = useMemo(() => generateEmptyDates(), []);
+   const emptyDatesLearned = useMemo(() => generateEmptyDates(), []);
+
    const createdFlashcards = useMemo(() => {
       return datesChartFormat(createdDates, emptyDatesCreated);
    }, [emptyDatesCreated, createdDates]);
