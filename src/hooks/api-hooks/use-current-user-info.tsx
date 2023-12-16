@@ -8,7 +8,6 @@ const useCurrentUserInfo = () => {
    return useQuery({
       queryKey: ["user"],
       queryFn: () => getCurrentUser(JWT),
-      retry: 0,
    });
 };
 

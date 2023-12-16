@@ -18,7 +18,7 @@ const LessonPage = async ({
       }
 
       const user = await getCurrentUser(JWT);
-      const isUserOwner = lesson.owner.userId === user.userId;
+      const isUserOwner = lesson.owner.userId === user?.userId;
 
       if (!isUserOwner) notFound();
 
