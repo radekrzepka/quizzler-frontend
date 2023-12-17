@@ -1,6 +1,6 @@
 import type { Lesson } from "@/types/lesson";
 import type { UserInfo } from "@/types/user-info";
-import LessonsList from "../my-lessons/lessons-list";
+import MyLessonList from "../my-lessons/my-lesson-list";
 import ProfileCard from "./profile-card";
 
 interface ProfilePageProps {
@@ -12,7 +12,7 @@ const ProfilePage = ({ user, lessons }: ProfilePageProps) => {
    return (
       <div className="ml-0 gap-4 lg:grid lg:grid-cols-[1fr_3fr]">
          <ProfileCard user={user} />
-         <LessonsList lessons={lessons} />
+         <MyLessonList lessons={lessons} />
       </div>
    );
 };

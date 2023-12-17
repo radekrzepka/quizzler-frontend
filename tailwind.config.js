@@ -5,6 +5,8 @@ module.exports = {
       extend: {
          boxShadow: {
             containerShadow: "0px -1px 6px -1px #030303",
+            lessonCardShadow: "0px 3px 3px 1px #A3A3A3",
+            lessonCardShadowHover: "0px 8px 20px 1px #A3A3A3",
          },
          colors: {
             text: "#dfddee",
