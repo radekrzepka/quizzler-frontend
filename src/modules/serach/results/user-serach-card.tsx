@@ -26,7 +26,7 @@ const UserSerachCard = ({ user }: UserSerachCardProps) => {
                <div>
                   <h2 className="text-2xl leading-none">{user.username}</h2>
                   {user.firstName && user.lastName && (
-                     <p className="text-base leading-none">
+                     <p className="leading-none">
                         {`${user.firstName} ${user.lastName}`}
                      </p>
                   )}

@@ -1,6 +1,7 @@
 "use client";
 
 import Avatar from "@/components/ui/avatar";
+import LikeLessonButton from "@/components/ui/like-lesson-button";
 import Tag from "@/components/ui/tag";
 import type { Lesson } from "@/types/lesson";
 import { LESSON, PROFILE } from "@/utils/urls";
@@ -17,40 +18,7 @@ interface LessonSerachCardProps {
 }
 
 const LessonSerachCard = ({ lesson }: LessonSerachCardProps) => {
-   const [isLiked, setIsLiked] = useState(lesson.isLiked);
    const router = useRouter();
-
-   const mutation = useMutation({
-      mutationFn: async () => {
-         const JWT = getCookie("JWT") as string;
-
-         const response = await fetch(
-            `${process.env.NEXT_PUBLIC_API_URL}/lesson/like?LessonId=${lesson.lessonId}&Like=${isLiked}`,
-            {
-               headers: {
-                  Authorization: JWT,
-                  Accept: "text/json",
-               },
-               method: "POST",
-            }
-         );
-
-         if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-         }
-
-         return response;
-      },
-      onError: () => {
-         toast.error(`Error during ${isLiked ? "liking" : "disliking"} lesson`);
-         setIsLiked(prevLiked => !prevLiked);
-      },
-   });
-
-   const likesNumber =
-      lesson.likesCount +
-      (isLiked && !lesson.isLiked ? 1 : 0) -
-      (!isLiked && lesson.isLiked ? 1 : 0);
 
    return (
       <div className="flex cursor-pointer flex-col justify-between rounded-xl bg-text px-[6px] py-3 text-background transition duration-300 ease-in-out hover:bg-opacity-90 hover:shadow-lg sm:grid sm:grid-cols-[4fr_1fr]">
@@ -77,15 +45,11 @@ const LessonSerachCard = ({ lesson }: LessonSerachCardProps) => {
                      {lesson.title}
                   </h2>
                </div>
-
-               <p className="break-all text-left text-sm leading-none text-background">
+               <p className="break-all text-left  leading-none text-background">
                   {lesson.description || "No description provided"}
                </p>
-               <p className="text-sm leading-none text-background">
-                  Likes: {likesNumber}
-               </p>
                <div className="mt-1 flex flex-wrap gap-2">
-                  <Tag className="font-bold">
+                  <Tag className="font-bold" type="dark">
                      {lesson.flashcardCount} flashcard
                      {lesson.flashcardCount !== 1 && "s"}
                   </Tag>
@@ -103,16 +67,7 @@ const LessonSerachCard = ({ lesson }: LessonSerachCardProps) => {
                <Avatar profile={lesson.owner} size="small" />
                <p className="underline">{lesson.owner.username}</p>
             </Link>
-            <button
-               onClick={async event => {
-                  event.stopPropagation();
-                  setIsLiked(prevLiked => !prevLiked);
-                  await mutation.mutateAsync();
-               }}
-               className={`relative h-6 w-6 bg-center bg-no-repeat transition-all duration-300 ease-in-out ${
-                  isLiked ? "bg-liked-heart" : "bg-unliked-heart"
-               }`}
-            ></button>
+            <LikeLessonButton lesson={lesson} />
          </div>
       </div>
    );

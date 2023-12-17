@@ -3,6 +3,7 @@
 import Button from "@/components/ui/button";
 import Dialog from "@/components/ui/dialog";
 import DropdownMenu from "@/components/ui/dropdown-menu";
+import LikeLessonButton from "@/components/ui/like-lesson-button";
 import Tag from "@/components/ui/tag";
 import useCurrentUserInfo from "@/hooks/api-hooks/use-current-user-info";
 import type { Lesson } from "@/types/lesson";
@@ -148,7 +149,8 @@ const LessonCard = ({ lesson }: LessonCardProps) => {
                )}
             </div>
 
-            <div className="m-2 grid gap-1">
+            <div className="mx-2 grid gap-[2px]">
+               <LikeLessonButton lesson={lesson} className="ml-1" />
                <div className="flex w-full items-center gap-1 truncate">
                   <Image
                      src="/icons/description.png"
@@ -195,7 +197,6 @@ const LessonCard = ({ lesson }: LessonCardProps) => {
                   <p className="text-sm">{lesson.flashcardCount} flashcards</p>
                </div>
             </div>
-
             <Link
                className="mx-auto flex justify-center py-3"
                href={LESSON(lesson.title, lesson.owner.userId.toString())}

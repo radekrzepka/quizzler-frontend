@@ -19,6 +19,7 @@ import {
    editLessonFormSchema,
 } from "./edit-lesson-form-schema";
 import { useRouter } from "next/navigation";
+import { EDIT_LESSON } from "@/utils/urls";
 
 interface EditLessonFormProps {
    lesson: Lesson;
@@ -76,6 +77,9 @@ const EditLessonForm = ({ lesson }: EditLessonFormProps) => {
       onSettled: status => {
          if (status === 200) {
             toast.success("Lesson updated successfully");
+            router.push(
+               EDIT_LESSON(watch("title"), lesson.owner.userId.toString())
+            );
             router.refresh();
          } else if (status === 400)
             toast.error("Lesson with this name already exist");

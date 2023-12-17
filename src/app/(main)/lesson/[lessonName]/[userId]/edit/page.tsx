@@ -16,9 +16,9 @@ const EditLessonPage = async ({
 
       const isUserOwner = lesson.owner.userId === user?.userId;
 
-      if (!lesson.isPublic || !isUserOwner) notFound();
+      if ((!lesson.isPublic && !isUserOwner) || !isUserOwner) notFound();
 
-      return <EditLesson lesson={lesson} userId={user.userId.toString()} />;
+      return <EditLesson lesson={lesson} />;
    } catch {
       return notFound();
    }
