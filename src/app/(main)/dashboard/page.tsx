@@ -28,61 +28,60 @@ const Dashboard = async () => {
    const activity = await getFromAPI<Array<Date>>(`/user/lastWeekActivity`);
 
    return (
-      <div className="grid text-background md:min-h-[85vh] md:grid-cols-[1fr_1fr_1fr] md:gap-10 xl:grid-cols-[1fr_3fr_1fr]">
-         <div className="mt-5 rounded-xl md:h-full ">
-            <div className="md:hidden">
-               <h2 className="w-full pt-2 text-center text-4xl font-extrabold text-text">
-                  Weekly activity
-               </h2>
-               <DashboardWeekChart activity={activity}></DashboardWeekChart>
-            </div>
-            <div className="flex flex-wrap justify-center pb-4 md:h-full">
-               <div className="mt-4 flex w-full flex-wrap justify-center rounded-xl bg-text pb-3 md:mt-0 md:h-1/4 md:pb-24">
-                  <h2 className="w-full pt-2 text-center text-4xl font-extrabold">
-                     Continue learning
+      <div className="mt-5 grid grid-cols-1 gap-10 text-background lg:grid-cols-3 lg:grid-rows-[1r_1fr_1fr] xl:grid-cols-[1fr_3fr_1fr]">
+         <div className="grid w-full place-items-center rounded-xl bg-text pb-3 align-middle lg:row-span-2">
+            <h2 className="w-full pt-2 text-center text-4xl font-extrabold">
+               Continue Learning
+            </h2>
+            {Object.keys(lastLesson).length === 0 ? (
+               <div className="grid w-full place-items-center pb-6 pt-2">
+                  <h2 className="pt-4 text-2xl font-bold">
+                     Ready to Learn Something New?
                   </h2>
-                  {Object.keys(lastLesson).length === 0 ? (
-                     <div className="flex h-full w-full items-center justify-center pb-6 pt-2">
-                        <h2 className="text-2xl font-bold">no lesson yet :(</h2>
-                     </div>
-                  ) : (
-                     <LessonCardDashboard lesson={lastLesson} />
-                  )}
+                  <p className="text-xl">
+                     Browse our lessons to find topics that interest you.
+                  </p>
                </div>
-               <div className="mt-2 flex w-full flex-wrap justify-center rounded-xl bg-text pb-2 md:mt-0">
-                  <h2 className="mt-3 w-full pt-2 text-center text-4xl font-extrabold md:mt-0">
-                     Trending
-                  </h2>
-                  <div className="max-h-[50vh]">
-                     <LessonList lessons={trendingLessons} />
-                  </div>
-               </div>
+            ) : (
+               <LessonCardDashboard lesson={lastLesson} />
+            )}
+         </div>
+
+         <div className="grid w-full rounded-xl bg-text pb-2 lg:col-start-1 lg:row-start-3 lg:min-h-[60vh]">
+            <h2 className="w-full pt-2 text-center text-4xl font-extrabold lg:h-full">
+               Trending
+            </h2>
+            <div className="max-h-[30vh] lg:max-h-[50vh]">
+               <LessonList lessons={trendingLessons} />
             </div>
          </div>
-         <main className="mt-5 hidden rounded-xl bg-text md:block"></main>
-         <div className="h-full">
-            <div className="hidden md:block">
-               <h2 className="w-full text-center text-4xl font-extrabold text-text">
-                  Weekly activity
-               </h2>
-               <DashboardWeekChart activity={activity}></DashboardWeekChart>
-            </div>
-            <div className="flex flex-wrap rounded-xl">
-               <h2 className="mt-8 w-full text-center text-4xl font-extrabold text-accent md:mt-2">
-                  Favorites
-               </h2>
-               <div className="h-full w-full rounded-xl bg-text ">
-                  {Object.keys(likedLessons).length === 0 ? (
-                     <div className="flex h-full w-full  ">
-                        <p className="w-full pt-6 text-center text-2xl font-bold">
-                           like something!
-                        </p>
-                     </div>
-                  ) : (
-                     <LessonList lessons={likedLessons} />
-                  )}
+         <main className="hidden rounded-xl bg-text lg:row-span-3 lg:block"></main>
+         <div className="row-start-1 lg:col-start-3 lg:h-[10vh]">
+            <h2 className="w-full text-center text-4xl font-extrabold text-text">
+               Weekly activity
+            </h2>
+            <DashboardWeekChart activity={activity}></DashboardWeekChart>
+         </div>
+         <div className="grid rounded-xl bg-text lg:col-start-3 lg:row-span-2 lg:row-start-2">
+            <h2 className="w-full text-center text-4xl font-extrabold text-background">
+               Favorites
+            </h2>
+            {likedLessons.length === 0 ? (
+               <div className="text-center lg:min-h-[70vh]">
+                  <p className="text-2xl font-bold">
+                     You haven&apos;t added any lessons to your favorites yet.
+                  </p>
+                  <div className="w-full text-xl">
+                     Explore lessons and click the{" "}
+                     <div className="-mb-2 inline-block h-6 w-6 bg-liked-heart"></div>{" "}
+                     icon to add them here.
+                  </div>
                </div>
-            </div>
+            ) : (
+               <div className="max-h-[30vh] lg:min-h-[70vh]">
+                  <LessonList lessons={likedLessons} />
+               </div>
+            )}
          </div>
       </div>
    );

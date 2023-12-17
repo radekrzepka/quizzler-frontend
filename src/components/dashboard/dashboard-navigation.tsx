@@ -130,6 +130,7 @@ const DashboardNavigation = () => {
                         deleteCookie("JWT");
                         setSignOutClicked(true);
                         toast.success("Logged out");
+                        router.refresh();
                      }}
                   >
                      Sign out
