@@ -28,7 +28,7 @@ const LessonList = ({ lessons }: LessonListProps) => {
    }, []);
    return (
       <div
-         className={`flex h-96 justify-center rounded-xl bg-text py-2 pb-4 md:h-full ${
+         className={`flex h-full justify-center rounded-xl bg-text py-2 pb-4 ${
             hasOverflow ? "pr-2" : ""
          }`}
       >

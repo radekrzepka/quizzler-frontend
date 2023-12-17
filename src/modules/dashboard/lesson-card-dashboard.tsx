@@ -48,12 +48,12 @@ const LessonCardDashboard = ({ lesson }: LessonCardDashboardProps) => {
 
    return (
       <div
-         className="shadow-lessonCardShadow hover:shadow-lessonCardShadowHover relative my-2 flex w-11/12 cursor-pointer rounded-xl bg-text text-background transition duration-300 ease-in-out md:max-h-32 lg:max-h-40"
+         className="relative my-2 flex w-11/12 cursor-pointer rounded-xl bg-text text-background shadow-lessonCardShadow transition duration-300 ease-in-out hover:shadow-lessonCardShadowHover md:max-h-32 lg:max-h-36 xl:max-h-28 2xl:max-h-40"
          onClick={() =>
             router.push(LESSON(lesson.title, lesson.owner.userId.toString()))
          }
       >
-         <div className="flex h-24 max-w-[60%] md:h-32 lg:h-40">
+         <div className="flex h-24 max-w-[60%] md:h-32 lg:h-36 xl:max-h-24 2xl:max-h-40">
             <Image
                src={
                   lesson.imageName
