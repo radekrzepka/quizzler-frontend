@@ -1,8 +1,8 @@
 import { cookies } from "next/headers";
 
-const getJWT = () => {
+const getServerJWT = () => {
    const cookieStore = cookies();
    return cookieStore.get("JWT")?.value;
-}
+};
 
-export default getJWT;
+export default getServerJWT;

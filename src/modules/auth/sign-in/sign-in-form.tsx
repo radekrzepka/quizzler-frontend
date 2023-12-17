@@ -3,7 +3,7 @@
 import Button from "@/components/ui/button";
 import LabelInput from "@/components/ui/label-input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { setCookie } from "cookies-next";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -12,12 +12,26 @@ import { useForm, type SubmitHandler } from "react-hook-form";
 import toast from "react-hot-toast";
 import { signInFormSchema, type SignInForm } from "./sign-in-form-schema";
 import { BASE_PATH, DASHBOARD, REGISTER } from "@/utils/urls";
+import classNames from "classnames";
 
 interface ApiResponse {
    status: number;
    data: string;
 }
-const SignInForm = () => {
+
+interface SignInFormProps {
+   className?: string;
+   nextPath?: string;
+   onLogIn?: () => void;
+   header?: string;
+}
+
+const SignInForm = ({
+   className,
+   nextPath,
+   onLogIn,
+   header = "Log in",
+}: SignInFormProps) => {
    const {
       register,
       handleSubmit,
@@ -29,6 +43,7 @@ const SignInForm = () => {
    const router = useRouter();
    const [buttonLoading, setButtonLoading] = useState(false);
    const searchParams = useSearchParams();
+   const queryClient = useQueryClient();
 
    const { mutate: loginUserMutation } = useMutation({
       mutationFn: async (data: SignInForm) => {
@@ -56,13 +71,19 @@ const SignInForm = () => {
          return apiResponse;
       },
 
-      onSettled: res => {
+      onSettled: async res => {
          if (res?.status === 200) {
             setCookie("JWT", `Bearer ${res.data}`);
             toast.success("Logged in");
+            await queryClient.invalidateQueries({
+               queryKey: ["currentUser"],
+            });
+            onLogIn?.();
 
-            const next = searchParams.get("next");
-            if (next) return router.push(next);
+            const nextUrlPath = searchParams.get("next");
+            console.log(nextPath, nextUrlPath);
+            if (nextPath) return router.push(nextPath);
+            if (nextUrlPath) return router.push(nextUrlPath);
             else return router.push(DASHBOARD);
          } else if (res?.status === 409) {
             toast.error("There is no account set up with the given email");
@@ -85,9 +106,9 @@ const SignInForm = () => {
    return (
       <form
          onSubmit={handleSubmit(onSubmit)}
-         className="w-3/4 rounded-md bg-text p-6 text-background xl:w-1/3"
+         className={classNames(className, "text-background")}
       >
-         <h2 className="text-center text-4xl font-bold">Log in</h2>
+         <h2 className="text-center text-4xl font-bold">{header}</h2>
          <h3 className="text-center font-bold">
             Don&apos;t have an account ?{" "}
             <Link className="underline" href={REGISTER}>

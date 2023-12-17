@@ -116,7 +116,7 @@ const LessonCard = ({ lesson }: LessonCardProps) => {
                )}
             </div>
             <div className="relative flex w-full items-center justify-center">
-               <h2 className="truncate p-2 text-3xl font-bold">
+               <h2 className="truncate pt-1 text-3xl font-bold">
                   {lesson.title}
                </h2>
                {isOwner && (

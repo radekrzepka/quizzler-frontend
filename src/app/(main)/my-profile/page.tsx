@@ -2,7 +2,7 @@ import type { UserInfo } from "@/types/user-info";
 import MyProfileCard from "@/modules/my-profile/my-profile-card";
 import ProfileChangeForms from "@/modules/my-profile/profile-change-forms";
 import type { LogData } from "@/types/log-data";
-import getJWT from "@/utils/get-server-jwt";
+import getServerJWT from "@/utils/get-server-jwt";
 
 const getFromAPI = async <T,>(
    endpoint: string,
@@ -21,13 +21,13 @@ const getFromAPI = async <T,>(
 };
 
 const getProfileData = async (): Promise<UserInfo> => {
-   const JWT = getJWT();
+   const JWT = getServerJWT();
    const res = await getFromAPI<UserInfo>(`/user/profile`, JWT);
    return res;
 };
 
 const getStatsData = async (): Promise<[Array<Date>, Array<LogData>]> => {
-   const JWT = getJWT();
+   const JWT = getServerJWT();
    const [createdRes, learnedRes] = await Promise.all([
       getFromAPI<Array<Date>>("/user/flashcardsCreated", JWT),
       getFromAPI<Array<LogData>>("/user/logs", JWT),

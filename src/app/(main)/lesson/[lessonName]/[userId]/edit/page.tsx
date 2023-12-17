@@ -1,8 +1,8 @@
 import EditLesson from "@/modules/lesson/edit-lesson/edit-lesson";
 import { getLesson } from "@/utils/api-utils/get-lesson";
-import { getCurrentUser } from "@/utils/api-utils/get-current-user";
+import { getServerCurrentUser } from "@/utils/api-utils/get-server-current-user";
 import { notFound } from "next/navigation";
-import getJWT from "@/utils/get-server-jwt";
+import getServerJWT from "@/utils/get-server-jwt";
 
 const EditLessonPage = async ({
    params: { lessonName, userId },
@@ -10,8 +10,8 @@ const EditLessonPage = async ({
    params: { lessonName: string; userId: string };
 }) => {
    try {
-      const JWT = getJWT();
-      const user = await getCurrentUser(JWT);
+      const JWT = getServerJWT();
+      const user = await getServerCurrentUser();
       const lesson = await getLesson(userId, lessonName, JWT);
 
       const isUserOwner = lesson.owner.userId === user?.userId;

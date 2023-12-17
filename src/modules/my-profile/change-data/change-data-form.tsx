@@ -83,7 +83,7 @@ const ChangeDataForm = ({ profile }: ChangeDataFormProps) => {
          if (res?.status === 200) {
             router.refresh();
             toast.success("Data has been changed");
-            await queryClient.invalidateQueries({ queryKey: ["profileData"] });
+            await queryClient.invalidateQueries({ queryKey: ["currentUser"] });
             setDisabled(true);
          }
          setButtonLoading(false);

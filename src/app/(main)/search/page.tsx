@@ -1,7 +1,7 @@
 import SerachResults from "@/modules/serach/results/search-results";
 import type { Lesson } from "@/types/lesson";
 import type { UserInfo } from "@/types/user-info";
-import getJWT from "@/utils/get-server-jwt";
+import getServerJWT from "@/utils/get-server-jwt";
 import { notFound } from "next/navigation";
 
 export interface ApiResponse {
@@ -10,7 +10,7 @@ export interface ApiResponse {
 }
 
 const getSearchedResults = async (query: string) => {
-   const JWT = getJWT();
+   const JWT = getServerJWT();
 
    const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/search/${query}`,

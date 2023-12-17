@@ -22,9 +22,7 @@ export async function middleware(request: NextRequest) {
    const requestPath = request.nextUrl.pathname;
 
    if (!userLogIn && RESTRICTED_PATHS.includes(requestPath)) {
-      return NextResponse.redirect(
-         `${process.env.URL}${LOGIN}?next=${requestPath}`
-      );
+      return NextResponse.redirect(`${process.env.URL}${LOGIN}}`);
    }
 
    if (userLogIn && (requestPath === "/" || requestPath.includes("/auth"))) {

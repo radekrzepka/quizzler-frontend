@@ -48,7 +48,7 @@ const ChangeAvatar = ({ profile, isOpen, setIsOpen }: ChangeAvatarProps) => {
          if (status === 200) {
             router.refresh();
             toast.success("Avatar has been changed");
-            await queryClient.invalidateQueries({ queryKey: ["profileData"] });
+            await queryClient.invalidateQueries({ queryKey: ["currentUser"] });
          } else {
             toast.error("Error when changing avatar");
          }

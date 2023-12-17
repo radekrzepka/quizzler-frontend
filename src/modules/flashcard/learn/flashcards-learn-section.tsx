@@ -48,6 +48,7 @@ const FlashcardsLearnSection = ({ lesson }: FlashcardsLearnSectionProps) => {
    };
 
    const remainingFlashcards = flashcardsToLearn.length;
+   const isUserOwner = userInfo?.userId === lesson.owner.userId;
 
    useEffect(() => {
       setShowDialog(remainingFlashcards === 0);
@@ -58,19 +59,24 @@ const FlashcardsLearnSection = ({ lesson }: FlashcardsLearnSectionProps) => {
          <Dialog setIsOpen={setShowDialog} isOpen={showDialog}>
             {lesson.flashcards.length === 0 ? (
                <div className="flex h-fit w-full flex-col items-center gap-2 rounded pt-0 text-background">
-                  <h2 className="text-3xl font-semibold">Get Started!</h2>
+                  <h2 className="text-3xl font-semibold">
+                     {isUserOwner ? "Get Started!" : "Empty lesson"}
+                  </h2>
                   <p className="mt-2 text-center text-base">
-                     You haven&apos;t added any flashcard yet. Please go to edit
-                     page to add your first flashcard.
+                     {isUserOwner
+                        ? "You haven't added any flashcard yet. Please go to edit page to add your first flashcard."
+                        : "Author of this lesson hasn't added any flashcard yet."}
                   </p>
-                  <Link
-                     href={EDIT_LESSON(
-                        lesson.title,
-                        lesson.owner.userId.toString()
-                     )}
-                  >
-                     <Button>Go to edit page</Button>
-                  </Link>
+                  {isUserOwner && (
+                     <Link
+                        href={EDIT_LESSON(
+                           lesson.title,
+                           lesson.owner.userId.toString()
+                        )}
+                     >
+                        <Button>Go to edit page</Button>
+                     </Link>
+                  )}
                </div>
             ) : (
                <div className="flex h-fit w-full flex-col items-center gap-2 rounded text-background">

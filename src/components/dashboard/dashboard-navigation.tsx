@@ -4,8 +4,7 @@ import DashboardNavigationLink from "@/components/dashboard/dashboard-navigation
 import Button from "@/components/ui/button";
 import LogoText from "@/components/ui/logo-text";
 import Skeleton from "@/components/ui/skeleton";
-import { useQuery } from "@tanstack/react-query";
-import { deleteCookie, getCookie } from "cookies-next";
+import { deleteCookie } from "cookies-next";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
@@ -19,29 +18,21 @@ import {
    MY_PROFILE,
    REGISTER,
 } from "@/utils/urls";
-import { getCurrentUser } from "@/utils/api-utils/get-current-user";
 import classNames from "classnames";
 import Avatar from "../ui/avatar";
 import SerachPanel from "@/modules/serach/panel/search-panel";
+import useCurrentUserInfo from "@/hooks/api-hooks/use-current-user-info";
+import { useQueryClient } from "@tanstack/react-query";
 
 const DashboardNavigation = () => {
    const [signOutClicked, setSignOutClicked] = useState(false);
    const [showOptions, setShowOptions] = useState(false);
+   const queryClient = useQueryClient();
 
    const router = useRouter();
    const pathname = usePathname();
 
-   const JWT = getCookie("JWT") as string;
-
-   const {
-      data: profile,
-      isLoading,
-      isError,
-   } = useQuery({
-      queryFn: () => getCurrentUser(JWT),
-      queryKey: ["profileData"],
-      retry: 0,
-   });
+   const { data: profile, isLoading, isError } = useCurrentUserInfo();
 
    return (
       <nav className="shadow-shadow my-4 flex w-full flex-col items-center justify-between gap-4 rounded-lg border-[1px] border-borderContainer bg-background p-2 text-text shadow-containerShadow xl:flex-row">
@@ -126,8 +117,11 @@ const DashboardNavigation = () => {
                      className="w-full sm:w-3/4 xl:w-auto"
                      onClick={() => {
                         router.push(BASE_PATH);
-                        deleteCookie("JWT");
                         setSignOutClicked(true);
+                        deleteCookie("JWT");
+                        queryClient.removeQueries({
+                           queryKey: ["currentUser"],
+                        });
                         toast.success("Logged out");
                      }}
                   >

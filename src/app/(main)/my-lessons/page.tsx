@@ -1,10 +1,10 @@
 import LessonsList from "@/modules/my-lessons/lessons-list";
 import NewLessonForm from "@/modules/lesson/new-lesson/new-lesson-form";
 import type { Lesson } from "@/types/lesson";
-import getJWT from "@/utils/get-server-jwt";
+import getServerJWT from "@/utils/get-server-jwt";
 
 const getUserLessons = async (): Promise<Array<Lesson>> => {
-   const JWT = getJWT();
+   const JWT = getServerJWT();
 
    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/lessons`, {
       headers: { Authorization: JWT as string },

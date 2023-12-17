@@ -1,13 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
-import { getCookie } from "cookies-next";
-import { getCurrentUser } from "@/utils/api-utils/get-current-user";
+import { getClientCurrentUser } from "@/utils/api-utils/get-client-current-user";
 
 const useCurrentUserInfo = () => {
-   const JWT = getCookie("JWT");
-
    return useQuery({
-      queryKey: ["user"],
-      queryFn: () => getCurrentUser(JWT),
+      queryKey: ["currentUser"],
+      queryFn: () => getClientCurrentUser(),
+      retry: 0,
    });
 };
 
