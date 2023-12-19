@@ -10,7 +10,7 @@ interface ProfilePageProps {
 
 const ProfilePage = ({ user, lessons }: ProfilePageProps) => {
    return (
-      <div className="ml-0 gap-4 lg:grid lg:grid-cols-[1fr_3fr]">
+      <div className="ml-0 flex flex-col gap-4 lg:grid lg:grid-cols-[1fr_3fr]">
          <ProfileCard user={user} />
          <LessonsList lessons={lessons} />
       </div>

@@ -17,9 +17,12 @@ import toast from "react-hot-toast";
 import type { NewFlashcardForm } from "./flashcard-form-schema";
 import { newFlashcardFormSchema } from "./flashcard-form-schema";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { LESSON } from "@/utils/urls";
+import type { Lesson } from "@/types/lesson";
 
 interface FlashcardFormProps {
-   lessonId: number;
+   lesson: Lesson;
    selectedMode: "Add" | "Edit";
    setSelectedMode: Dispatch<SetStateAction<"Add" | "Edit">>;
    flashcardToEdit: Flashcard | null;
@@ -27,7 +30,7 @@ interface FlashcardFormProps {
 }
 
 const FlashcardForm = ({
-   lessonId,
+   lesson,
    selectedMode,
    setSelectedMode,
    flashcardToEdit,
@@ -139,7 +142,7 @@ const FlashcardForm = ({
       const formData = new FormData();
 
       if (selectedMode === "Add") {
-         formData.append("lessonId", lessonId.toString());
+         formData.append("lessonId", lesson.lessonId.toString());
       } else {
          formData.append(
             "flashcardId",
@@ -304,14 +307,32 @@ const FlashcardForm = ({
                         </div>
                      </div>
                   </div>
+                  <div>
+                     <Link
+                        href={LESSON(
+                           lesson.title,
+                           lesson.owner.userId.toString()
+                        )}
+                     >
+                        <Button
+                           type="button"
+                           className="mb-2 w-full"
+                           variant="black"
+                           isLoading={buttonLoading}
+                        >
+                           Study now
+                        </Button>
+                     </Link>
 
-                  <Button
-                     type="submit"
-                     className="w-full"
-                     isLoading={buttonLoading}
-                  >
-                     {selectedMode === "Add" ? "Add new" : "Change"} flashcard
-                  </Button>
+                     <Button
+                        type="submit"
+                        className="w-full"
+                        isLoading={buttonLoading}
+                     >
+                        {selectedMode === "Add" ? "Add new" : "Change"}{" "}
+                        flashcard
+                     </Button>
+                  </div>
                </div>
             </div>
          </div>

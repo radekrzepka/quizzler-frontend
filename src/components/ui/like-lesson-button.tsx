@@ -9,6 +9,7 @@ import Dialog from "./dialog";
 import SignInForm from "@/modules/auth/sign-in/sign-in-form";
 import { SEARCH } from "@/utils/urls";
 import { useSearchParams } from "next/navigation";
+import Image from "next/image";
 
 interface LikeLessonButtonProps {
    lesson: Lesson;
@@ -56,6 +57,20 @@ const LikeLessonButton = ({ lesson, className }: LikeLessonButtonProps) => {
 
    return (
       <>
+         <div style={{ display: "none" }}>
+            <Image
+               src="/icons/filled-heart.png"
+               alt="Liked Heart"
+               width={1}
+               height={1}
+            />
+            <Image
+               src="/icons/empty-heart.png"
+               alt="Unliked Heart"
+               width={1}
+               height={1}
+            />
+         </div>
          <Dialog
             isOpen={openLoginModal}
             setIsOpen={setOpenLoginModal}
