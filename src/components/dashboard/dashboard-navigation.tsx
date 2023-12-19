@@ -77,7 +77,7 @@ const DashboardNavigation = () => {
                         className="rounded-lg"
                      />
                   </div>
-               ) : !isError ? (
+               ) : profile !== null ? (
                   <Link
                      href={MY_PROFILE}
                      className="mb-6 flex w-full items-center justify-center gap-3 xl:mb-0"
@@ -109,7 +109,7 @@ const DashboardNavigation = () => {
                      </Button>
                   </>
                )}
-               {!isError && !isLoading && (
+               {profile !== null && !isLoading && (
                   <Button
                      isLoading={signOutClicked}
                      disabled={signOutClicked}

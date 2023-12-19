@@ -22,8 +22,10 @@ interface ApiResponse {
 interface SignInFormProps {
    className?: string;
    nextPath?: string;
+   backPath?: string;
    onLogIn?: () => void;
    header?: string;
+   onBack?: () => void;
 }
 
 const SignInForm = ({
@@ -31,6 +33,8 @@ const SignInForm = ({
    nextPath,
    onLogIn,
    header = "Log in",
+   backPath = BASE_PATH,
+   onBack,
 }: SignInFormProps) => {
    const {
       register,
@@ -81,7 +85,7 @@ const SignInForm = ({
             onLogIn?.();
 
             const nextUrlPath = searchParams.get("next");
-            console.log(nextPath, nextUrlPath);
+
             if (nextPath) return router.push(nextPath);
             if (nextUrlPath) return router.push(nextUrlPath);
             else return router.push(DASHBOARD);
@@ -141,8 +145,13 @@ const SignInForm = ({
             >
                Sign in
             </Button>
-            <Link href={BASE_PATH} className="w-full">
-               <Button type="button" variant="black" className="w-full">
+            <Link href={backPath} className="w-full">
+               <Button
+                  type="button"
+                  variant="black"
+                  className="w-full"
+                  onClick={() => onBack?.()}
+               >
                   Go back
                </Button>
             </Link>

@@ -63,7 +63,9 @@ const LikeLessonButton = ({ lesson, className }: LikeLessonButtonProps) => {
          >
             <SignInForm
                nextPath={SEARCH(query as string)}
+               backPath={SEARCH(query as string)}
                onLogIn={() => setOpenLoginModal(false)}
+               onBack={() => setOpenLoginModal(false)}
                header="To like lesson, log in"
             />
          </Dialog>
