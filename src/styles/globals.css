@@ -31,3 +31,15 @@
    border-radius: 22px;
    border: 0px solid #dfddee;
 }
+.scrollbar-lessons::-webkit-scrollbar {
+   width: 11px;
+}
+.scrollbar-lessons::-webkit-scrollbar-track {
+   background: #9a9ba1;
+   border-radius: 5px;
+}
+
+.scrollbar-lessons::-webkit-scrollbar-thumb {
+   background-color: #1b1c23;
+   border-radius: 5px;
+}

@@ -1,4 +1,4 @@
-import LessonsList from "@/modules/my-lessons/lessons-list";
+import MyLessonList from "@/modules/my-lessons/my-lesson-list";
 import NewLessonForm from "@/modules/lesson/new-lesson/new-lesson-form";
 import type { Lesson } from "@/types/lesson";
 import getServerJWT from "@/utils/get-server-jwt";
@@ -26,7 +26,7 @@ const MyLessons = async () => {
    return (
       <div className="ml-0 gap-4 lg:grid lg:grid-cols-[1fr_3fr]">
          <NewLessonForm />
-         <LessonsList lessons={lessons} />
+         <MyLessonList lessons={lessons} />
       </div>
    );
 };

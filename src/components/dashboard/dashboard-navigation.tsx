@@ -123,6 +123,7 @@ const DashboardNavigation = () => {
                            queryKey: ["currentUser"],
                         });
                         toast.success("Logged out");
+                        router.refresh();
                      }}
                   >
                      Sign out
