@@ -40,7 +40,7 @@ const LessonSerachCard = ({ lesson }: LessonSerachCardProps) => {
                      {lesson.title}
                   </h2>
                </div>
-               <p className="break-all text-left  leading-none text-background">
+               <p className="break-all text-left leading-none text-background">
                   {lesson.description || "No description provided"}
                </p>
                <div className="mt-1 flex flex-wrap gap-2">

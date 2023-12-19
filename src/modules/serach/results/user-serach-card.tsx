@@ -20,25 +20,23 @@ const UserSerachCard = ({ user }: UserSerachCardProps) => {
          href={PROFILE(user.username)}
          className="flex flex-col justify-between rounded-xl bg-text p-2 text-background transition duration-300 ease-in-out hover:bg-opacity-90 hover:shadow-lg sm:flex-row"
       >
-         <div>
-            <div className="mb-2 flex items-center gap-2">
-               <Avatar profile={user} />
-               <div>
-                  <h2 className="text-2xl leading-none">{user.username}</h2>
-                  {user.firstName && user.lastName && (
-                     <p className="leading-none">
-                        {`${user.firstName} ${user.lastName}`}
-                     </p>
-                  )}
-                  <p className="text-sm leading-none text-gray-600">
-                     Last seen: {formatDistanceToNow(localDate)} ago
+         <div className="mb-2 flex items-center gap-2">
+            <Avatar profile={user} />
+            <div>
+               <h2 className="text-2xl leading-none">{user.username}</h2>
+               {user.firstName && user.lastName && (
+                  <p className="leading-none">
+                     {`${user.firstName} ${user.lastName}`}
                   </p>
+               )}
+               <p className="text-sm leading-none text-gray-600">
+                  Last seen: {formatDistanceToNow(localDate)} ago
+               </p>
 
-                  <Tag className="mt-1 font-bold">
-                     {user.lessonCount} created lesson
-                     {user.lessonCount !== 1 && "s"}
-                  </Tag>
-               </div>
+               <Tag className="mt-1 font-bold">
+                  {user.lessonCount} created lesson
+                  {user.lessonCount !== 1 && "s"}
+               </Tag>
             </div>
          </div>
       </Link>

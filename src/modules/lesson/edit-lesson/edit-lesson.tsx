@@ -21,7 +21,7 @@ const EditLesson = ({ lesson }: EditLessonProps) => {
       <div className="grid gap-4 xl:grid-cols-2">
          <EditLessonForm lesson={lesson} />
          <FlashcardForm
-            lessonId={lesson.lessonId}
+            lesson={lesson}
             selectedMode={selectedMode}
             setSelectedMode={setSelectedMode}
             flashcardToEdit={flashcardToEdit}

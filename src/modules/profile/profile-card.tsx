@@ -21,7 +21,7 @@ const userCard = ({ user }: userCardProps) => {
             </h2>
          )}
          <Avatar
-            className="relative inline-block"
+            className="relative mt-1 inline-block"
             size="large"
             profile={user}
          />
