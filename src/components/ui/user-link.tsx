@@ -5,16 +5,26 @@ import Avatar from "./avatar";
 
 interface UserLinkProps {
    user: UserInfo;
+   reverseOrder?: boolean;
+   disableUnderline?: boolean;
 }
 
-const UserLink = ({ user }: UserLinkProps) => {
+const UserLink = ({
+   user,
+   reverseOrder,
+   disableUnderline = false,
+}: UserLinkProps) => {
    return (
       <Link
          href={PROFILE(user.username)}
-         className="flex items-center justify-end gap-1"
+         className={`flex items-center justify-end gap-1 ${
+            reverseOrder ? "flex-row-reverse" : "flex-row"
+         }`}
       >
          <Avatar profile={user} size="small" />
-         <p className="underline">{user.username}</p>
+         <p className={`${disableUnderline ? "no-underline" : "underline"}`}>
+            {user.username}
+         </p>
       </Link>
    );
 };
