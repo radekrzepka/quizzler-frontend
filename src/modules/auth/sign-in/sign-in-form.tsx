@@ -85,7 +85,6 @@ const SignInForm = ({
             onLogIn?.();
 
             const nextUrlPath = searchParams.get("next");
-
             if (nextPath) return router.push(nextPath);
             if (nextUrlPath) return router.push(nextUrlPath);
             else return router.push(DASHBOARD);
