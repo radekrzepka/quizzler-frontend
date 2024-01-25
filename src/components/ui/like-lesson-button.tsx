@@ -1,3 +1,5 @@
+"use client";
+
 import useCurrentUserInfo from "@/hooks/api-hooks/use-current-user-info";
 import type { Lesson } from "@/types/lesson";
 import { useMutation } from "@tanstack/react-query";
@@ -10,6 +12,8 @@ import SignInForm from "@/modules/auth/sign-in/sign-in-form";
 import { SEARCH } from "@/utils/urls";
 import { useSearchParams } from "next/navigation";
 import Image from "next/image";
+import { useQueryClient } from "@tanstack/react-query";
+import { revalidateDashboard } from "@/utils/revalidate-dashboards";
 
 interface LikeLessonButtonProps {
    lesson: Lesson;
@@ -22,6 +26,7 @@ const LikeLessonButton = ({ lesson, className }: LikeLessonButtonProps) => {
    const { data: profile } = useCurrentUserInfo();
    const serachParams = useSearchParams();
    const query = serachParams.get("query");
+   const queryClient = useQueryClient();
 
    const mutation = useMutation({
       mutationFn: async () => {
@@ -43,6 +48,19 @@ const LikeLessonButton = ({ lesson, className }: LikeLessonButtonProps) => {
          }
 
          return response;
+      },
+      onSettled: async () => {
+         await queryClient.invalidateQueries({
+            queryKey: ["dashboard-lessons", "liked-lessons"],
+         });
+         await queryClient.invalidateQueries({
+            queryKey: ["dashboard-lessons", "top-lessons"],
+         });
+         await queryClient.invalidateQueries({
+            queryKey: ["dashboard-last-lesson"],
+         });
+
+         revalidateDashboard();
       },
       onError: () => {
          toast.error(`Error during ${isLiked ? "liking" : "disliking"} lesson`);

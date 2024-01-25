@@ -1,6 +1,6 @@
 import LessonList from "@/components/dashboard/dashboard-lesson-list";
 import DashboardWeekChart from "@/components/dashboard/dashboard-week-chart";
-import LessonCardDashboard from "@/modules/dashboard/lesson-card-dashboard";
+import LastLessonCardDashboard from "@/modules/dashboard/last-lesson-card-dashbaord";
 import type { Lesson } from "@/types/lesson";
 import getFromAPI from "@/utils/get-from-api-server";
 
@@ -28,7 +28,7 @@ const Dashboard = async () => {
                </div>
             ) : (
                <div className="mb-5 grid place-items-center">
-                  <LessonCardDashboard lesson={lastLesson} />
+                  <LastLessonCardDashboard initialLastLesson={lastLesson} />
                </div>
             )}
          </div>
@@ -37,7 +37,7 @@ const Dashboard = async () => {
                Trending
             </h2>
             <div className="max-h-[30vh] xl:max-h-[50vh]">
-               <LessonList lessons={topLessons} />
+               <LessonList initialLessons={topLessons} queryKey="top-lessons" />
             </div>
          </div>
          <main className="hidden rounded-xl bg-text xl:row-span-3 xl:block">
@@ -69,7 +69,10 @@ const Dashboard = async () => {
                </div>
             ) : (
                <div className="max-h-[30vh] xl:min-h-[70vh]">
-                  <LessonList lessons={likedLessons} />
+                  <LessonList
+                     initialLessons={likedLessons}
+                     queryKey="liked-lessons"
+                  />
                </div>
             )}
          </div>
