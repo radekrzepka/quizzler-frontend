@@ -32,7 +32,7 @@ const DashboardNavigation = () => {
    const router = useRouter();
    const pathname = usePathname();
 
-   const { data: profile, isLoading, isError } = useCurrentUserInfo();
+   const { data: profile, isLoading } = useCurrentUserInfo();
 
    return (
       <nav className="shadow-shadow my-4 flex w-full flex-col items-center justify-between gap-4 rounded-lg border-[1px] border-borderContainer bg-background p-2 text-text shadow-containerShadow xl:flex-row">

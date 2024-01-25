@@ -3,6 +3,7 @@ import Providers from "@/utils/provider";
 import { Analytics } from "@vercel/analytics/react";
 import type { Metadata } from "next";
 import { Jaldi } from "next/font/google";
+import { Suspense } from "react";
 import { Toaster } from "react-hot-toast";
 
 export const metadata: Metadata = {
@@ -23,7 +24,7 @@ export default function RootLayout({
       <html lang="en">
          <body className={`bg-background text-text ${jaldi.className}`}>
             <Providers>
-               {children}
+               <Suspense>{children}</Suspense>
                <Toaster position="top-right" reverseOrder={true} />
                <Analytics />
             </Providers>
