@@ -3,11 +3,11 @@ import type { Lesson } from "@/types/lesson";
 import { compareDesc, parseISO } from "date-fns";
 import { useMemo } from "react";
 
-interface LessonsListProps {
+interface MyLessonListProps {
    lessons: Array<Lesson>;
 }
 
-const LessonsList = ({ lessons }: LessonsListProps) => {
+const MyLessonList = ({ lessons }: MyLessonListProps) => {
    const sortedLessons = useMemo(() => {
       return lessons.sort((a, b) => {
          const dateA = parseISO(a.dateCreated);
@@ -36,4 +36,4 @@ const LessonsList = ({ lessons }: LessonsListProps) => {
    );
 };
 
-export default LessonsList;
+export default MyLessonList;
