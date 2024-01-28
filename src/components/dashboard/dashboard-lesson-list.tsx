@@ -12,10 +12,10 @@ interface LessonListProps {
 
 const LessonList = ({ initialLessons, queryKey }: LessonListProps) => {
    const { data: lessons } = useQuery<Array<Lesson>>({
-      queryKey: ["dashboard-lessons", queryKey],
+      queryKey: ["dashboard", queryKey],
       queryFn: async () => {
          const endpoint =
-            queryKey === "liked-lessons"
+            queryKey === "dashboard-liked-lessons"
                ? `/user/likedLessons`
                : `/lesson/topLessons`;
          return await getFromAPIClient(endpoint);
@@ -27,7 +27,10 @@ const LessonList = ({ initialLessons, queryKey }: LessonListProps) => {
       <div className="flex h-full justify-center rounded-xl bg-text py-2 pb-4 pr-2">
          <div className="scrollbar-lessons flex w-full flex-wrap place-content-start justify-center overflow-y-auto">
             {lessons.map((lesson: Lesson) => (
-               <LessonCardDashboard key={lesson.lessonId} lesson={lesson} />
+               <LessonCardDashboard
+                  key={`${lesson.lessonId}-${lesson.isLiked}`}
+                  lesson={lesson}
+               />
             ))}
          </div>
       </div>

@@ -12,7 +12,7 @@ const LastLessonCardDashboard = ({
    initialLastLesson,
 }: LastLessonCardDashboardProps) => {
    const { data: lesson } = useQuery<Lesson>({
-      queryKey: ["dashboard-last-lesson"],
+      queryKey: ["dashboard", "last-lesson"],
       queryFn: async () => await getFromAPIClient("/user/lastLesson"),
       initialData: initialLastLesson,
    });

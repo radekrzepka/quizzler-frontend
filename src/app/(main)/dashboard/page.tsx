@@ -37,7 +37,10 @@ const Dashboard = async () => {
                Trending
             </h2>
             <div className="max-h-[30vh] xl:max-h-[50vh]">
-               <LessonList initialLessons={topLessons} queryKey="top-lessons" />
+               <LessonList
+                  initialLessons={topLessons}
+                  queryKey="dashboard-top-lessons"
+               />
             </div>
          </div>
          <main className="hidden rounded-xl bg-text xl:row-span-3 xl:block">
@@ -71,7 +74,7 @@ const Dashboard = async () => {
                <div className="max-h-[30vh] xl:min-h-[70vh]">
                   <LessonList
                      initialLessons={likedLessons}
-                     queryKey="liked-lessons"
+                     queryKey="dashboard-liked-lessons"
                   />
                </div>
             )}
