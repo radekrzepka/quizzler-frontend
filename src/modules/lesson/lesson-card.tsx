@@ -78,7 +78,7 @@ const LessonCard = ({ lesson }: LessonCardProps) => {
    });
 
    return (
-      <div className="flex max-h-[500px] w-full flex-col justify-between rounded-xl bg-text text-background lg:w-auto">
+      <div className="flex h-min max-h-[500px] w-full flex-col justify-between rounded-xl bg-text text-background lg:w-auto">
          <div>
             <Dialog
                isOpen={isOpenDeleteDialog}
